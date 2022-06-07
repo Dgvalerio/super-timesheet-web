@@ -1,6 +1,14 @@
+import { Provider as ReduxProvider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+
+import StyleWrapper from '@/components/style-wrapper';
+import { store, toPersist } from '@/store';
+
+import { PersistGate } from 'redux-persist/integration/react';
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => (
   <>
@@ -11,7 +19,14 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => (
       <meta name="description" content="The assistant for timesheet" />
       <link rel="icon" href="/fav.png" />
     </Head>
-    <Component {...pageProps} />
+    <ReduxProvider store={store}>
+      <PersistGate persistor={toPersist}>
+        <StyleWrapper>
+          <Component {...pageProps} />
+          <ToastContainer />
+        </StyleWrapper>
+      </PersistGate>
+    </ReduxProvider>
   </>
 );
 

@@ -16,9 +16,13 @@
     "@mui/icons-material": "^5.8.2",
     "@mui/material": "^5.8.2",
     "@mui/styled-engine-sc": "^5.8.0",
+    "@reduxjs/toolkit": "^1.8.2",
     "next": "12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-redux": "^8.0.2",
+    "react-toastify": "^9.0.3",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
