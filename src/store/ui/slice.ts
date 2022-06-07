@@ -17,7 +17,7 @@ export namespace UIStore {
 }
 
 const initialState: UIStore.State = {
-  themeMode: UIStore.ThemeMode.Light,
+  themeMode: UIStore.ThemeMode.Dark,
 };
 
 const uiSlice = createSlice<UIStore.State, UIStore.Reducers>({
