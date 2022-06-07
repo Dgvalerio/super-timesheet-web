@@ -1,4 +1,5 @@
 import ui from '@/store/ui/slice';
+import user from '@/store/user/slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import { persistReducer, persistStore } from 'redux-persist';
@@ -16,10 +17,10 @@ const persistedReducer = persistReducer(
   {
     key: 'super-timesheet-web',
     storage,
-    whitelist: ['ui'],
+    whitelist: ['ui', 'user'],
     version: 1,
   },
-  combineReducers({ ui })
+  combineReducers({ ui, user })
 );
 
 const store = configureStore({

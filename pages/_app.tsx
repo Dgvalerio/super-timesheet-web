@@ -5,10 +5,14 @@ import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import { apolloClient } from '@/api/apollo';
 import StyleWrapper from '@/components/style-wrapper';
 import { store, toPersist } from '@/store';
+import { ApolloProvider } from '@apollo/client';
 
 import { PersistGate } from 'redux-persist/integration/react';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => (
   <>
@@ -21,10 +25,12 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => (
     </Head>
     <ReduxProvider store={store}>
       <PersistGate persistor={toPersist}>
-        <StyleWrapper>
-          <Component {...pageProps} />
-          <ToastContainer />
-        </StyleWrapper>
+        <ApolloProvider client={apolloClient}>
+          <StyleWrapper>
+            <Component {...pageProps} />
+            <ToastContainer />
+          </StyleWrapper>
+        </ApolloProvider>
       </PersistGate>
     </ReduxProvider>
   </>
