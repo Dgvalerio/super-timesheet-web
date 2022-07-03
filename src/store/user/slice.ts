@@ -12,6 +12,7 @@ export namespace UserStore {
     id?: UserModel['id'];
     name?: UserModel['name'];
     email?: UserModel['email'];
+    dailyHours?: UserModel['dailyHours'];
     token?: AuthOutput['token'];
   }
 
@@ -30,6 +31,7 @@ const userSlice = createSlice<UserStore.State, UserStore.Reducers>({
       state.id = action.payload.user.id;
       state.name = action.payload.user.name;
       state.email = action.payload.user.email;
+      state.dailyHours = action.payload.user.dailyHours;
       state.token = action.payload.token;
     },
   },

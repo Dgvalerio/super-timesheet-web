@@ -54,6 +54,7 @@ const useAuthLoginController = (): ControllerReturn => {
                 id
                 name
                 email
+                dailyHours
               }
               token
             }
