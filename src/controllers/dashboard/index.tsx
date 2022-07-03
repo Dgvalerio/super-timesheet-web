@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { apolloClient } from '@/api/apollo';
+import { useAppSelector } from '@/hooks/store';
+import { UserModel } from '@/models/user/create';
+import { gql } from '@apollo/client';
 import { useTheme } from '@mui/material';
 
 import { ChartData } from 'chart.js';
@@ -10,7 +14,7 @@ import { mix } from 'polished';
 interface ControllerReturn {
   toWork: number;
   worked: number;
-  data: ChartData<any, any, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  data: ChartData<'doughnut', number[], string>;
   loading: boolean;
 }
 
@@ -28,8 +32,8 @@ const calcToWork = (dailyWorkload: number): number => {
 
 const useDashboardController = (): ControllerReturn => {
   const theme = useTheme();
-  const dailyWorkload = 8;
-  const [toWork, setToWork] = useState<number>(calcToWork(dailyWorkload));
+  const { email, dailyHours } = useAppSelector(({ user }) => user);
+  const [toWork, setToWork] = useState<number>(calcToWork(dailyHours || 0));
   const [worked, setWorked] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
@@ -37,16 +41,34 @@ const useDashboardController = (): ControllerReturn => {
     setLoading(true);
 
     try {
-      setWorked(0);
+      const { data } = await apolloClient.query<{
+        getUser: UserModel;
+      }>({
+        query: gql`
+          query {
+            getUser(input: { email: "${email}" }) {
+              azureInfos {
+               currentMonthWorkedTime
+              }
+            }
+          }
+        `,
+      });
+
+      if (data && data.getUser.azureInfos) {
+        const [hours] =
+          data.getUser.azureInfos.currentMonthWorkedTime.split(':');
+
+        setWorked(Number(hours));
+      }
     } catch (e) {
       toast.error('Falha ao carregar a carga horária mensal!');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [email]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data: ChartData<any, any, any> = {
+  const data: ChartData<'doughnut', number[], string> = {
     labels: ['Horas não trabalhadas', 'Horas trabalhadas'],
     datasets: [
       {
@@ -78,10 +100,10 @@ const useDashboardController = (): ControllerReturn => {
   }, []);
 
   useEffect(() => {
-    setToWork(calcToWork(dailyWorkload));
+    setToWork(calcToWork(dailyHours || 0));
 
     void loadMonthHours();
-  }, [dailyWorkload, loadMonthHours]);
+  }, [dailyHours, loadMonthHours]);
 
   return { toWork, worked, data, loading };
 };
