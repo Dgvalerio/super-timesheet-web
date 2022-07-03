@@ -15,7 +15,7 @@ const DashboardView: NextPage = () => {
   const { toWork, worked, data, loading } = useController();
 
   return (
-    <MainWrapper title={'Dashboard'} loading={loading}>
+    <MainWrapper title="Dashboard" loading={loading}>
       <Styles.Container>
         <Grid container>
           <Grid item xs={4}>
