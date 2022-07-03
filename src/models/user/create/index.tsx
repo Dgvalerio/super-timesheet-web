@@ -1,3 +1,4 @@
+import { AzureInfosModel } from '@/models/azure-infos';
 import { ProjectModel } from '@/models/project';
 
 export interface UserModel {
@@ -5,7 +6,9 @@ export interface UserModel {
   name: string;
   email: string;
   password: string;
+  dailyHours: number;
   projects: ProjectModel[];
+  azureInfos?: AzureInfosModel;
 }
 
 export interface CreateUserInput {

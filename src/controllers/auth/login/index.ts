@@ -54,6 +54,7 @@ const useAuthLoginController = (): ControllerReturn => {
                 id
                 name
                 email
+                dailyHours
               }
               token
             }
@@ -66,13 +67,14 @@ const useAuthLoginController = (): ControllerReturn => {
 
         toast.success(successMessages.userSigned);
 
-        // TODO: quando criar o dashboard, redirecionar pra ele
-        // goHome();
+        await router.push(routes.dashboard());
       }
     } catch (e) {
       const { message } = (e as ApolloError).graphQLErrors[0];
 
       toast.error(message);
+
+      setLoading(false);
     }
   };
 
