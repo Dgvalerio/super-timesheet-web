@@ -4,7 +4,8 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
 import { apolloClient } from '@/api/apollo';
-import { CreateUserForm, UserModel } from '@/models/user/create';
+import { UserModel } from '@/models/user';
+import { CreateUserForm } from '@/models/user/create';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
 import { ApolloError, gql } from '@apollo/client';

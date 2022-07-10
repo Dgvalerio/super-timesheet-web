@@ -4,5 +4,6 @@ export const errorMessages = {
 
 export const successMessages = {
   userCreated: 'Usuário cadastrado com sucesso!',
+  appointmentCreated: 'Apontamento realizado com sucesso!',
   userSigned: 'Login realizado com sucesso!',
 };

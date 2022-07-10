@@ -1,8 +1,12 @@
 export enum Routes {
   Home = `/`,
   Dashboard = `/dashboard`,
+  // Auth
   AuthLogin = `/auth/login`,
-  UserCreate = `/auth/sign-up`,
+  // User
+  CreateUser = `/auth/sign-up`,
+  // Appointment
+  CreateAppointment = `/appointment/create`,
 }
 
 export const routes = {
@@ -12,6 +16,9 @@ export const routes = {
     login: (): Routes => Routes.AuthLogin,
   },
   user: {
-    create: (): Routes => Routes.UserCreate,
+    create: (): Routes => Routes.CreateUser,
+  },
+  appointment: {
+    create: (): Routes => Routes.CreateAppointment,
   },
 };

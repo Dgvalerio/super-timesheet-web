@@ -1,4 +1,4 @@
-import { UserModel } from '@/models/user/create';
+import { UserModel } from '@/models/user';
 
 export interface AzureInfosModel {
   id: string;
