@@ -111,9 +111,9 @@ const validateDateTime = ({
 
 const useCreateAppointmentFormController: Controller = ({ setLoading }) => {
   const { email } = useAppSelector((state) => state.user);
+  const [createAppointment] = useCreateAppointmentMutation();
   const { data: getUserClientsData, loading: getUserClientsLoading } =
     useGetUserClientsQuery(email);
-  const [createAppointment] = useCreateAppointmentMutation();
 
   const [clients, setClients] = useState<GetUserClients.Client[]>([]);
   const [client, setClient] = useState<string>('');
