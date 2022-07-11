@@ -18,6 +18,7 @@ export namespace UserStore {
 
   export interface Reducers extends SliceCaseReducers<State> {
     saveUser: CaseReducer<State, PayloadAction<AuthOutput>>;
+    wipeUser: CaseReducer<State>;
   }
 }
 
@@ -33,6 +34,13 @@ const userSlice = createSlice<UserStore.State, UserStore.Reducers>({
       state.email = action.payload.user.email;
       state.dailyHours = action.payload.user.dailyHours;
       state.token = action.payload.token;
+    },
+    wipeUser(state) {
+      state.id = undefined;
+      state.name = undefined;
+      state.email = undefined;
+      state.dailyHours = undefined;
+      state.token = undefined;
     },
   },
 });
