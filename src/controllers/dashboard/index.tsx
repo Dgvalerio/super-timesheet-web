@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { apolloClient } from '@/api/apollo';
 import { useAppSelector } from '@/hooks/store';
-import { UserModel } from '@/models/user/create';
+import { UserModel } from '@/models/user';
 import { gql } from '@apollo/client';
 import { useTheme } from '@mui/material';
 

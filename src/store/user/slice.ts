@@ -1,5 +1,5 @@
 import { AuthOutput } from '@/models/auth/login';
-import { UserModel } from '@/models/user/create';
+import { UserModel } from '@/models/user';
 import {
   createSlice,
   PayloadAction,

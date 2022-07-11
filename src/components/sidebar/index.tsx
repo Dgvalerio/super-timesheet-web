@@ -4,7 +4,10 @@ import { useRouter } from 'next/router';
 
 import Styles from '@/components/sidebar/style';
 import { Routes, routes } from '@/utils/pages';
-import { Dashboard as DashboardIcon } from '@mui/icons-material';
+import {
+  Dashboard as DashboardIcon,
+  MoreTime as AddIcon,
+} from '@mui/icons-material';
 import {
   List,
   ListSubheader,
@@ -39,6 +42,11 @@ const SideBar: FC = () => (
         icon={<DashboardIcon />}
         text="Dashboard"
         route={routes.dashboard()}
+      />
+      <Item
+        icon={<AddIcon />}
+        text="Incluir"
+        route={routes.appointment.create()}
       />
     </List>
   </Styles.Container>
