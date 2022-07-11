@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/hooks/store';
@@ -20,11 +13,6 @@ import { successMessages } from '@/utils/errorMessages';
 import { ApolloError } from '@apollo/client';
 
 import { compareAsc, format } from 'date-fns';
-
-interface ControllerParams {
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-}
 
 interface ControllerReturn {
   clients: GetUserClients.Client[];
@@ -48,6 +36,7 @@ interface ControllerReturn {
   commit: string;
   commitError: string | null;
   commitVisible: boolean;
+  loading: boolean;
   handleSubmit: (event: FormEvent<CreateAppointmentForm>) => Promise<void>;
   updateField: (event: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -64,7 +53,7 @@ export enum InputName {
   Commit = 'commitInput',
 }
 
-export type Controller = (params: ControllerParams) => ControllerReturn;
+export type Controller = () => ControllerReturn;
 
 interface ValidateDateTimeProps {
   date: string;
@@ -110,7 +99,8 @@ const validateDateTime = ({
   return errors;
 };
 
-const useCreateAppointmentFormController: Controller = ({ setLoading }) => {
+const useCreateAppointmentFormController: Controller = () => {
+  const [loading, setLoading] = useState(true);
   const { email } = useAppSelector((state) => state.user);
   const [createAppointment] = useCreateAppointmentMutation();
   const { data: getUserClientsData, loading: getUserClientsLoading } =
@@ -427,6 +417,7 @@ const useCreateAppointmentFormController: Controller = ({ setLoading }) => {
     commit,
     commitError,
     commitVisible,
+    loading,
     handleSubmit,
     updateField,
   };

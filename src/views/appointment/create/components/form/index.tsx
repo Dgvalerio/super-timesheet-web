@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import React, { FC } from 'react';
 
 import { InputField } from '@/components/input-field';
 import useController from '@/views/appointment/create/components/form/controller';
@@ -49,10 +49,7 @@ const FormSkeleton = () => (
   </Grid>
 );
 
-const CreateAppointmentForm: FC<{
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-}> = ({ loading, setLoading }) => {
+const CreateAppointmentForm: FC = () => {
   const {
     clients,
     client,
@@ -75,9 +72,10 @@ const CreateAppointmentForm: FC<{
     commit,
     commitError,
     commitVisible,
+    loading,
     handleSubmit,
     updateField,
-  } = useController({ loading, setLoading });
+  } = useController();
 
   return loading ? (
     <FormSkeleton />

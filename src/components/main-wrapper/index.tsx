@@ -12,7 +12,7 @@ import { Backdrop, CircularProgress, Grid } from '@mui/material';
 const MainWrapper: FC<{
   children: ReactNode;
   title: string;
-  loading: boolean;
+  loading?: boolean;
 }> = ({ children, title, loading }) => {
   const { name, goHome } = useController();
 
@@ -34,7 +34,7 @@ const MainWrapper: FC<{
           {children}
         </Grid>
       </Grid>
-      <Backdrop open={loading}>
+      <Backdrop open={loading || false}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </Styles.Container>
