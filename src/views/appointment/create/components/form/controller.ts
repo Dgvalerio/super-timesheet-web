@@ -13,6 +13,7 @@ import {
   CreateAppointmentForm,
   useCreateAppointmentMutation,
 } from '@/models/appointment/create';
+import { getAllAppointmentsQuery } from '@/models/appointment/get';
 import { GetUserClients, useGetUserClientsQuery } from '@/models/user/get';
 import { distinctByCode } from '@/utils/distinctByCode';
 import { successMessages } from '@/utils/errorMessages';
@@ -329,6 +330,7 @@ const useCreateAppointmentFormController: Controller = ({ setLoading }) => {
             notMonetize,
           },
         },
+        refetchQueries: [getAllAppointmentsQuery],
       });
 
       toast.success(successMessages.appointmentCreated);
