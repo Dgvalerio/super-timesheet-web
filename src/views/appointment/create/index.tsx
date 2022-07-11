@@ -4,6 +4,7 @@ import MainWrapper from '@/components/main-wrapper';
 import useController from '@/controllers/appointment/create';
 import Styles from '@/styles/dashboard';
 import CreateAppointmentForm from '@/views/appointment/create/components/form';
+import AppointmentsList from '@/views/appointment/create/components/list';
 import { Grid, Typography } from '@mui/material';
 
 const CreateAppointmentView: NextPage = () => {
@@ -17,6 +18,7 @@ const CreateAppointmentView: NextPage = () => {
             <Typography variant="h6">Novo apontamento</Typography>
           </Grid>
           <CreateAppointmentForm loading={loading} setLoading={setLoading} />
+          <AppointmentsList />
         </Grid>
       </Styles.Container>
     </MainWrapper>
