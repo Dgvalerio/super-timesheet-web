@@ -41,8 +41,23 @@ const UserCreateView: NextPage = () => {
           </Grid>
           <Grid item xs={12}>
             <InputField
+              name="dailyHoursInput"
+              label="Carga horária diária"
+              type="number"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
               name="passwordInput"
               label="Senha"
+              type="password"
+              inputProps={{ minLength: '8' }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              name="passwordConfirmationInput"
+              label="Confirmação de senha"
               type="password"
               inputProps={{ minLength: '8' }}
             />
