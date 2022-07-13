@@ -2,8 +2,8 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 
 import { InputField } from '@/components/input-field';
-import useController from '@/controllers/auth/login';
 import Styles from '@/styles/auth/login';
+import useController from '@/views/auth/login/controller';
 import {
   Backdrop,
   Button,

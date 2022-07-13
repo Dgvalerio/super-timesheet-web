@@ -2,8 +2,8 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 
 import { InputField } from '@/components/input-field';
-import useController from '@/controllers/user/create';
 import Styles from '@/styles/user/create';
+import useController from '@/views/user/create/controller';
 import {
   Backdrop,
   Button,

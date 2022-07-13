@@ -3,8 +3,8 @@ import { Doughnut } from 'react-chartjs-2';
 import { NextPage } from 'next';
 
 import MainWrapper from '@/components/main-wrapper';
-import useController from '@/controllers/dashboard';
 import Styles from '@/styles/dashboard';
+import useController from '@/views/dashboard/controller';
 import { Card, CardContent, Grid, Skeleton, Typography } from '@mui/material';
 
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
