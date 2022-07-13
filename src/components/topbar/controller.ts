@@ -1,9 +1,14 @@
 import { useState, MouseEvent, useEffect } from 'react';
+import { toast } from 'react-toastify';
+
+import { useRouter } from 'next/router';
 
 import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { switchThemeMode } from '@/store/ui/actions';
 import { UIStore } from '@/store/ui/slice';
-// import { signOut } from '@/store/user/actions';
+import { wipeUser } from '@/store/user/actions';
+import { successMessages } from '@/utils/errorMessages';
+import { routes } from '@/utils/pages';
 
 interface ControllerReturn {
   anchorElUser?: null | HTMLElement;
@@ -15,6 +20,7 @@ interface ControllerReturn {
 }
 
 const useTopBarController = (): ControllerReturn => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { themeMode } = useAppSelector((state) => state.ui);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>();
@@ -44,9 +50,12 @@ const useTopBarController = (): ControllerReturn => {
     setAnchorElUser(null);
   };
 
-  const handleSignOut = () => {
-    // todo: implementar logout
-    // dispatch(signOut(() => void router.push(routes.home())));
+  const handleSignOut = async () => {
+    dispatch(wipeUser());
+
+    await router.push(routes.auth.login());
+
+    toast.success(successMessages.userSigned);
   };
 
   return {

@@ -1,5 +1,5 @@
 import { actions } from '@/store/user/slice';
 
-const { saveUser } = actions;
+const { saveUser, wipeUser } = actions;
 
-export { saveUser };
+export { saveUser, wipeUser };
