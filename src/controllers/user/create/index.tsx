@@ -3,12 +3,10 @@ import { toast } from 'react-toastify';
 
 import { useRouter } from 'next/router';
 
-import { apolloClient } from '@/api/apollo';
-import { UserModel } from '@/models/user';
-import { CreateUserForm } from '@/models/user/create';
+import { CreateUserForm, useCreateUserMutation } from '@/models/user/create';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
-import { ApolloError, gql } from '@apollo/client';
+import { ApolloError } from '@apollo/client';
 
 interface ControllerReturn {
   loading: boolean;
@@ -18,6 +16,8 @@ interface ControllerReturn {
 
 const useUserCreateController = (): ControllerReturn => {
   const router = useRouter();
+
+  const [createUser] = useCreateUserMutation();
 
   const [loading, setLoading] = useState(true);
 
@@ -29,29 +29,37 @@ const useUserCreateController = (): ControllerReturn => {
   const handleSubmit = async (event: FormEvent<CreateUserForm>) => {
     event.preventDefault();
 
-    const { nameInput, emailInput, passwordInput } = event.currentTarget;
+    const {
+      nameInput,
+      emailInput,
+      passwordInput,
+      dailyHoursInput,
+      passwordConfirmationInput,
+    } = event.currentTarget;
 
     const name = nameInput.value;
     const email = emailInput.value;
+    const dailyHours = +dailyHoursInput.value;
     const password = passwordInput.value;
+    const passwordConfirmation = passwordConfirmationInput.value;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !dailyHours || !password || !passwordConfirmation) {
       toast.error(errorMessages.emptyFields);
     }
 
     setLoading(true);
 
     try {
-      const { data } = await apolloClient.mutate<{ createUser: UserModel }>({
-        mutation: gql`
-          mutation {
-            createUser(input: {
-              name: "${name}"
-              email: "${email}"
-              password: "${password}"
-            }) { id }
-          }
-        `,
+      const { data } = await createUser({
+        variables: {
+          input: {
+            name,
+            email,
+            dailyHours,
+            password,
+            passwordConfirmation,
+          },
+        },
       });
 
       if (data && data.createUser.id) {
