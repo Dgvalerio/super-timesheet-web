@@ -44,7 +44,7 @@ const useUserCreateController = (): ControllerReturn => {
     const passwordConfirmation = passwordConfirmationInput.value;
 
     if (!name || !email || !dailyHours || !password || !passwordConfirmation) {
-      toast.error(errorMessages.emptyFields);
+      return toast.error(errorMessages.emptyFields);
     }
 
     setLoading(true);
