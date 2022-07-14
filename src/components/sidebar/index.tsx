@@ -7,6 +7,7 @@ import { Routes, routes } from '@/utils/pages';
 import {
   Dashboard as DashboardIcon,
   MoreTime as AddIcon,
+  ViewList as ViewListIcon,
 } from '@mui/icons-material';
 import {
   List,
@@ -47,6 +48,11 @@ const SideBar: FC = () => (
         icon={<AddIcon />}
         text="Incluir"
         route={routes.appointment.create()}
+      />
+      <Item
+        icon={<ViewListIcon />}
+        text="Visualizar"
+        route={routes.appointment.read()}
       />
     </List>
   </Styles.Container>
