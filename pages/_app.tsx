@@ -9,7 +9,10 @@ import { apolloClient } from '@/api/apollo';
 import StyleWrapper from '@/components/style-wrapper';
 import { store, toPersist } from '@/store';
 import { ApolloProvider } from '@apollo/client';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
+import { ptBR } from 'date-fns/locale';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,7 +30,12 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => (
       <PersistGate persistor={toPersist}>
         <ApolloProvider client={apolloClient}>
           <StyleWrapper>
-            <Component {...pageProps} />
+            <LocalizationProvider
+              adapterLocale={ptBR}
+              dateAdapter={AdapterDateFns}
+            >
+              <Component {...pageProps} />
+            </LocalizationProvider>
             <ToastContainer />
           </StyleWrapper>
         </ApolloProvider>

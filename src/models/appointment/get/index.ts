@@ -7,6 +7,7 @@ export namespace GetAllAppointments {
     code?: AppointmentModel['code'];
     status?: AppointmentModel['status'];
     date?: AppointmentModel['date'];
+    month?: AppointmentModel['date'];
   }
 
   export interface Response {
