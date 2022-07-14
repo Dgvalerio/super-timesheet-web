@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { apolloClient } from '@/api/apollo';
+import { useRouter } from 'next/router';
+
 import { useAppSelector } from '@/hooks/store';
-import { UserModel } from '@/models/user';
-import { gql } from '@apollo/client';
+import { useGetCurrentMonthWorkedTimeQuery } from '@/models/appointment/get';
+import { useGetUserAzureInfosQuery } from '@/models/user/get';
+import { routes } from '@/utils/pages';
 import { useTheme } from '@mui/material';
 
 import { ChartData } from 'chart.js';
@@ -31,79 +33,109 @@ const calcToWork = (dailyWorkload: number): number => {
 };
 
 const useDashboardController = (): ControllerReturn => {
+  const router = useRouter();
   const theme = useTheme();
   const { email, dailyHours } = useAppSelector(({ user }) => user);
   const [toWork, setToWork] = useState<number>(calcToWork(dailyHours || 0));
   const [worked, setWorked] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const {
+    data: getUserAzureInfosData,
+    loading: getUserAzureInfosLoading,
+    error: getUserAzureInfosError,
+  } = useGetUserAzureInfosQuery(email);
+  const {
+    data: getCurrentMonthWorkedTimeData,
+    loading: getCurrentMonthWorkedTimeLoading,
+    error: getCurrentMonthWorkedTimeError,
+  } = useGetCurrentMonthWorkedTimeQuery();
 
-  const loadMonthHours = useCallback(async () => {
+  const goCreateAzureInfos = useCallback(() => {
     setLoading(true);
-
-    try {
-      const { data } = await apolloClient.query<{
-        getUser: UserModel;
-      }>({
-        query: gql`
-          query {
-            getUser(input: { email: "${email}" }) {
-              azureInfos {
-               currentMonthWorkedTime
-              }
-            }
-          }
-        `,
-      });
-
-      if (data && data.getUser.azureInfos) {
-        const [hours] =
-          data.getUser.azureInfos.currentMonthWorkedTime.split(':');
-
-        setWorked(Number(hours));
-      }
-    } catch (e) {
-      toast.error('Falha ao carregar a carga horária mensal!');
-    } finally {
-      setLoading(false);
-    }
-  }, [email]);
-
-  const data: ChartData<'doughnut', number[], string> = {
-    labels: ['Horas não trabalhadas', 'Horas trabalhadas'],
-    datasets: [
-      {
-        label: 'Horas trabalhadas',
-        data: [toWork - worked, worked],
-        backgroundColor: [
-          mix(
-            0.8,
-            theme.palette.background.default,
-            theme.palette.primary.dark
-          ),
-          theme.palette.primary.dark,
-        ],
-        borderColor: [
-          mix(
-            0.8,
-            theme.palette.background.default,
-            theme.palette.primary.dark
-          ),
-          theme.palette.primary.dark,
-        ],
-        borderWidth: 0,
-      },
-    ],
-  };
+    void router.push(routes.azureInfos.create());
+  }, [router]);
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    if (!getUserAzureInfosData) return;
+
+    const { login } = getUserAzureInfosData.getUser.azureInfos;
+
+    if (!login) {
+      goCreateAzureInfos();
+      toast.error('Você não tem uma conta da azure configurada!');
+    }
+  }, [getUserAzureInfosData, goCreateAzureInfos]);
+
+  useEffect(() => {
+    if (!getCurrentMonthWorkedTimeData) return;
+
+    const { getCurrentMonthWorkedTime } = getCurrentMonthWorkedTimeData;
+
+    if (getCurrentMonthWorkedTime) {
+      const [hours] = getCurrentMonthWorkedTime.split(':');
+
+      setWorked(Number(hours));
+    } else {
+      toast.error('Não foi possível carregar o !');
+    }
+  }, [getCurrentMonthWorkedTimeData]);
+
+  useEffect(() => {
+    if (getUserAzureInfosError) {
+      getUserAzureInfosError.graphQLErrors.forEach(({ message }) =>
+        toast.error(message)
+      );
+    }
+
+    if (getCurrentMonthWorkedTimeError) {
+      getCurrentMonthWorkedTimeError.graphQLErrors.forEach(({ message }) =>
+        toast.error(message)
+      );
+    }
+  }, [getCurrentMonthWorkedTimeError, getUserAzureInfosError]);
+
+  const data: ChartData<'doughnut', number[], string> = useMemo(
+    () => ({
+      labels: ['Horas não trabalhadas', 'Horas trabalhadas'],
+      datasets: [
+        {
+          label: 'Horas trabalhadas',
+          data: [toWork - worked, worked],
+          backgroundColor: [
+            mix(
+              0.8,
+              theme.palette.background.default,
+              theme.palette.primary.dark
+            ),
+            theme.palette.primary.dark,
+          ],
+          borderColor: [
+            mix(
+              0.8,
+              theme.palette.background.default,
+              theme.palette.primary.dark
+            ),
+            theme.palette.primary.dark,
+          ],
+          borderWidth: 0,
+        },
+      ],
+    }),
+    [
+      theme.palette.background.default,
+      theme.palette.primary.dark,
+      toWork,
+      worked,
+    ]
+  );
+
+  useEffect(() => {
+    setLoading(getUserAzureInfosLoading || getCurrentMonthWorkedTimeLoading);
+  }, [getCurrentMonthWorkedTimeLoading, getUserAzureInfosLoading]);
 
   useEffect(() => {
     setToWork(calcToWork(dailyHours || 0));
-
-    void loadMonthHours();
-  }, [dailyHours, loadMonthHours]);
+  }, [dailyHours]);
 
   return { toWork, worked, data, loading };
 };

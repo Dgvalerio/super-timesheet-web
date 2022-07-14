@@ -7,6 +7,8 @@ export enum Routes {
   CreateUser = `/auth/sign-up`,
   // Appointment
   CreateAppointment = `/appointment/create`,
+  // Appointment
+  CreateAzureInfos = `/perfil/infos`,
 }
 
 export const routes = {
@@ -20,5 +22,8 @@ export const routes = {
   },
   appointment: {
     create: (): Routes => Routes.CreateAppointment,
+  },
+  azureInfos: {
+    create: (): Routes => Routes.CreateAzureInfos,
   },
 };

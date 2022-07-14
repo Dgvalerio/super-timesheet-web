@@ -46,3 +46,18 @@ export const useGetAllAppointmentsQuery = (input: GetAllAppointments.Query) =>
   useQuery<GetAllAppointments.Response>(getAllAppointmentsQuery, {
     variables: { input },
   });
+
+export namespace GetCurrentMonthWorkedTime {
+  export interface Query {
+    getCurrentMonthWorkedTime: string;
+  }
+}
+
+export const getCurrentMonthWorkedTimeQuery = gql`
+  query {
+    getCurrentMonthWorkedTime
+  }
+`;
+
+export const useGetCurrentMonthWorkedTimeQuery = () =>
+  useQuery<GetCurrentMonthWorkedTime.Query>(getCurrentMonthWorkedTimeQuery);
