@@ -8,7 +8,9 @@ import { AppointmentModel } from '@/models/appointment';
 import Styles from '@/styles/dashboard';
 import { getTimeDifference } from '@/utils/time';
 import AppointmentsListSkeleton from '@/views/appointment/create/components/list/skeleton';
+import AppointmentFooter from '@/views/appointment/list/components/appointment-footer';
 import useController from '@/views/appointment/list/controller';
+import styled from '@emotion/styled';
 import {
   Card,
   CardContent,
@@ -27,12 +29,24 @@ const Empty = () => (
   </Grid>
 );
 
+const Content = styled(CardContent)`
+  padding-bottom: 0 !important;
+`;
+
 const Appointment: FC<{ appointment: AppointmentModel }> = ({
-  appointment: { project, category, date, startTime, endTime, description },
+  appointment: {
+    project,
+    category,
+    date,
+    startTime,
+    endTime,
+    description,
+    status,
+  },
 }) => (
   <Grid item xs={12}>
     <Card variant="outlined">
-      <CardContent>
+      <Content>
         <Grid container spacing={1} justifyContent="space-between">
           <Grid item>
             <Typography variant="subtitle1" color="text.secondary">
@@ -82,8 +96,9 @@ const Appointment: FC<{ appointment: AppointmentModel }> = ({
               {description}
             </Typography>
           </Grid>
+          <AppointmentFooter status={status} />
         </Grid>
-      </CardContent>
+      </Content>
     </Card>
   </Grid>
 );
