@@ -1,10 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import useTopBarController from '@/components/topbar/controller';
 import Styles from '@/components/topbar/style';
 import { AppointmentStatusEnum } from '@/models/appointment';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
+import { useSendAppointmentsMutation } from '@/models/appointment/send';
 import { UIStore } from '@/store/ui/slice';
+import { ApolloError } from '@apollo/client';
 import {
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
@@ -14,6 +17,7 @@ import {
 import {
   Avatar,
   Badge,
+  CircularProgress,
   Grid,
   IconButton,
   Menu,
@@ -42,6 +46,19 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
     status: AppointmentStatusEnum.Draft,
   });
 
+  const [sendAppointments, { loading: loadingSendAppointments }] =
+    useSendAppointmentsMutation();
+
+  const sendAndReloadAppointments = async () => {
+    try {
+      await sendAppointments();
+    } catch (e) {
+      (e as ApolloError).graphQLErrors.forEach(({ message }) =>
+        toast.error(message)
+      );
+    }
+  };
+
   useEffect(() => {
     if (loadingGetAllAppointments || errorGetAllAppointments) return;
 
@@ -63,17 +80,30 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
         <Typography variant="h6">Timesheet</Typography>
       </Grid>
       <Grid item>
-        <Tooltip title="Enviar apontamentos">
-          <IconButton
-            size="large"
-            aria-label={`show ${toSend} new notifications`}
-            color="inherit"
+        {toSend > 0 && (
+          <Tooltip
+            title={`${
+              loadingSendAppointments ? 'Enviando' : 'Enviar'
+            } apontamentos`}
           >
-            <Badge badgeContent={toSend} color="primary">
-              <UploadIcon color={toSend > 0 ? 'inherit' : 'disabled'} />
-            </Badge>
-          </IconButton>
-        </Tooltip>
+            <IconButton
+              size="large"
+              aria-label={`show ${toSend} new notifications`}
+              color="inherit"
+              onClick={
+                loadingSendAppointments ? undefined : sendAndReloadAppointments
+              }
+            >
+              {loadingSendAppointments ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Badge badgeContent={toSend} color="primary">
+                  <UploadIcon color="inherit" />
+                </Badge>
+              )}
+            </IconButton>
+          </Tooltip>
+        )}
         <Tooltip title={`Trocar para ${nextThemeMode} mode`}>
           <IconButton
             size="large"

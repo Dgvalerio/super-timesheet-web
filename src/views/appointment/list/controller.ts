@@ -1,9 +1,19 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/hooks/store';
+import { useRouter } from 'next/router';
+
+import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { AppointmentModel } from '@/models/appointment';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
+import { wipeUser } from '@/store/user/actions';
+import { routes } from '@/utils/pages';
 import { formatMinutesToTime, getDifferenceInMinutes } from '@/utils/time';
 
 import { differenceInBusinessDays, endOfMonth, set } from 'date-fns';
@@ -20,11 +30,19 @@ interface ControllerReturn {
 export type Controller = () => ControllerReturn;
 
 const useListAppointmentsController: Controller = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const { dailyHours } = useAppSelector(({ user }) => user);
   const [date, setDate] = useState<Date>(new Date());
   const { data, loading, error } = useGetAllAppointmentsQuery({ month: date });
   const [workedTime, setWorkedTime] = useState('00:00');
   const [toWorkTime, setToWorkTime] = useState('00:00');
+
+  const handleSignOut = useCallback(async () => {
+    dispatch(wipeUser());
+
+    await router.push(routes.auth.login());
+  }, [dispatch, router]);
 
   useEffect(() => {
     const workedMinutes =
@@ -65,8 +83,12 @@ const useListAppointmentsController: Controller = () => {
   useEffect(() => {
     if (!error) return;
 
-    error.graphQLErrors.forEach(({ message }) => toast.error(message));
-  }, [error]);
+    error.graphQLErrors.forEach(({ message, extensions: { code } }) => {
+      toast.error(message);
+
+      if (code === 'UNAUTHENTICATED') void handleSignOut();
+    });
+  }, [error, handleSignOut]);
 
   return {
     appointments: data ? data.getAllAppointments : [],
