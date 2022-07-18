@@ -60,7 +60,7 @@ const useDashboardController = (): ControllerReturn => {
 
     const { azureInfos } = getUserAzureInfosData.getUser;
 
-    if (!azureInfos.login) {
+    if (!azureInfos) {
       goCreateAzureInfos();
       toast.error('Você não tem uma conta da azure configurada!');
     }
