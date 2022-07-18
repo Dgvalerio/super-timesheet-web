@@ -1,22 +1,25 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import useTopBarController from '@/components/topbar/controller';
 import Styles from '@/components/topbar/style';
+import { AppointmentStatusEnum } from '@/models/appointment';
+import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
 import { UIStore } from '@/store/ui/slice';
 import {
-  Notifications as NotificationsIcon,
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
+  Notifications as NotificationsIcon,
+  UploadFile as UploadIcon,
 } from '@mui/icons-material';
 import {
-  Grid,
-  Typography,
-  Tooltip,
-  IconButton,
   Avatar,
+  Badge,
+  Grid,
+  IconButton,
   Menu,
   MenuItem,
-  Badge,
+  Tooltip,
+  Typography,
 } from '@mui/material';
 
 const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
@@ -29,6 +32,27 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
     handleSignOut,
   } = useTopBarController();
 
+  const [toSend, setToSend] = useState(0);
+
+  const {
+    data: dataGetAllAppointments,
+    loading: loadingGetAllAppointments,
+    error: errorGetAllAppointments,
+  } = useGetAllAppointmentsQuery({
+    status: AppointmentStatusEnum.Draft,
+  });
+
+  useEffect(() => {
+    if (loadingGetAllAppointments || errorGetAllAppointments) return;
+
+    if (dataGetAllAppointments)
+      setToSend(dataGetAllAppointments.getAllAppointments.length);
+  }, [
+    dataGetAllAppointments,
+    errorGetAllAppointments,
+    loadingGetAllAppointments,
+  ]);
+
   return (
     <Styles.Container
       container
@@ -39,6 +63,17 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
         <Typography variant="h6">Timesheet</Typography>
       </Grid>
       <Grid item>
+        <Tooltip title="Enviar apontamentos">
+          <IconButton
+            size="large"
+            aria-label={`show ${toSend} new notifications`}
+            color="inherit"
+          >
+            <Badge badgeContent={toSend} color="primary">
+              <UploadIcon color={toSend > 0 ? 'inherit' : 'disabled'} />
+            </Badge>
+          </IconButton>
+        </Tooltip>
         <Tooltip title={`Trocar para ${nextThemeMode} mode`}>
           <IconButton
             size="large"
