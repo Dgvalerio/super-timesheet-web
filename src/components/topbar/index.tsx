@@ -1,13 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { FC } from 'react';
 
 import useTopBarController from '@/components/topbar/controller';
 import Styles from '@/components/topbar/style';
-import { AppointmentStatusEnum } from '@/models/appointment';
-import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
-import { useSendAppointmentsMutation } from '@/models/appointment/send';
 import { UIStore } from '@/store/ui/slice';
-import { ApolloError } from '@apollo/client';
 import {
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
@@ -34,41 +29,10 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
     handleSwitchThemeMode,
     nextThemeMode,
     handleSignOut,
+    toSend,
+    loadingSendAppointments,
+    sendAndReloadAppointments,
   } = useTopBarController();
-
-  const [toSend, setToSend] = useState(0);
-
-  const {
-    data: dataGetAllAppointments,
-    loading: loadingGetAllAppointments,
-    error: errorGetAllAppointments,
-  } = useGetAllAppointmentsQuery({
-    status: AppointmentStatusEnum.Draft,
-  });
-
-  const [sendAppointments, { loading: loadingSendAppointments }] =
-    useSendAppointmentsMutation();
-
-  const sendAndReloadAppointments = async () => {
-    try {
-      await sendAppointments();
-    } catch (e) {
-      (e as ApolloError).graphQLErrors.forEach(({ message }) =>
-        toast.error(message)
-      );
-    }
-  };
-
-  useEffect(() => {
-    if (loadingGetAllAppointments || errorGetAllAppointments) return;
-
-    if (dataGetAllAppointments)
-      setToSend(dataGetAllAppointments.getAllAppointments.length);
-  }, [
-    dataGetAllAppointments,
-    errorGetAllAppointments,
-    loadingGetAllAppointments,
-  ]);
 
   return (
     <Styles.Container
