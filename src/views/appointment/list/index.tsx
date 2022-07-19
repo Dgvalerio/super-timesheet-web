@@ -107,67 +107,66 @@ const ListAppointmentsView: NextPage = () => {
   const { date, setDate, loading, appointments, workedTime, toWorkTime } =
     useController();
 
-  return loading ? (
-    <AppointmentsListSkeleton />
-  ) : (
+  return (
     <MainWrapper title="Dashboard">
       <Styles.Container>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h6">Seus apontamentos</Typography>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            container
-            spacing={1}
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Grid item xs={12}>
-              <Divider />
-            </Grid>
-            <Grid item xs={10}>
-              <DatePicker
-                views={['year', 'month']}
-                label="Mês"
-                value={date}
-                onChange={(newValue) => newValue && setDate(newValue)}
-                renderInput={(params) => (
-                  <InputField {...params} helperText={null} />
-                )}
-              />
-            </Grid>
-            <Grid item xs={2} container>
-              <Grid item xs={12}>
-                <Typography
-                  variant="subtitle1"
-                  align="right"
-                  sx={{ color: 'text.secondary', float: 'right' }}
-                >
-                  {workedTime} trabalhadas
-                </Typography>
+          {loading ? (
+            <AppointmentsListSkeleton />
+          ) : (
+            <Grid
+              item
+              xs={12}
+              container
+              spacing={1}
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Grid item xs={10}>
+                <DatePicker
+                  views={['year', 'month']}
+                  label="Mês"
+                  value={date}
+                  onChange={(newValue) => newValue && setDate(newValue)}
+                  renderInput={(params) => (
+                    <InputField {...params} helperText={null} />
+                  )}
+                />
               </Grid>
-              <Grid item xs={12}>
-                <Tooltip title="Calculado com base nas 8 horas de trabalho previstas.">
+              <Grid item xs={2} container>
+                <Grid item xs={12}>
                   <Typography
-                    variant="subtitle2"
+                    variant="subtitle1"
                     align="right"
                     sx={{ color: 'text.secondary', float: 'right' }}
                   >
-                    {toWorkTime}
+                    {workedTime} trabalhadas
                   </Typography>
-                </Tooltip>
+                </Grid>
+                <Grid item xs={12}>
+                  <Tooltip title="Calculado com base nas 8 horas de trabalho previstas.">
+                    <Typography
+                      variant="subtitle2"
+                      align="right"
+                      sx={{ color: 'text.secondary', float: 'right' }}
+                    >
+                      {toWorkTime}
+                    </Typography>
+                  </Tooltip>
+                </Grid>
               </Grid>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              {appointments.length === 0 && <Empty />}
+              {appointments.map((appointment) => (
+                <Appointment key={appointment.id} appointment={appointment} />
+              ))}
             </Grid>
-            <Grid item xs={12}>
-              <Divider />
-            </Grid>
-            {appointments.length === 0 && <Empty />}
-            {appointments.map((appointment) => (
-              <Appointment key={appointment.id} appointment={appointment} />
-            ))}
-          </Grid>
+          )}
         </Grid>
       </Styles.Container>
     </MainWrapper>
