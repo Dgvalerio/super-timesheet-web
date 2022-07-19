@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { AppointmentStatusEnum } from '@/models/appointment';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
 import { useSendAppointmentsMutation } from '@/models/appointment/send';
+import { useUpdateDataMutation } from '@/models/scrapper/update';
+import { getUserClientsQuery } from '@/models/user/get';
 import { switchThemeMode } from '@/store/ui/actions';
 import { UIStore } from '@/store/ui/slice';
 import { wipeUser } from '@/store/user/actions';
@@ -24,12 +26,17 @@ interface ControllerReturn {
   toSend: number;
   loadingSendAppointments: boolean;
   sendAndReloadAppointments: () => Promise<void>;
+  loadingUpdateData: boolean;
+  handleUpdateData: () => Promise<void>;
 }
 
 const useTopBarController = (): ControllerReturn => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { themeMode } = useAppSelector((state) => state.ui);
+  const {
+    ui: { themeMode },
+    user: { email },
+  } = useAppSelector((state) => state);
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>();
   const [nextThemeMode, setNextThemeMode] = useState<UIStore.ThemeMode>(
@@ -49,6 +56,10 @@ const useTopBarController = (): ControllerReturn => {
 
   const [sendAppointments, { loading: loadingSendAppointments }] =
     useSendAppointmentsMutation();
+
+  const [updateData, { loading: loadingUpdateData }] = useUpdateDataMutation({
+    refetchQueries: [getUserClientsQuery(email)],
+  });
 
   const handleSwitchThemeMode = () => {
     dispatch(switchThemeMode());
@@ -73,6 +84,16 @@ const useTopBarController = (): ControllerReturn => {
   const sendAndReloadAppointments = async () => {
     try {
       await sendAppointments();
+    } catch (e) {
+      (e as ApolloError).graphQLErrors.forEach(({ message }) =>
+        toast.error(message)
+      );
+    }
+  };
+
+  const handleUpdateData = async () => {
+    try {
+      await updateData();
     } catch (e) {
       (e as ApolloError).graphQLErrors.forEach(({ message }) =>
         toast.error(message)
@@ -116,6 +137,8 @@ const useTopBarController = (): ControllerReturn => {
     toSend,
     loadingSendAppointments,
     sendAndReloadAppointments,
+    loadingUpdateData,
+    handleUpdateData,
   };
 };
 

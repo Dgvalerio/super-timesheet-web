@@ -6,6 +6,7 @@ import { UIStore } from '@/store/ui/slice';
 import {
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
+  SystemUpdateAlt as UpdateIcon,
   UploadFile as UploadIcon,
 } from '@mui/icons-material';
 import {
@@ -31,6 +32,8 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
     toSend,
     loadingSendAppointments,
     sendAndReloadAppointments,
+    handleUpdateData,
+    loadingUpdateData,
   } = useTopBarController();
 
   return (
@@ -67,6 +70,22 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
             </IconButton>
           </Tooltip>
         )}
+        <Tooltip
+          title={`${loadingUpdateData ? 'Atualizando' : 'Atualizar'} dados`}
+        >
+          <IconButton
+            size="large"
+            aria-label="Atualizar clientes, projetos, categorias..."
+            color="inherit"
+            onClick={loadingUpdateData ? undefined : handleUpdateData}
+          >
+            {loadingUpdateData ? (
+              <CircularProgress size={24} />
+            ) : (
+              <UpdateIcon color="disabled" />
+            )}
+          </IconButton>
+        </Tooltip>
         <Tooltip title={`Trocar para ${nextThemeMode} mode`}>
           <IconButton
             size="large"
