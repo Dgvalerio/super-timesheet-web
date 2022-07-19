@@ -1,24 +1,14 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import { NextPage } from 'next';
 
 import { InputField } from '@/components/input-field';
 import MainWrapper from '@/components/main-wrapper';
-import { AppointmentModel } from '@/models/appointment';
 import Styles from '@/styles/dashboard';
-import { getTimeDifference } from '@/utils/time';
 import AppointmentsListSkeleton from '@/views/appointment/create/components/list/skeleton';
-import AppointmentFooter from '@/views/appointment/list/components/appointment-footer';
+import AppointmentCard from '@/views/appointment/list/components/appointment-card';
 import useController from '@/views/appointment/list/controller';
-import styled from '@emotion/styled';
-import {
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Divider, Grid, Tooltip, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 
 const Empty = () => (
@@ -26,80 +16,6 @@ const Empty = () => (
     <Typography variant="overline" sx={{ color: 'text.secondary' }}>
       Não há apontamentos para esse dia.
     </Typography>
-  </Grid>
-);
-
-const Content = styled(CardContent)`
-  padding-bottom: 0 !important;
-`;
-
-const Appointment: FC<{ appointment: AppointmentModel }> = ({
-  appointment: {
-    project,
-    category,
-    date,
-    startTime,
-    endTime,
-    description,
-    status,
-  },
-}) => (
-  <Grid item xs={12}>
-    <Card variant="outlined">
-      <Content>
-        <Grid container spacing={1} justifyContent="space-between">
-          <Grid item>
-            <Typography variant="subtitle1" color="text.secondary">
-              Das {startTime} às {endTime}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography variant="subtitle1" color="text.secondary">
-              Duração de {getTimeDifference(date, startTime, endTime)}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="subtitle2" color="text.secondary">
-              Cliente
-            </Typography>
-            <Typography variant="subtitle1">{project.client.name}</Typography>
-          </Grid>
-          <Grid item>
-            <Typography variant="subtitle2" color="text.secondary">
-              Projeto
-            </Typography>
-            <Typography variant="subtitle1">{project.name}</Typography>
-          </Grid>
-          <Grid item>
-            <Typography
-              variant="subtitle2"
-              align="right"
-              color="text.secondary"
-            >
-              Categoria
-            </Typography>
-            <Typography variant="subtitle1" align="right">
-              {category.name}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="subtitle2" color="text.secondary">
-              Descrição
-            </Typography>
-            <Typography variant="body1" sx={{ whiteSpace: 'pre' }}>
-              {description}
-            </Typography>
-          </Grid>
-          <AppointmentFooter status={status} />
-        </Grid>
-      </Content>
-    </Card>
   </Grid>
 );
 
@@ -163,7 +79,10 @@ const ListAppointmentsView: NextPage = () => {
               </Grid>
               {appointments.length === 0 && <Empty />}
               {appointments.map((appointment) => (
-                <Appointment key={appointment.id} appointment={appointment} />
+                <AppointmentCard
+                  key={appointment.id}
+                  appointment={appointment}
+                />
               ))}
             </Grid>
           )}
