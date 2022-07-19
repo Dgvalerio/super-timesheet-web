@@ -9,6 +9,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  InputAdornment,
   Typography,
 } from '@mui/material';
 
@@ -44,6 +45,11 @@ const UserCreateView: NextPage = () => {
               name="dailyHoursInput"
               label="Carga horária diária"
               type="number"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">horas</InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12}>
