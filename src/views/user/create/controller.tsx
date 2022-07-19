@@ -1,8 +1,9 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useRouter } from 'next/router';
 
+import { useAppSelector } from '@/hooks/store';
 import { CreateUserForm, useCreateUserMutation } from '@/models/user/create';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
@@ -16,6 +17,7 @@ interface ControllerReturn {
 
 const useUserCreateController = (): ControllerReturn => {
   const router = useRouter();
+  const { user } = useAppSelector((state) => state);
 
   const [createUser] = useCreateUserMutation();
 
@@ -25,6 +27,10 @@ const useUserCreateController = (): ControllerReturn => {
     setLoading(true);
     void router.push(routes.auth.login());
   };
+
+  const goDashboard = useCallback(() => {
+    void router.push(routes.dashboard());
+  }, [router]);
 
   const handleSubmit = async (event: FormEvent<CreateUserForm>) => {
     event.preventDefault();
@@ -75,8 +81,12 @@ const useUserCreateController = (): ControllerReturn => {
   };
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    if (user) {
+      goDashboard();
+    } else {
+      setLoading(false);
+    }
+  }, [goDashboard, user]);
 
   return {
     loading,

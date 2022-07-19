@@ -1,10 +1,10 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useRouter } from 'next/router';
 
 import { apolloClient } from '@/api/apollo';
-import { useAppDispatch } from '@/hooks/store';
+import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { AuthForm, AuthOutput } from '@/models/auth/login';
 import { saveUser } from '@/store/user/actions';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
@@ -20,6 +20,7 @@ interface ControllerReturn {
 const useAuthLoginController = (): ControllerReturn => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state);
 
   const [loading, setLoading] = useState(true);
 
@@ -27,6 +28,10 @@ const useAuthLoginController = (): ControllerReturn => {
     setLoading(true);
     void router.push(routes.user.create());
   };
+
+  const goDashboard = useCallback(() => {
+    void router.push(routes.dashboard());
+  }, [router]);
 
   const handleSubmit = async (event: FormEvent<AuthForm>) => {
     event.preventDefault();
@@ -67,7 +72,7 @@ const useAuthLoginController = (): ControllerReturn => {
 
         toast.success(successMessages.userSigned);
 
-        await router.push(routes.dashboard());
+        goDashboard();
       }
     } catch (e) {
       const { message } = (e as ApolloError).graphQLErrors[0];
@@ -79,8 +84,12 @@ const useAuthLoginController = (): ControllerReturn => {
   };
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    if (user) {
+      goDashboard();
+    } else {
+      setLoading(false);
+    }
+  }, [goDashboard, user]);
 
   return {
     loading,
