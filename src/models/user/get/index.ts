@@ -68,4 +68,6 @@ export const getUserAzureInfosQuery = (email?: UserModel['email']) => gql`
 `;
 
 export const useGetUserAzureInfosQuery = (email?: UserModel['email']) =>
-  useQuery<GetUserAzureInfos.Query>(getUserAzureInfosQuery(email));
+  useQuery<GetUserAzureInfos.Query>(getUserAzureInfosQuery(email), {
+    fetchPolicy: 'no-cache',
+  });

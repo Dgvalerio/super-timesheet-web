@@ -8,6 +8,7 @@ import {
   CreateAzureInfosForm,
   useCreateAzureInfosMutation,
 } from '@/models/azure-infos/create';
+import { getUserAzureInfosQuery } from '@/models/user/get';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
 import { ApolloError } from '@apollo/client';
@@ -19,7 +20,7 @@ interface ControllerReturn {
 
 const useAzureInfosCreateController = (): ControllerReturn => {
   const router = useRouter();
-  const { id } = useAppSelector(({ user }) => user);
+  const { id, email } = useAppSelector(({ user }) => user);
   const [createAzureInfos] = useCreateAzureInfosMutation();
 
   const [loading, setLoading] = useState(true);
@@ -46,6 +47,7 @@ const useAzureInfosCreateController = (): ControllerReturn => {
     try {
       const { data } = await createAzureInfos({
         variables: { input: { login, password, userId: id } },
+        refetchQueries: [getUserAzureInfosQuery(email)],
       });
 
       if (data && data.createAzureInfos.id) {
