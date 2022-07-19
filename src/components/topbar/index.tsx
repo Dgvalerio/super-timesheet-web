@@ -6,7 +6,6 @@ import { UIStore } from '@/store/ui/slice';
 import {
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
-  Notifications as NotificationsIcon,
   UploadFile as UploadIcon,
 } from '@mui/icons-material';
 import {
@@ -80,17 +79,6 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
             ) : (
               <DarkModeIcon color="disabled" />
             )}
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Ver notificações">
-          <IconButton
-            size="large"
-            aria-label="show 0 new notifications"
-            color="inherit"
-          >
-            <Badge badgeContent={0} color="success">
-              <NotificationsIcon color="disabled" />
-            </Badge>
           </IconButton>
         </Tooltip>
         <Tooltip title="Abrir opções">
