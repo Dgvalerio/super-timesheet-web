@@ -6,7 +6,7 @@ import { UIStore } from '@/store/ui/slice';
 import {
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
-  SystemUpdateAlt as UpdateIcon,
+  Cached as UpdateIcon,
   UploadFile as UploadIcon,
 } from '@mui/icons-material';
 import {
