@@ -81,7 +81,7 @@ const useUserCreateController = (): ControllerReturn => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user.token) {
       goDashboard();
     } else {
       setLoading(false);
