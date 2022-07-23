@@ -17,8 +17,12 @@ const Container = styled(Grid)`
       theme.palette.mode === UIStore.ThemeMode.Light
         ? '#f1f2f7'
         : transparentize(0.98, '#f1f2f7')};
-    padding: 0.7rem 2rem;
-    color: ${({ theme }) => theme.palette.text.secondary};
+    padding: 0.4rem 1.5rem;
+
+    h6 {
+      color: ${({ theme }) => theme.palette.text.secondary};
+      text-transform: none;
+    }
   }
 `;
 

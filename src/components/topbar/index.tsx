@@ -13,6 +13,7 @@ import {
 import {
   Avatar,
   Badge,
+  Button,
   CircularProgress,
   Grid,
   IconButton,
@@ -36,6 +37,7 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
     handleUpdateData,
     loadingUpdateData,
     watchUpdateData,
+    goHome,
   } = useTopBarController();
 
   return (
@@ -46,7 +48,9 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
         justifyContent="space-between"
       >
         <Grid item xs={3} className="logo">
-          <Typography variant="h6">Timesheet</Typography>
+          <Button variant="text" onClick={goHome}>
+            <Typography variant="h6">Timesheet</Typography>
+          </Button>
         </Grid>
         <Grid item>
           {toSend > 0 && (
