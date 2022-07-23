@@ -7,8 +7,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { AppointmentStatusEnum } from '@/models/appointment';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
 import { useSendAppointmentsMutation } from '@/models/appointment/send';
-import { useUpdateDataMutation } from '@/models/scrapper/update';
-import { getUserClientsQuery } from '@/models/user/get';
+import {
+  UpdateData,
+  useUpdateDataMutation,
+  useUpdateDataSubscription,
+} from '@/models/scrapper/update';
 import { switchThemeMode } from '@/store/ui/actions';
 import { UIStore } from '@/store/ui/slice';
 import { wipeUser } from '@/store/user/actions';
@@ -28,15 +31,13 @@ interface ControllerReturn {
   sendAndReloadAppointments: () => Promise<void>;
   loadingUpdateData: boolean;
   handleUpdateData: () => Promise<void>;
+  watchUpdateData?: UpdateData.Subscription;
 }
 
 const useTopBarController = (): ControllerReturn => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const {
-    ui: { themeMode },
-    user: { email },
-  } = useAppSelector((state) => state);
+  const { themeMode } = useAppSelector((state) => state.ui);
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>();
   const [nextThemeMode, setNextThemeMode] = useState<UIStore.ThemeMode>(
@@ -57,9 +58,9 @@ const useTopBarController = (): ControllerReturn => {
   const [sendAppointments, { loading: loadingSendAppointments }] =
     useSendAppointmentsMutation();
 
-  const [updateData, { loading: loadingUpdateData }] = useUpdateDataMutation({
-    refetchQueries: [getUserClientsQuery(email)],
-  });
+  const [updateData, { loading: loadingUpdateData }] = useUpdateDataMutation();
+
+  const { data: watchUpdateData } = useUpdateDataSubscription();
 
   const handleSwitchThemeMode = () => {
     dispatch(switchThemeMode());
@@ -139,6 +140,7 @@ const useTopBarController = (): ControllerReturn => {
     sendAndReloadAppointments,
     loadingUpdateData,
     handleUpdateData,
+    watchUpdateData,
   };
 };
 

@@ -27,9 +27,9 @@ export namespace GetUserClients {
   }
 }
 
-export const getUserClientsQuery = (email?: UserModel['email']) => gql`
-  query {
-    getUser(input: { email: "${email}" }) {
+export const getUserClientsQuery = gql`
+  query GetUser($email: String!) {
+    getUser(input: { email: $email }) {
       projects {
         client {
           code
@@ -49,7 +49,10 @@ export const getUserClientsQuery = (email?: UserModel['email']) => gql`
 `;
 
 export const useGetUserClientsQuery = (email?: UserModel['email']) =>
-  useQuery<GetUserClients.Query>(getUserClientsQuery(email));
+  useQuery<GetUserClients.Query>(getUserClientsQuery, {
+    variables: { email },
+    fetchPolicy: 'cache-and-network',
+  });
 
 export namespace GetUserAzureInfos {
   export interface Query {
