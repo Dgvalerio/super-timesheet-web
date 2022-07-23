@@ -55,9 +55,17 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
         <Grid item>
           {toSend > 0 && (
             <Tooltip
-              title={`${
-                loadingSendAppointments ? 'Enviando' : 'Enviar'
-              } apontamentos`}
+              title={
+                <>
+                  <Typography variant="caption">
+                    Você tem {toSend} apontamentos não lançados.
+                    <br />
+                    Clique aqui para envia-los!
+                  </Typography>
+                </>
+              }
+              placement="left"
+              arrow
             >
               <IconButton
                 size="large"
@@ -81,6 +89,7 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
           )}
           <Tooltip
             title={`${loadingUpdateData ? 'Atualizando' : 'Atualizar'} dados`}
+            arrow
           >
             <IconButton
               size="large"
@@ -95,7 +104,7 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
               )}
             </IconButton>
           </Tooltip>
-          <Tooltip title={`Trocar para ${nextThemeMode} mode`}>
+          <Tooltip title={`Trocar para ${nextThemeMode} mode`} arrow>
             <IconButton
               size="large"
               aria-label={`Trocar para ${nextThemeMode} mode`}
@@ -109,7 +118,7 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
               )}
             </IconButton>
           </Tooltip>
-          <Tooltip title="Abrir opções">
+          <Tooltip title="Abrir opções" arrow>
             <IconButton onClick={handleOpenUserMenu} className="user-button">
               <Avatar alt={name} src={image} />
             </IconButton>
