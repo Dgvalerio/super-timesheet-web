@@ -1,7 +1,10 @@
+import React from 'react';
+
 import { NextPage } from 'next';
 import Head from 'next/head';
 
 import { InputField } from '@/components/input-field';
+import WatchUpdateDataModal from '@/components/topbar/components/watch-update-data-modal';
 import Styles from '@/styles/user/create';
 import useController from '@/views/azure-infos/create/controller';
 import {
@@ -13,7 +16,8 @@ import {
 } from '@mui/material';
 
 const AzureInfosCreateView: NextPage = () => {
-  const { loading, handleSubmit } = useController();
+  const { loading, handleSubmit, createAzureInfosLoading, watchUpdateData } =
+    useController();
 
   return (
     <Styles.Container>
@@ -62,6 +66,12 @@ const AzureInfosCreateView: NextPage = () => {
       <Backdrop open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
+      {watchUpdateData?.watchImportData && (
+        <WatchUpdateDataModal
+          open={createAzureInfosLoading}
+          watchUpdateData={watchUpdateData}
+        />
+      )}
     </Styles.Container>
   );
 };

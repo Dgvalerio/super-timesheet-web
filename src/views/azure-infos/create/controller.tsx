@@ -8,7 +8,10 @@ import {
   CreateAzureInfosForm,
   useCreateAzureInfosMutation,
 } from '@/models/azure-infos/create';
-import { getUserAzureInfosQuery } from '@/models/user/get';
+import {
+  UpdateData,
+  useUpdateDataSubscription,
+} from '@/models/scrapper/update';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
 import { ApolloError } from '@apollo/client';
@@ -16,12 +19,16 @@ import { ApolloError } from '@apollo/client';
 interface ControllerReturn {
   loading: boolean;
   handleSubmit: (event: FormEvent<CreateAzureInfosForm>) => void;
+  createAzureInfosLoading: boolean;
+  watchUpdateData?: UpdateData.Subscription;
 }
 
 const useAzureInfosCreateController = (): ControllerReturn => {
   const router = useRouter();
-  const { id, email } = useAppSelector(({ user }) => user);
-  const [createAzureInfos] = useCreateAzureInfosMutation();
+  const { id } = useAppSelector(({ user }) => user);
+  const [createAzureInfos, { loading: createAzureInfosLoading }] =
+    useCreateAzureInfosMutation();
+  const { data: watchUpdateData } = useUpdateDataSubscription();
 
   const [loading, setLoading] = useState(true);
 
@@ -47,7 +54,6 @@ const useAzureInfosCreateController = (): ControllerReturn => {
     try {
       const { data } = await createAzureInfos({
         variables: { input: { login, password, userId: id } },
-        refetchQueries: [getUserAzureInfosQuery(email)],
       });
 
       if (data && data.createAzureInfos.id) {
@@ -71,6 +77,8 @@ const useAzureInfosCreateController = (): ControllerReturn => {
   return {
     loading,
     handleSubmit,
+    createAzureInfosLoading,
+    watchUpdateData,
   };
 };
 
