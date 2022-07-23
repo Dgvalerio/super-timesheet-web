@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/hooks/store';
 import {
   CreateAppointmentForm,
   useCreateAppointmentMutation,
@@ -11,7 +10,6 @@ import {
   getCurrentMonthWorkedTimeQuery,
 } from '@/models/appointment/get';
 import { GetUserClients, useGetUserClientsQuery } from '@/models/user/get';
-import { distinctByCode } from '@/utils/distinctByCode';
 import { successMessages } from '@/utils/errorMessages';
 import { ApolloError } from '@apollo/client';
 
@@ -104,10 +102,9 @@ const validateDateTime = ({
 
 const useCreateAppointmentFormController: Controller = () => {
   const [loading, setLoading] = useState(true);
-  const { email } = useAppSelector((state) => state.user);
   const [createAppointment] = useCreateAppointmentMutation();
   const { data: getUserClientsData, loading: getUserClientsLoading } =
-    useGetUserClientsQuery(email);
+    useGetUserClientsQuery();
 
   const [clients, setClients] = useState<GetUserClients.Client[]>([]);
   const [client, setClient] = useState<string>('');
@@ -284,7 +281,6 @@ const useCreateAppointmentFormController: Controller = () => {
         validateField[name](value);
         break;
       default:
-        console.log({ name, value, checked });
     }
   };
 
@@ -347,21 +343,8 @@ const useCreateAppointmentFormController: Controller = () => {
   useEffect(() => {
     if (getUserClientsLoading) return;
 
-    if (getUserClientsData && getUserClientsData.getUser.projects) {
-      const { projects } = getUserClientsData.getUser;
-
-      const aux: GetUserClients.Client[] = [];
-
-      projects.forEach((oneProject) =>
-        aux.push({
-          code: oneProject.client.code,
-          name: oneProject.client.name,
-          projects: oneProject.client.projects,
-        })
-      );
-
-      setClients(distinctByCode(aux));
-    }
+    if (getUserClientsData && getUserClientsData.getUserClients)
+      setClients(getUserClientsData.getUserClients);
   }, [getUserClientsData, getUserClientsLoading]);
 
   // Load projects of selected client

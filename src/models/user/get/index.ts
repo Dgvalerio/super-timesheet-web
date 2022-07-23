@@ -21,36 +21,29 @@ export namespace GetUserClients {
   }
 
   export interface Query {
-    getUser: {
-      projects: { client: Client }[];
-    };
+    getUserClients: Client[];
   }
 }
 
 export const getUserClientsQuery = gql`
-  query GetUser($email: String!) {
-    getUser(input: { email: $email }) {
+  query {
+    getUserClients {
+      code
+      name
       projects {
-        client {
+        code
+        name
+        categories {
           code
           name
-          projects {
-            code
-            name
-            categories {
-              code
-              name
-            }
-          }
         }
       }
     }
   }
 `;
 
-export const useGetUserClientsQuery = (email?: UserModel['email']) =>
+export const useGetUserClientsQuery = () =>
   useQuery<GetUserClients.Query>(getUserClientsQuery, {
-    variables: { email },
     fetchPolicy: 'cache-and-network',
   });
 
