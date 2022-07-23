@@ -98,9 +98,6 @@ const AppointmentsList: FC = () => {
       alignItems="center"
       justifyContent="space-between"
     >
-      <Grid item xs={12}>
-        <Divider />
-      </Grid>
       <Grid item xs={10}>
         <InputField
           label="Dia"
