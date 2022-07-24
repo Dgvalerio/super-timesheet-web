@@ -3,9 +3,9 @@ import { toast } from 'react-toastify';
 
 import { useRouter } from 'next/router';
 
-import { useAppSelector } from '@/hooks/store';
 import { useGetCurrentMonthWorkedTimeQuery } from '@/models/appointment/get';
 import { useGetUserAzureInfosQuery } from '@/models/user/get';
+import { useAppSelector } from '@/store/hooks';
 import { routes } from '@/utils/pages';
 import { useTheme } from '@mui/material';
 

@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 
 import { useRouter } from 'next/router';
 
-import { useAppSelector } from '@/hooks/store';
 import {
   CreateAzureInfosForm,
   useCreateAzureInfosMutation,
@@ -12,6 +11,7 @@ import {
   UpdateData,
   useUpdateDataSubscription,
 } from '@/models/scrapper/update';
+import { useAppSelector } from '@/store/hooks';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
 import { ApolloError } from '@apollo/client';

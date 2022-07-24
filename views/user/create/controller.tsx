@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 
 import { useRouter } from 'next/router';
 
-import { useAppSelector } from '@/hooks/store';
 import { CreateUserForm, useCreateUserMutation } from '@/models/user/create';
+import { useAppSelector } from '@/store/hooks';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
 import { ApolloError } from '@apollo/client';

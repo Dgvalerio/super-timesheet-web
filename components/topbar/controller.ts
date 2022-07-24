@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 
 import { useRouter } from 'next/router';
 
-import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { AppointmentStatusEnum } from '@/models/appointment';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
 import { useSendAppointmentsMutation } from '@/models/appointment/send';
@@ -12,6 +11,7 @@ import {
   useUpdateDataMutation,
   useUpdateDataSubscription,
 } from '@/models/scrapper/update';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { switchThemeMode } from '@/store/ui/actions';
 import { UIStore } from '@/store/ui/slice';
 import { wipeUser } from '@/store/user/actions';

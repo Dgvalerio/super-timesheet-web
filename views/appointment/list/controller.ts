@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/hooks/store';
 import { AppointmentModel } from '@/models/appointment';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
+import { useAppSelector } from '@/store/hooks';
 import { formatMinutesToTime, getDifferenceInMinutes } from '@/utils/time';
 
 import { differenceInBusinessDays, endOfMonth, set } from 'date-fns';

@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
 import { apolloClient } from '@/api/apollo';
-import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { AuthForm, AuthOutput } from '@/models/auth/login';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { saveUser } from '@/store/user/actions';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';

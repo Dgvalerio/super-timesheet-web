@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { useAppSelector } from '@/hooks/store';
+import { useAppSelector } from '@/store/hooks';
 import { routes } from '@/utils/pages';
 
 interface ControllerReturn {
