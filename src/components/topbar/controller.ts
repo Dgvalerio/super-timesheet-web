@@ -15,7 +15,6 @@ import {
 import { switchThemeMode } from '@/store/ui/actions';
 import { UIStore } from '@/store/ui/slice';
 import { wipeUser } from '@/store/user/actions';
-import { successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
 import { ApolloError } from '@apollo/client';
 
@@ -79,8 +78,6 @@ const useTopBarController = (): ControllerReturn => {
     dispatch(wipeUser());
 
     await router.push(routes.auth.login());
-
-    toast.success(successMessages.userSigned);
   }, [dispatch, router]);
 
   const sendAndReloadAppointments = async () => {
