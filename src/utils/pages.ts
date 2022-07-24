@@ -8,8 +8,10 @@ export enum Routes {
   // Appointment
   CreateAppointment = `/appointment/create`,
   ReadAppointments = `/appointment/list`,
-  // Appointment
+  // AzureInfos
   CreateAzureInfos = `/perfil/infos`,
+  // System
+  SystemOperation = `/system/operation`,
 }
 
 export const routes = {
@@ -27,5 +29,8 @@ export const routes = {
   },
   azureInfos: {
     create: (): Routes => Routes.CreateAzureInfos,
+  },
+  system: {
+    operation: (): Routes => Routes.SystemOperation,
   },
 };

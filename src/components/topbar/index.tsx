@@ -132,9 +132,6 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            <MenuItem onClick={handleCloseUserMenu}>
-              <Typography textAlign="center">Perfil</Typography>
-            </MenuItem>
             <MenuItem onClick={handleSignOut}>
               <Typography textAlign="center">Sair</Typography>
             </MenuItem>

@@ -8,6 +8,7 @@ import {
   Dashboard as DashboardIcon,
   MoreTime as AddIcon,
   ViewList as ViewListIcon,
+  Info as InfoIcon,
 } from '@mui/icons-material';
 import {
   List,
@@ -53,6 +54,13 @@ const SideBar: FC = () => (
         icon={<ViewListIcon />}
         text="Visualizar"
         route={routes.appointment.read()}
+      />
+    </List>
+    <List subheader={<ListSubheader>Sistema</ListSubheader>}>
+      <Item
+        icon={<InfoIcon />}
+        text="Funcionamento"
+        route={routes.system.operation()}
       />
     </List>
   </Styles.Container>
