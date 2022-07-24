@@ -32,9 +32,9 @@ const useAzureInfosCreateController = (): ControllerReturn => {
 
   const [loading, setLoading] = useState(true);
 
-  const goDashboard = () => {
+  const goSystemOperation = () => {
     setLoading(true);
-    void router.push(routes.dashboard());
+    void router.push(routes.system.operation());
   };
 
   const handleSubmit = async (event: FormEvent<CreateAzureInfosForm>) => {
@@ -59,7 +59,7 @@ const useAzureInfosCreateController = (): ControllerReturn => {
       if (data && data.createAzureInfos.id) {
         toast.success(successMessages.azureInfosCreated);
 
-        goDashboard();
+        goSystemOperation();
       }
     } catch (e) {
       const { message } = (e as ApolloError).graphQLErrors[0];
