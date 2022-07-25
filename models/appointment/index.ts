@@ -14,7 +14,7 @@ export enum AppointmentStatusEnum {
 export interface AppointmentModel {
   id: string;
   code?: string;
-  date: Date;
+  date: string;
   startTime: string;
   endTime: string;
   notMonetize: boolean;

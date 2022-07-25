@@ -6,7 +6,7 @@ import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
 import { useAppSelector } from '@/store/hooks';
 import { formatMinutesToTime, getDifferenceInMinutes } from '@/utils/time';
 
-import { differenceInBusinessDays, endOfMonth, set } from 'date-fns';
+import { differenceInBusinessDays, endOfMonth, parseISO, set } from 'date-fns';
 
 interface ControllerReturn {
   appointments: AppointmentModel[];
@@ -22,7 +22,9 @@ export type Controller = () => ControllerReturn;
 const useListAppointmentsController: Controller = () => {
   const { dailyHours } = useAppSelector(({ user }) => user);
   const [date, setDate] = useState<Date>(new Date());
-  const { data, loading, error } = useGetAllAppointmentsQuery({ month: date });
+  const { data, loading, error } = useGetAllAppointmentsQuery({
+    month: date.toISOString(),
+  });
   const [workedTime, setWorkedTime] = useState('00:00');
   const [toWorkTime, setToWorkTime] = useState('00:00');
 
@@ -31,7 +33,8 @@ const useListAppointmentsController: Controller = () => {
       data && data.getAllAppointments.length > 0
         ? data.getAllAppointments.reduce(
             (previousValue, { date, startTime, endTime }) =>
-              previousValue + getDifferenceInMinutes(date, startTime, endTime),
+              previousValue +
+              getDifferenceInMinutes(parseISO(date), startTime, endTime),
             0
           )
         : 0;

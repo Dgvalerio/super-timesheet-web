@@ -32,7 +32,7 @@ const AppointmentCard: FC<{ appointment: AppointmentModel }> = ({
           </Grid>
           <Grid item>
             <Typography variant="subtitle1" color="text.secondary">
-              {new Date(date).toLocaleString('pt-BR', {
+              {new Date(date.split('.')[0]).toLocaleString('pt-BR', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
@@ -42,7 +42,12 @@ const AppointmentCard: FC<{ appointment: AppointmentModel }> = ({
           </Grid>
           <Grid item>
             <Typography variant="subtitle1" color="text.secondary">
-              Duração de {getTimeDifference(date, startTime, endTime)}
+              Duração de{' '}
+              {getTimeDifference(
+                new Date(date.split('.')[0]),
+                startTime,
+                endTime
+              )}
             </Typography>
           </Grid>
           <Grid item xs={12}>
