@@ -1,7 +1,7 @@
 import { differenceInMinutes, format } from 'date-fns';
 
 export const getDifferenceInMinutes = (
-  date: Date,
+  date: string,
   startTime: string,
   endTime: string
 ) => {
@@ -26,7 +26,7 @@ export const formatMinutesToTime = (totalMinutes: number): string => {
 };
 
 export const getTimeDifference = (
-  date: Date,
+  date: string,
   startTime: string,
   endTime: string
 ) => formatMinutesToTime(getDifferenceInMinutes(date, startTime, endTime));

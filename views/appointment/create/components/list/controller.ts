@@ -20,9 +20,7 @@ export type Controller = () => ControllerReturn;
 
 const useAppointmentsListController: Controller = () => {
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
-  const { data, loading, error } = useGetAllAppointmentsQuery({
-    date: new Date(date),
-  });
+  const { data, loading, error } = useGetAllAppointmentsQuery({ date });
   const [workedTime, setWorkedTime] = useState('00:00');
   const [toWorkTime, setToWorkTime] = useState('00:00');
 

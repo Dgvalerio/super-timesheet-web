@@ -42,12 +42,7 @@ const AppointmentCard: FC<{ appointment: AppointmentModel }> = ({
           </Grid>
           <Grid item>
             <Typography variant="subtitle1" color="text.secondary">
-              Duração de{' '}
-              {getTimeDifference(
-                new Date(date.split('.')[0]),
-                startTime,
-                endTime
-              )}
+              Duração de {getTimeDifference(date, startTime, endTime)}
             </Typography>
           </Grid>
           <Grid item xs={12}>

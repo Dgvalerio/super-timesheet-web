@@ -313,7 +313,7 @@ const useCreateAppointmentFormController: Controller = () => {
             description,
             endTime,
             startTime,
-            date: new Date(date),
+            date,
             categoryCode: category,
             projectCode: project,
             notMonetize,
