@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import {
+  CreateAppointment,
   CreateAppointmentForm,
   useCreateAppointmentMutation,
 } from '@/models/appointment/create';
@@ -306,19 +307,25 @@ const useCreateAppointmentFormController: Controller = () => {
     }
 
     try {
+      const input: CreateAppointment.Mutation['input'] = {
+        commit,
+        description,
+        endTime,
+        startTime,
+        date,
+        categoryCode: category,
+        projectCode: project,
+        notMonetize,
+      };
+
+      const actualCategory = categories.find(({ code }) => code === category);
+
+      if (actualCategory?.name !== 'Desenvolvimento') {
+        delete input.commit;
+      }
+
       await createAppointment({
-        variables: {
-          input: {
-            commit,
-            description,
-            endTime,
-            startTime,
-            date,
-            categoryCode: category,
-            projectCode: project,
-            notMonetize,
-          },
-        },
+        variables: { input },
         refetchQueries: [
           getAllAppointmentsQuery,
           getCurrentMonthWorkedTimeQuery,
