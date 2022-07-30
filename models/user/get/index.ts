@@ -67,3 +67,36 @@ export const useGetUserAzureInfosQuery = (email?: UserModel['email']) =>
   useQuery<GetUserAzureInfos.Query>(getUserAzureInfosQuery(email), {
     fetchPolicy: 'no-cache',
   });
+
+export namespace GetUser {
+  export interface Query {
+    id?: UserModel['id'];
+    email?: UserModel['email'];
+  }
+
+  export interface Response {
+    getUser: {
+      id: UserModel['id'];
+      email: UserModel['email'];
+      name: UserModel['name'];
+      dailyHours: UserModel['dailyHours'];
+    };
+  }
+}
+
+export const getUserQuery = gql`
+  query GetUser($input: GetUserInput!) {
+    getUser(input: $input) {
+      id
+      email
+      name
+      dailyHours
+    }
+  }
+`;
+
+export const useGetUserQuery = (input: GetUser.Query) =>
+  useQuery<GetUser.Response>(getUserQuery, {
+    variables: { input },
+    fetchPolicy: 'no-cache',
+  });

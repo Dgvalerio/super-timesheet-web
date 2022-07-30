@@ -7,4 +7,5 @@ export const successMessages = {
   azureInfosCreated: 'Informações salvas com sucesso!',
   appointmentCreated: 'Apontamento realizado com sucesso!',
   userSigned: 'Login realizado com sucesso!',
+  userUpdated: 'Usuário atualizado com sucesso!',
 };

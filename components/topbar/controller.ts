@@ -32,6 +32,7 @@ interface ControllerReturn {
   handleUpdateData: () => Promise<void>;
   watchUpdateData?: UpdateData.Subscription;
   goHome: () => void;
+  goUserUpdate: () => void;
 }
 
 const useTopBarController = (): ControllerReturn => {
@@ -102,6 +103,8 @@ const useTopBarController = (): ControllerReturn => {
 
   const goHome = () => void router.push(routes.dashboard());
 
+  const goUserUpdate = () => void router.push(routes.user.update());
+
   useEffect(() => {
     if (loadingGetAllAppointments) return;
 
@@ -142,6 +145,7 @@ const useTopBarController = (): ControllerReturn => {
     handleUpdateData,
     watchUpdateData,
     goHome,
+    goUserUpdate,
   };
 };
 

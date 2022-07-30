@@ -38,6 +38,7 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
     loadingUpdateData,
     watchUpdateData,
     goHome,
+    goUserUpdate,
   } = useTopBarController();
 
   return (
@@ -132,6 +133,9 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
+            <MenuItem onClick={goUserUpdate}>
+              <Typography textAlign="center">Perfil</Typography>
+            </MenuItem>
             <MenuItem onClick={handleSignOut}>
               <Typography textAlign="center">Sair</Typography>
             </MenuItem>
