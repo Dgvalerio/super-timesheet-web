@@ -48,6 +48,52 @@ export const useGetAllAppointmentsQuery = (input: GetAllAppointments.Query) =>
     variables: { input },
   });
 
+export namespace GetAppointment {
+  export interface Query {
+    id?: AppointmentModel['id'];
+    code?: AppointmentModel['code'];
+    status?: AppointmentModel['status'];
+    date?: AppointmentModel['date'];
+  }
+
+  export interface Response {
+    getAppointment: AppointmentModel;
+  }
+}
+
+export const getAppointmentQuery = gql`
+  query GetAppointment($input: GetAppointmentInput!) {
+    getAppointment(input: $input) {
+      id
+      code
+      date
+      startTime
+      endTime
+      notMonetize
+      description
+      commit
+      status
+      project {
+        code
+        name
+        client {
+          code
+          name
+        }
+      }
+      category {
+        code
+        name
+      }
+    }
+  }
+`;
+
+export const useGetAppointmentQuery = (input: GetAppointment.Query) =>
+  useQuery<GetAppointment.Response>(getAppointmentQuery, {
+    variables: { input },
+  });
+
 export namespace GetCurrentMonthWorkedTime {
   export interface Query {
     getCurrentMonthWorkedTime: string;
