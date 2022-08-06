@@ -139,7 +139,7 @@ const AppointmentCard: FC<{ appointment: AppointmentModel }> = ({
                   <Typography variant="subtitle2" color="text.secondary">
                     Descrição
                   </Typography>
-                  <Typography variant="body1" sx={{ whiteSpace: 'pre' }}>
+                  <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
                     {description}
                   </Typography>
                 </Grid>
