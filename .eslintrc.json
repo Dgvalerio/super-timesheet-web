@@ -13,7 +13,7 @@
   ],
   "plugins": [
     "prettier",
-    "import-helpers",
+    "eslint-plugin-import-helpers",
     "@typescript-eslint",
     "react-hooks"
   ],
@@ -82,8 +82,11 @@
       }
     ],
     "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/explicit-function-return-type": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "no-console": "warn",
+    "require-jsdoc": "off",
     "lines-between-class-members": [
       "error",
       "always"
@@ -110,6 +113,8 @@
       }
     ],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "new-cap": "off",
+    "import/prefer-default-export": "error"
   }
 }
