@@ -4,8 +4,8 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 
 import { InputField } from '@/components/input-field';
+import Styles from '@/components/layout/style';
 import WatchUpdateDataModal from '@/components/topbar/components/watch-update-data-modal';
-import Styles from '@/styles/user/create';
 import useController from '@/views/azure-infos/create/controller';
 import {
   Backdrop,
@@ -20,7 +20,7 @@ const AzureInfosCreateView: NextPage = () => {
     useController();
 
   return (
-    <Styles.Container>
+    <Styles.Unauthenticated>
       <Head>
         <title>Configurar dados do Timesheet</title>
       </Head>
@@ -72,7 +72,7 @@ const AzureInfosCreateView: NextPage = () => {
           watchUpdateData={watchUpdateData}
         />
       )}
-    </Styles.Container>
+    </Styles.Unauthenticated>
   );
 };
 

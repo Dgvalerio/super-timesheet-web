@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import { apolloClient } from '@/api/apollo';
+import Layout from '@/components/layout';
 import StyleWrapper from '@/components/style-wrapper';
 import { store, toPersist } from '@/store';
 import { ApolloProvider } from '@apollo/client';
@@ -34,7 +35,9 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => (
               adapterLocale={ptBR}
               dateAdapter={AdapterDateFns}
             >
-              <Component {...pageProps} />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
             </LocalizationProvider>
             <ToastContainer />
           </StyleWrapper>
