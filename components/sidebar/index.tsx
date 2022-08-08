@@ -18,51 +18,68 @@ import {
   ListItemText,
 } from '@mui/material';
 
-const Item: FC<{
-  text: string;
-  icon: ReactElement;
-  route?: Routes;
-}> = ({ text, icon, route }) => {
+type IItem = FC<{ text: string; icon: ReactElement; route?: Routes }>;
+
+const Item: IItem = ({ text, icon, route }) => {
   const router = useRouter();
 
   const navigate = (): void => void router.push(route || routes.home());
 
-  const selected = (): boolean => router.pathname === route;
-
   return (
-    <ListItemButton selected={selected()} onClick={navigate}>
+    <ListItemButton selected={router.pathname === route} onClick={navigate}>
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText primary={text} />
     </ListItemButton>
   );
 };
 
+interface ISideBarItem {
+  name: string;
+  items: {
+    icon: ReactElement;
+    text: string;
+    route: Routes;
+  }[];
+}
+
+const sideBarItems: ISideBarItem[] = [
+  {
+    name: 'Apontamentos',
+    items: [
+      { icon: <DashboardIcon />, text: 'Dashboard', route: routes.dashboard() },
+      {
+        icon: <AddIcon />,
+        text: 'Incluir',
+        route: routes.appointment.create(),
+      },
+      {
+        icon: <ViewListIcon />,
+        text: 'Visualizar',
+        route: routes.appointment.read(),
+      },
+    ],
+  },
+  {
+    name: 'Sistema',
+    items: [
+      {
+        icon: <InfoIcon />,
+        text: 'Funcionamento',
+        route: routes.system.operation(),
+      },
+    ],
+  },
+];
+
 const SideBar: FC = () => (
   <Styles.Container item xs={3}>
-    <List subheader={<ListSubheader>Apontamentos</ListSubheader>}>
-      <Item
-        icon={<DashboardIcon />}
-        text="Dashboard"
-        route={routes.dashboard()}
-      />
-      <Item
-        icon={<AddIcon />}
-        text="Incluir"
-        route={routes.appointment.create()}
-      />
-      <Item
-        icon={<ViewListIcon />}
-        text="Visualizar"
-        route={routes.appointment.read()}
-      />
-    </List>
-    <List subheader={<ListSubheader>Sistema</ListSubheader>}>
-      <Item
-        icon={<InfoIcon />}
-        text="Funcionamento"
-        route={routes.system.operation()}
-      />
-    </List>
+    {sideBarItems.map(({ name, items }) => (
+      <List key={name} subheader={<ListSubheader>{name}</ListSubheader>}>
+        {items.map(({ text, icon, route }) => (
+          <Item key={text} icon={icon} text={text} route={route} />
+        ))}
+      </List>
+    ))}
   </Styles.Container>
 );
 
