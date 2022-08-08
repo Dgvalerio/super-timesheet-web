@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
+import useAppointmentCardController from '@/components/appointment/list/appointment-card/controller';
+import AppointmentFooter from '@/components/appointment/list/appointment-footer';
 import EditAppointmentModal from '@/components/topbar/components/edit-appointment-modal';
 import TopBarStyled from '@/components/topbar/styled';
 import { AppointmentModel, AppointmentStatusEnum } from '@/models/appointment';
-import useAppointmentCardController from '@/views/appointment/list/components/appointment-card/controller';
-import AppointmentFooter from '@/views/appointment/list/components/appointment-footer';
 import {
   Delete as DeleteIcon,
   Edit as EditIcon,

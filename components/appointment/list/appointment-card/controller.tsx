@@ -36,6 +36,8 @@ const useAppointmentCardController: Controller = ({
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
+  const [deleteAppointment] = useDeleteAppointmentMutation();
+
   const dayText = new Date(date.split('.')[0]).toLocaleString('pt-BR', {
     weekday: 'long',
     year: 'numeric',
@@ -45,15 +47,13 @@ const useAppointmentCardController: Controller = ({
 
   const timeDifference = getTimeDifference(date, startTime, endTime);
 
-  const toggleCollapsed = () => setCollapsed((prevState) => !prevState);
+  const toggleCollapsed = (): void => setCollapsed((prevState) => !prevState);
 
-  const openEditModal = () => setEditOpen(true);
+  const openEditModal = (): void => setEditOpen(true);
 
-  const closeEditModal = () => setEditOpen(false);
+  const closeEditModal = (): void => setEditOpen(false);
 
-  const [deleteAppointment] = useDeleteAppointmentMutation();
-
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     setLoadingDelete(true);
 
     try {
