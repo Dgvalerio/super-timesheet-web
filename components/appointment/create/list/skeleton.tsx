@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Grid, Skeleton } from '@mui/material';
 
-const AppointmentsListSkeleton = () => (
+const AppointmentsListSkeleton: FC = () => (
   <Grid item xs={12} container spacing={2} justifyContent="space-between">
     <Grid item xs={10}>
       <Skeleton width="100%" height={56} sx={{ transform: 'none' }} />

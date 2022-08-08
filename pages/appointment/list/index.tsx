@@ -3,13 +3,13 @@ import React, { FC, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 
+import AppointmentsListSkeleton from '@/components/appointment/create/list/skeleton';
 import AppointmentCard from '@/components/appointment/list/appointment-card';
 import { InputField } from '@/components/input-field';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
 import { useAppSelector } from '@/store/hooks';
 import graphQLErrorsHandler from '@/utils/graphQLErrorsHandler';
 import { formatMinutesToTime, getDifferenceInMinutes } from '@/utils/time';
-import AppointmentsListSkeleton from '@/views/appointment/create/components/list/skeleton';
 import { Box, Divider, Grid, Tooltip, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 

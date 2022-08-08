@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
+import useController from '@/components/appointment/create/list/controller';
+import AppointmentsListSkeleton from '@/components/appointment/create/list/skeleton';
 import { InputField } from '@/components/input-field';
 import { AppointmentModel } from '@/models/appointment';
 import { getTimeDifference } from '@/utils/time';
-import useController from '@/views/appointment/create/components/list/controller';
-import AppointmentsListSkeleton from '@/views/appointment/create/components/list/skeleton';
 import {
   Divider,
   Grid,
@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from '@mui/material';
 
-const Empty = () => (
+const Empty: FC = () => (
   <Grid item xs={12}>
     <Typography variant="overline" sx={{ color: 'text.secondary' }}>
       Não há apontamentos para esse dia.
@@ -105,7 +105,7 @@ const AppointmentsList: FC = () => {
           type="date"
           name="date"
           value={date}
-          onChange={({ target }) => setDate(target.value)}
+          onChange={({ target }): void => setDate(target.value)}
         />
       </Grid>
       <Grid item xs={2} container>
