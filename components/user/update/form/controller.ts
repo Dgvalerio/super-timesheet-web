@@ -154,7 +154,7 @@ const useUpdateUserFormController: Controller = () => {
     },
   };
 
-  const updateField = (event: ChangeEvent<HTMLInputElement>) => {
+  const updateField = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
 
     switch (name) {
@@ -186,7 +186,9 @@ const useUpdateUserFormController: Controller = () => {
     }
   };
 
-  const handleSubmit = async (event: FormEvent<UpdateUserForm>) => {
+  const handleSubmit = async (
+    event: FormEvent<UpdateUserForm>
+  ): Promise<void> => {
     event.preventDefault();
 
     setLoading(true);
@@ -242,7 +244,7 @@ const useUpdateUserFormController: Controller = () => {
     }
   };
 
-  const toggleUpdatePassword = () =>
+  const toggleUpdatePassword = (): void =>
     setUpdatePassword((prevState) => !prevState);
 
   useEffect(() => {

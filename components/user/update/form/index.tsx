@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 import { InputField } from '@/components/input-field';
-import useController from '@/views/user/update/components/form/controller';
-import FormSkeleton from '@/views/user/update/components/form/skeleton';
+import useController from '@/components/user/update/form/controller';
+import FormSkeleton from '@/components/user/update/form/skeleton';
 import {
   Button,
   Collapse,
