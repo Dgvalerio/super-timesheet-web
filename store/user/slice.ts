@@ -1,4 +1,4 @@
-import { AuthOutput } from '@/models/auth/login';
+import { Login } from '@/models/auth/login';
 import { UserModel } from '@/models/user';
 import {
   createSlice,
@@ -13,11 +13,11 @@ export namespace UserStore {
     name?: UserModel['name'];
     email?: UserModel['email'];
     dailyHours?: UserModel['dailyHours'];
-    token?: AuthOutput['token'];
+    token?: Login.Response['login']['token'];
   }
 
   export interface Reducers extends SliceCaseReducers<State> {
-    saveUser: CaseReducer<State, PayloadAction<AuthOutput>>;
+    saveUser: CaseReducer<State, PayloadAction<Login.Response['login']>>;
     wipeUser: CaseReducer<State>;
   }
 }

@@ -1,3 +1,3 @@
-import AuthLoginView from '@/views/auth/login';
+import AuthLoginPage from '@/pages/auth/login';
 
-export default AuthLoginView;
+export default AuthLoginPage;
