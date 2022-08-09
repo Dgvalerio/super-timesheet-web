@@ -1,14 +1,12 @@
 {
-  "name": "Untitled GraphQL Schema",
-  "schemaPath": "schema.graphql",
+  "name": "Super Timesheet Web GraphQL Schema",
+  "schemaPath": "schema.gql",
   "extensions": {
     "endpoints": {
-      "Default GraphQL Endpoint": {
-        "url": "http://localhost:8080/graphql",
-        "headers": {
-          "user-agent": "JS GraphQL"
-        },
-        "introspect": false
+      "SuperTimesheetAPI": {
+        "schemaPath": "api.graphql",
+        "url": "http://localhost:3001/graphql",
+        "introspect": true
       }
     }
   }
