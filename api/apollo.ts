@@ -10,7 +10,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 
 import { createClient } from 'graphql-ws';
 
-const getLocalStorageToken = (): string => {
+export const getLocalStorageToken = (): string => {
   try {
     const storage = localStorage.getItem('persist:super-timesheet-web');
     const { user } = JSON.parse(`${storage}`);
