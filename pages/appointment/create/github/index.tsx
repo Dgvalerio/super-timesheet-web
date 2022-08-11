@@ -155,8 +155,17 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
     setSelectedRepository(repositoryName);
   };
 
+  const resetRepository = (): void => {
+    resetBranch();
+    setSelectedRepository(null);
+  };
+
   const handleSelectBranch = (branchName: string): void => {
     setSelectedBranch(branchName);
+  };
+
+  const resetBranch = (): void => {
+    setSelectedBranch(null);
   };
 
   return (
@@ -208,7 +217,7 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <IconButton>
+              <IconButton onClick={resetRepository}>
                 <Edit />
               </IconButton>
             </CardActions>
@@ -254,7 +263,7 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <IconButton>
+                  <IconButton onClick={resetBranch}>
                     <Edit />
                   </IconButton>
                 </CardActions>
