@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import useAppointmentCardController from '@/components/appointment/list/appointment-card/controller';
 import AppointmentFooter from '@/components/appointment/list/appointment-footer';
 import EditAppointmentModal from '@/components/topbar/components/edit-appointment-modal';
-import TopBarStyled from '@/components/topbar/styled';
+import TopBarStyled from '@/components/topbar/style';
 import { AppointmentModel, AppointmentStatusEnum } from '@/models/appointment';
 import {
   Delete as DeleteIcon,

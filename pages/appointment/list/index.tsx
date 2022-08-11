@@ -5,7 +5,7 @@ import Head from 'next/head';
 
 import AppointmentsListSkeleton from '@/components/appointment/create/list/skeleton';
 import AppointmentCard from '@/components/appointment/list/appointment-card';
-import { InputField } from '@/components/input-field';
+import InputField from '@/components/input-field';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
 import { useAppSelector } from '@/store/hooks';
 import graphQLErrorsHandler from '@/utils/graphQLErrorsHandler';

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import useController from '@/components/appointment/create/form/controller';
 import FormSkeleton from '@/components/appointment/create/form/skeleton';
-import { InputField } from '@/components/input-field';
+import InputField from '@/components/input-field';
 import {
   Button,
   Checkbox,

@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { InputField } from '@/components/input-field';
+import InputField from '@/components/input-field';
 import { CreateUserForm, useCreateUserMutation } from '@/models/user/create';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';

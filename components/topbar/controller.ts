@@ -63,17 +63,14 @@ const useTopBarController = (): ControllerReturn => {
 
   const { data: watchUpdateData } = useUpdateDataSubscription();
 
-  const handleSwitchThemeMode = () => {
+  const handleSwitchThemeMode = (): void => {
     dispatch(switchThemeMode());
   };
 
-  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
+  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>): void =>
     setAnchorElUser(event.currentTarget);
-  };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const handleCloseUserMenu = (): void => setAnchorElUser(null);
 
   const handleSignOut = useCallback(async () => {
     dispatch(wipeUser());
@@ -81,7 +78,7 @@ const useTopBarController = (): ControllerReturn => {
     await router.push(routes.auth.login());
   }, [dispatch, router]);
 
-  const sendAndReloadAppointments = async () => {
+  const sendAndReloadAppointments = async (): Promise<void> => {
     try {
       await sendAppointments();
     } catch (e) {
@@ -91,7 +88,7 @@ const useTopBarController = (): ControllerReturn => {
     }
   };
 
-  const handleUpdateData = async () => {
+  const handleUpdateData = async (): Promise<void> => {
     try {
       await updateData();
     } catch (e) {
@@ -101,9 +98,9 @@ const useTopBarController = (): ControllerReturn => {
     }
   };
 
-  const goHome = () => void router.push(routes.dashboard());
+  const goHome = (): void => void router.push(routes.dashboard());
 
-  const goUserUpdate = () => void router.push(routes.user.update());
+  const goUserUpdate = (): void => void router.push(routes.user.update());
 
   useEffect(() => {
     if (loadingGetAllAppointments) return;

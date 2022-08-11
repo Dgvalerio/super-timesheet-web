@@ -5,7 +5,7 @@ import { transparentize } from 'polished';
 import styled from 'styled-components';
 
 const Container = styled(Grid)`
-  background-color: ${({ theme }) =>
+  background-color: ${({ theme }): string =>
     theme.palette.mode === UIStore.ThemeMode.Light
       ? '#f1f2f7'
       : transparentize(0.98, '#f1f2f7')};
@@ -21,13 +21,13 @@ const Container = styled(Grid)`
 
     .MuiListItemButton-root {
       border-radius: 0.4rem;
-      color: ${({ theme }) => theme.palette.text.secondary};
+      color: ${({ theme }): string => theme.palette.text.secondary};
 
       &.Mui-selected {
-        color: ${({ theme }) => theme.palette.primary.main};
+        color: ${({ theme }): string => theme.palette.primary.main};
 
         svg {
-          fill: ${({ theme }) => theme.palette.primary.main};
+          fill: ${({ theme }): string => theme.palette.primary.main};
         }
       }
 

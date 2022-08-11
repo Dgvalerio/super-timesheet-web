@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import TopBarStyled from '@/components/topbar/styled';
+import TopBarStyled from '@/components/topbar/style';
 import { AppointmentModel, AppointmentStatusEnum } from '@/models/appointment';
 import theme from '@/styles/theme';
 import {

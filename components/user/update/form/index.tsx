@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { InputField } from '@/components/input-field';
+import InputField from '@/components/input-field';
 import useController from '@/components/user/update/form/controller';
 import FormSkeleton from '@/components/user/update/form/skeleton';
 import {

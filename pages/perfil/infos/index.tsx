@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { InputField } from '@/components/input-field';
+import InputField from '@/components/input-field';
 import Styles from '@/components/layout/style';
 import WatchUpdateDataModal from '@/components/topbar/components/watch-update-data-modal';
 import {

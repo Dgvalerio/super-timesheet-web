@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import FormSkeleton from '@/components/appointment/create/form/skeleton';
-import { InputField } from '@/components/input-field';
+import InputField from '@/components/input-field';
 import useController from '@/components/topbar/components/edit-appointment-modal/controller';
 import { AppointmentModel } from '@/models/appointment';
 import {

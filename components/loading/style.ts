@@ -9,11 +9,11 @@ const Container = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.palette.background.default};
+  background-color: ${({ theme }): string => theme.palette.background.default};
 
   #clock {
     border-radius: 50%;
-    border: 2px solid ${({ theme }) => theme.palette.text.primary};
+    border: 2px solid ${({ theme }): string => theme.palette.text.primary};
     width: 6rem;
     height: 6rem;
     display: flex;
@@ -25,7 +25,7 @@ const Container = styled.main`
   #minute-hand {
     width: 0.2rem;
     background-color: transparent;
-    border-top: 1rem solid ${({ theme }) => theme.palette.text.primary};
+    border-top: 1rem solid ${({ theme }): string => theme.palette.text.primary};
     box-sizing: border-box;
     position: absolute;
   }

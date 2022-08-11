@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import useController from '@/components/appointment/create/list/controller';
 import AppointmentsListSkeleton from '@/components/appointment/create/list/skeleton';
-import { InputField } from '@/components/input-field';
+import InputField from '@/components/input-field';
 import { AppointmentModel } from '@/models/appointment';
 import { getTimeDifference } from '@/utils/time';
 import {

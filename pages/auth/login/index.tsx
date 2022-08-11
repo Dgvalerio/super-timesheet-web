@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { InputField } from '@/components/input-field';
+import InputField from '@/components/input-field';
 import { Login, useLoginMutation } from '@/models/auth/login';
 import { useAppDispatch } from '@/store/hooks';
 import { saveUser } from '@/store/user/actions';

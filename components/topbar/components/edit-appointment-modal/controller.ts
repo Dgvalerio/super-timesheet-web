@@ -241,7 +241,7 @@ const useEditAppointmentFormController: Controller = ({ appointmentId }) => {
     },
   };
 
-  const updateField = (event: ChangeEvent<HTMLInputElement>) => {
+  const updateField = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value, checked } = event.target;
 
     switch (name) {
@@ -290,7 +290,9 @@ const useEditAppointmentFormController: Controller = ({ appointmentId }) => {
     }
   };
 
-  const handleSubmit = async (event: FormEvent<CreateAppointmentForm>) => {
+  const handleSubmit = async (
+    event: FormEvent<CreateAppointmentForm>
+  ): Promise<void> => {
     event.preventDefault();
 
     setLoading(true);
