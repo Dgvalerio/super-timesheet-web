@@ -21,6 +21,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     router.pathname === Routes.Dashboard ||
     router.pathname === Routes.UpdateUser ||
     router.pathname === Routes.CreateAppointment ||
+    router.pathname === Routes.CreateAppointmentWithGithub ||
     router.pathname === Routes.ReadAppointments ||
     router.pathname === Routes.CreateAzureInfos ||
     router.pathname === Routes.SystemOperation

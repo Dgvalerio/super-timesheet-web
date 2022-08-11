@@ -8,6 +8,7 @@ export enum Routes {
   UpdateUser = `/perfil/update`,
   // Appointment
   CreateAppointment = `/appointment/create`,
+  CreateAppointmentWithGithub = `/appointment/create/github`,
   ReadAppointments = `/appointment/list`,
   // AzureInfos
   CreateAzureInfos = `/perfil/infos`,
@@ -27,6 +28,7 @@ export const routes = {
   },
   appointment: {
     create: (): Routes => Routes.CreateAppointment,
+    createWithGithub: (): Routes => Routes.CreateAppointmentWithGithub,
     read: (): Routes => Routes.ReadAppointments,
   },
   azureInfos: {

@@ -5,7 +5,9 @@ import { useRouter } from 'next/router';
 import Styles from '@/components/sidebar/style';
 import { Routes, routes } from '@/utils/pages';
 import {
+  ControlPointDuplicate as AddInSerieIcon,
   Dashboard as DashboardIcon,
+  GitHub,
   MoreTime as AddIcon,
   ViewList as ViewListIcon,
   Info as InfoIcon,
@@ -18,29 +20,34 @@ import {
   ListItemText,
 } from '@mui/material';
 
-type IItem = FC<{ text: string; icon: ReactElement; route?: Routes }>;
+interface IItem {
+  text: string;
+  icon: ReactElement;
+  route?: Routes;
+}
 
-const Item: IItem = ({ text, icon, route }) => {
+interface ISideBarItem {
+  name: string;
+  items: IItem[];
+}
+
+const Item: FC<IItem> = ({ text, icon, route }) => {
   const router = useRouter();
 
   const navigate = (): void => void router.push(route || routes.home());
 
-  return (
+  return route ? (
     <ListItemButton selected={router.pathname === route} onClick={navigate}>
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText primary={text} />
+    </ListItemButton>
+  ) : (
+    <ListItemButton disabled onClick={navigate}>
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText primary={text} />
     </ListItemButton>
   );
 };
-
-interface ISideBarItem {
-  name: string;
-  items: {
-    icon: ReactElement;
-    text: string;
-    route: Routes;
-  }[];
-}
 
 const sideBarItems: ISideBarItem[] = [
   {
@@ -56,6 +63,20 @@ const sideBarItems: ISideBarItem[] = [
         icon: <ViewListIcon />,
         text: 'Visualizar',
         route: routes.appointment.read(),
+      },
+    ],
+  },
+  {
+    name: 'Assistente',
+    items: [
+      {
+        icon: <GitHub />,
+        text: 'Incluir com Github',
+        route: routes.appointment.createWithGithub(),
+      },
+      {
+        icon: <AddInSerieIcon />,
+        text: 'Incluir em série',
       },
     ],
   },
