@@ -14,8 +14,8 @@ const userName = 'Dgvalerio';
 
 const SelectBranch: FC<{
   repository: string | null;
-  selected: string | null;
-  handleSelect(name: string | null): void;
+  selected: { name: string; sha: string } | null;
+  handleSelect(name: { name: string; sha: string } | null): void;
 }> = ({ repository, selected, handleSelect }) => {
   const [loading, setLoading] = useState(false);
   const [branches, setBranches] = useState<Branch.List>([]);
@@ -64,7 +64,7 @@ const SelectBranch: FC<{
       <SelectedCard
         text="Branch:"
         color={branchColor}
-        name={selected}
+        name={selected?.name || null}
         handleReset={handleReset}
       />
     </>

@@ -14,7 +14,7 @@ import {
 
 const BranchCard: FC<{
   branch: Branch.Model;
-  handleClick: (name: string) => void;
+  handleClick: (data: { name: string; sha: string }) => void;
 }> = ({ branch, handleClick }) => {
   return (
     <Grid item xs={12} sm={6}>
@@ -32,7 +32,12 @@ const BranchCard: FC<{
           <Typography variant="h5">{branch.name}</Typography>
         </CardContent>
         <CardActions>
-          <IconButton onClick={handleClick.bind(null, branch.name)}>
+          <IconButton
+            onClick={handleClick.bind(null, {
+              name: branch.name,
+              sha: branch.commit.sha,
+            })}
+          >
             <KeyboardArrowRight />
           </IconButton>
         </CardActions>
