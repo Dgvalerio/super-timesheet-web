@@ -1,16 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import RepositoryCard from '@/components/appointment/create/with-github/repository/card';
-import getUserRepositories from '@/components/appointment/create/with-github/repository/controller';
+import { getOrgRepositories } from '@/components/appointment/create/with-github/repository/controller';
 import SelectRepositorySkeleton from '@/components/appointment/create/with-github/repository/select/skeleton';
 import { repositoryColor } from '@/components/appointment/create/with-github/repository/style';
 import Repository from '@/components/appointment/create/with-github/repository/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
 import { Collapse, Grid } from '@mui/material';
-
-// todo: pegar com o login
-const userName = 'Dgvalerio';
 
 const SelectRepository: FC<{
   selected: string | null;
@@ -20,10 +17,8 @@ const SelectRepository: FC<{
   const [repositories, setRepositories] = useState<Repository.List>([]);
 
   useEffect(() => {
-    if (!userName) return setLoading(false);
-
     setLoading(true);
-    getUserRepositories(userName)
+    getOrgRepositories()
       .then((response) => setRepositories(response))
       .finally(() => setLoading(false));
   }, []);

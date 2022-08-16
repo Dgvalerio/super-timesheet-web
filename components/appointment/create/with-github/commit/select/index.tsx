@@ -8,9 +8,6 @@ import Commit from '@/components/appointment/create/with-github/commit/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import { Grid } from '@mui/material';
 
-// todo: pegar com o login
-const userName = 'Dgvalerio';
-
 const SelectCommits: Commit.Select = ({
   repository,
   branchSha,
@@ -24,7 +21,7 @@ const SelectCommits: Commit.Select = ({
     if (!repository || !branchSha) return setLoading(false);
 
     setLoading(true);
-    getBranchCommits(userName, repository, branchSha)
+    getBranchCommits(repository, branchSha)
       .then((response) => setCommits(response))
       .finally(() => setLoading(false));
   }, [branchSha, repository]);

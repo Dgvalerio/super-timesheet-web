@@ -9,9 +9,6 @@ import SectionTitle from '@/components/appointment/create/with-github/section-ti
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
 import { Collapse, Grid } from '@mui/material';
 
-// todo: pegar com o login
-const userName = 'Dgvalerio';
-
 const SelectBranch: FC<{
   repository: string | null;
   selected: Branch.Simple | null;
@@ -24,7 +21,7 @@ const SelectBranch: FC<{
     if (!repository) return setLoading(false);
 
     setLoading(true);
-    getRepositoryBranches(userName, repository)
+    getRepositoryBranches(repository)
       .then((response) => setBranches(response))
       .finally(() => setLoading(false));
   }, [repository]);
