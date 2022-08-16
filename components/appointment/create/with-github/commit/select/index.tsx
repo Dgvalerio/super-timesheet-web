@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CommitCard from '@/components/appointment/create/with-github/commit/card';
 import getBranchCommits from '@/components/appointment/create/with-github/commit/controller';
@@ -11,12 +11,12 @@ import { Collapse, Grid } from '@mui/material';
 // todo: pegar com o login
 const userName = 'Dgvalerio';
 
-const SelectCommits: FC<{
-  repository: string | null;
-  branchSha: string | null;
-  selected: Commit.List;
-  handleSelect(commits: Commit.List): void;
-}> = ({ repository, branchSha, selected, handleSelect }) => {
+const SelectCommits: Commit.Select = ({
+  repository,
+  branchSha,
+  selected,
+  handleSelect,
+}) => {
   const [loading, setLoading] = useState(true);
   const [commits, setCommits] = useState<Commit.List>([]);
 
