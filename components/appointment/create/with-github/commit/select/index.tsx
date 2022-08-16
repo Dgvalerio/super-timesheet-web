@@ -17,11 +17,11 @@ const SelectCommits: FC<{
   selected: Commit.List;
   handleSelect(commits: Commit.List): void;
 }> = ({ repository, branchSha, selected, handleSelect }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [commits, setCommits] = useState<Commit.List>([]);
 
   useEffect(() => {
-    if (!repository || !branchSha) return;
+    if (!repository || !branchSha) return setLoading(false);
 
     setLoading(true);
     getBranchCommits(userName, repository, branchSha)

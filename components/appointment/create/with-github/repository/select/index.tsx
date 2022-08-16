@@ -16,10 +16,12 @@ const SelectRepository: FC<{
   selected: string | null;
   handleSelect(name: string | null): void;
 }> = ({ selected, handleSelect }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [repositories, setRepositories] = useState<Repository.List>([]);
 
   useEffect(() => {
+    if (!userName) return setLoading(false);
+
     setLoading(true);
     getUserRepositories(userName)
       .then((response) => setRepositories(response))

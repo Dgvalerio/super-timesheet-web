@@ -17,11 +17,11 @@ const SelectBranch: FC<{
   selected: { name: string; sha: string } | null;
   handleSelect(name: { name: string; sha: string } | null): void;
 }> = ({ repository, selected, handleSelect }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [branches, setBranches] = useState<Branch.List>([]);
 
   useEffect(() => {
-    if (!repository) return;
+    if (!repository) return setLoading(false);
 
     setLoading(true);
     getRepositoryBranches(userName, repository)
