@@ -5,10 +5,9 @@ import Repository from '@/components/appointment/create/with-github/repository/t
 import { KeyboardArrowRight } from '@mui/icons-material';
 import {
   Card,
-  CardActions,
+  CardActionArea,
   CardContent,
   Grid,
-  IconButton,
   Typography,
 } from '@mui/material';
 
@@ -20,22 +19,14 @@ const RepositoryCard: FC<{
     <Grid item xs={12} sm={6}>
       <Card
         variant="outlined"
-        sx={{
-          display: 'flex',
-          paddingRight: 1,
-          height: '100%',
-          alignItems: 'center',
-          borderColor: repositoryColor,
-        }}
+        sx={{ height: '100%', borderColor: repositoryColor }}
       >
-        <CardContent sx={{ flex: 1 }}>
-          <Typography variant="h5">{repository.name}</Typography>
-        </CardContent>
-        <CardActions>
-          <IconButton onClick={handleClick.bind(null, repository.name)}>
-            <KeyboardArrowRight />
-          </IconButton>
-        </CardActions>
+        <CardActionArea onClick={(): void => handleClick(repository.name)}>
+          <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h5">{repository.name}</Typography>
+            <KeyboardArrowRight sx={{ marginLeft: 'auto' }} />
+          </CardContent>
+        </CardActionArea>
       </Card>
     </Grid>
   );
