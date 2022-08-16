@@ -14,8 +14,8 @@ const userName = 'Dgvalerio';
 
 const SelectBranch: FC<{
   repository: string | null;
-  selected: { name: string; sha: string } | null;
-  handleSelect(name: { name: string; sha: string } | null): void;
+  selected: Branch.Simple | null;
+  handleSelect(name: Branch.Simple | null): void;
 }> = ({ repository, selected, handleSelect }) => {
   const [loading, setLoading] = useState(true);
   const [branches, setBranches] = useState<Branch.List>([]);

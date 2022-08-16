@@ -14,7 +14,7 @@ import {
 
 const BranchCard: FC<{
   branch: Branch.Model;
-  handleClick: (data: { name: string; sha: string }) => void;
+  handleClick: (data: Branch.Simple) => void;
 }> = ({ branch, handleClick }) => {
   return (
     <Grid item xs={12} sm={6}>

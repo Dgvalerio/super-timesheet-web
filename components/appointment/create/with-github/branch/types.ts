@@ -5,6 +5,11 @@ namespace Branch {
   export type Response = Endpoint['response'];
   export type List = Response['data'];
   export type Model = List[number];
+
+  export interface Simple {
+    name: Model['name'];
+    sha: Model['commit']['sha'];
+  }
 }
 
 export default Branch;
