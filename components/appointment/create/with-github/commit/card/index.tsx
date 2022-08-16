@@ -1,12 +1,18 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import { commitColor } from '@/components/appointment/create/with-github/commit/style';
 import Commit from '@/components/appointment/create/with-github/commit/types';
-import { Card, CardContent, Grid, Typography } from '@mui/material';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  Grid,
+  Typography,
+} from '@mui/material';
 
-const CommitCard: FC<{
-  commit: Commit.Model;
-}> = ({ commit }) => {
+import { transparentize } from 'polished';
+
+const CommitCard: Commit.Card = ({ commit, selected, handleSelect }) => {
   let dayText = '';
   const date = commit.commit.committer?.date;
 
@@ -35,15 +41,21 @@ const CommitCard: FC<{
         variant="outlined"
         sx={{
           height: '100%',
+          backgroundColor: transparentize(selected ? 0.6 : 1, commitColor),
           borderColor: commitColor,
         }}
       >
-        <CardContent>
-          <Typography variant="overline">Descrição:</Typography>
-          <Typography variant="body1">{commit.commit.message}</Typography>
-          <Typography variant="overline">Data:</Typography>
-          <Typography variant="body1">{dayText}</Typography>
-        </CardContent>
+        <CardActionArea
+          sx={{ height: '100%' }}
+          onClick={handleSelect.bind(null, commit)}
+        >
+          <CardContent>
+            <Typography variant="overline">Descrição:</Typography>
+            <Typography variant="body1">{commit.commit.message}</Typography>
+            <Typography variant="overline">Data:</Typography>
+            <Typography variant="body1">{dayText}</Typography>
+          </CardContent>
+        </CardActionArea>
       </Card>
     </Grid>
   );

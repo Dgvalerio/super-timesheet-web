@@ -6,7 +6,7 @@ import SelectCommitSkeleton from '@/components/appointment/create/with-github/co
 import { commitColor } from '@/components/appointment/create/with-github/commit/style';
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
-import { Collapse, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 
 // todo: pegar com o login
 const userName = 'Dgvalerio';
@@ -31,33 +31,40 @@ const SelectCommits: Commit.Select = ({
 
   const handleReset = (): void => handleSelect([]);
 
+  const hasSelected = (id: string): boolean =>
+    !!selected.find((item) => item.node_id === id);
+
   if (!repository || !branchSha) {
     if (selected.length > 0) handleReset();
 
     return <></>;
   }
 
+  const footerText =
+    selected.length +
+    (selected.length > 1 ? ' foram selecionados' : ' foi selecionado');
+
   return (
-    <>
-      <Grid
-        item
-        xs={12}
-        component={Collapse}
-        in={selected.length === 0}
-        sx={selected.length > 0 ? { padding: '0 !important' } : undefined}
-      >
-        <SectionTitle title="Commits" color={commitColor} />
-        {loading ? (
-          <SelectCommitSkeleton />
-        ) : (
-          <Grid container spacing={2}>
-            {commits.map((item) => (
-              <CommitCard key={item.node_id} commit={item} />
-            ))}
-          </Grid>
-        )}
-      </Grid>
-    </>
+    <Grid item xs={12}>
+      <SectionTitle title="Commits" color={commitColor} />
+      {loading ? (
+        <SelectCommitSkeleton />
+      ) : (
+        <Grid container spacing={2} sx={{ marginBottom: 2 }}>
+          {commits.map((item) => (
+            <CommitCard
+              key={item.node_id}
+              commit={item}
+              selected={hasSelected(item.node_id)}
+              handleSelect={handleSelect}
+            />
+          ))}
+        </Grid>
+      )}
+      {selected.length > 0 && (
+        <SectionTitle title={footerText} color={commitColor} />
+      )}
+    </Grid>
   );
 };
 

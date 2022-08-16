@@ -12,9 +12,16 @@ namespace Commit {
     repository: string | null;
     branchSha: string | null;
     selected: List;
-    handleSelect(commits: List): void;
+    handleSelect(commit: Model | []): void;
   }
   export type Select = FC<ISelect>;
+
+  export interface ICard {
+    commit: Commit.Model;
+    selected: boolean;
+    handleSelect: ISelect['handleSelect'];
+  }
+  export type Card = FC<ICard>;
 }
 
 export default Commit;
