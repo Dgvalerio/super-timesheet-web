@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import { KeyboardArrowRight } from '@mui/icons-material';
 import {
@@ -13,10 +13,7 @@ import {
 
 import Branch from '@/components/appointment/create/with-github/branch/types';
 
-const BranchCard: FC<{
-  branch: Branch.Model;
-  handleClick: (data: Branch.Simple) => void;
-}> = ({ branch, handleClick }) => {
+const BranchCard: Branch.Card = ({ branch, handleClick }) => {
   const theme = useTheme();
 
   return (

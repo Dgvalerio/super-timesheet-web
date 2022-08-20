@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Collapse, Grid } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
@@ -11,11 +11,11 @@ import Branch from '@/components/appointment/create/with-github/branch/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
 
-const SelectBranch: FC<{
-  repository: string | null;
-  selected: Branch.Simple | null;
-  handleSelect(name: Branch.Simple | null): void;
-}> = ({ repository, selected, handleSelect }) => {
+const SelectBranch: Branch.Select = ({
+  repository,
+  selected,
+  handleSelect,
+}) => {
   const [loading, setLoading] = useState(true);
   const [branches, setBranches] = useState<Branch.List>([]);
 

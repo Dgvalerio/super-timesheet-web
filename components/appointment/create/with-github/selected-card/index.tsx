@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Edit } from '@mui/icons-material';
 import {
@@ -12,9 +12,13 @@ import {
   useTheme,
 } from '@mui/material';
 
-import Repository from '@/components/appointment/create/with-github/repository/types';
+interface ISelectedCard {
+  text: string;
+  name: string | null;
+  handleReset(): void;
+}
 
-const SelectedCard: Repository.Selected = ({ name, handleReset, text }) => {
+const SelectedCard: FC<ISelectedCard> = ({ name, handleReset, text }) => {
   const theme = useTheme();
 
   return (

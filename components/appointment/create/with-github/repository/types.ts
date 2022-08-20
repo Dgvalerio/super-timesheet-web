@@ -19,13 +19,6 @@ namespace Repository {
     handleClick: ISelect['handleSelect'];
   }
   export type Card = FC<ICard>;
-
-  export interface ISelected {
-    text: string;
-    name: ISelect['selected'];
-    handleReset(): void;
-  }
-  export type Selected = FC<ISelected>;
 }
 
 export default Repository;

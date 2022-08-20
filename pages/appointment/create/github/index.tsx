@@ -20,7 +20,7 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
   const handleChangeRepository: Repository.ISelect['handleSelect'] = (name) =>
     setRepository(name);
 
-  const handleChangeBranch = (data: Branch.Simple | null): void =>
+  const handleChangeBranch: Branch.ISelect['handleSelect'] = (data) =>
     setBranch(data);
 
   const handleChangeCommits: Commit.ISelect['handleSelect'] = (commit) =>
