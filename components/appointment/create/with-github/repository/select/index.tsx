@@ -3,18 +3,18 @@ import React, { useEffect, useState } from 'react';
 import RepositoryCard from '@/components/appointment/create/with-github/repository/card';
 import { getOrgRepositories } from '@/components/appointment/create/with-github/repository/controller';
 import SelectRepositorySkeleton from '@/components/appointment/create/with-github/repository/select/skeleton';
-import RepositoryStyles, {
+import {
   repositoryColor,
+  repositoryTheme,
 } from '@/components/appointment/create/with-github/repository/style';
 import Repository from '@/components/appointment/create/with-github/repository/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
 import InputField from '@/components/input-field';
 import { Search as SearchIcon } from '@mui/icons-material';
-import { Collapse, Grid, Typography } from '@mui/material';
+import { Collapse, Grid, Pagination, Typography } from '@mui/material';
 import { PaginationProps } from '@mui/material/Pagination/Pagination';
-
-const { Pagination } = RepositoryStyles;
+import { ThemeProvider } from '@mui/material/styles';
 
 const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
   }, []);
 
   return (
-    <>
+    <ThemeProvider theme={repositoryTheme}>
       <Grid
         item
         xs={12}
@@ -54,7 +54,7 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
         in={!selected}
         sx={selected ? { padding: '0 !important' } : undefined}
       >
-        <SectionTitle title="Repositórios" color={repositoryColor} />
+        <SectionTitle title="Repositórios" />
         {loading ? (
           <SelectRepositorySkeleton />
         ) : (
@@ -99,6 +99,7 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
               <Grid container justifyContent="center">
                 <Grid item>
                   <Pagination
+                    color="primary"
                     count={totalPages}
                     page={page}
                     onChange={handlePaginate}
@@ -115,7 +116,7 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
         name={selected}
         handleReset={handleReset}
       />
-    </>
+    </ThemeProvider>
   );
 };
 

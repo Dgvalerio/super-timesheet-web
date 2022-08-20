@@ -3,11 +3,15 @@ import React, { FC, useEffect, useState } from 'react';
 import BranchCard from '@/components/appointment/create/with-github/branch/card';
 import getRepositoryBranches from '@/components/appointment/create/with-github/branch/controller';
 import SelectBranchSkeleton from '@/components/appointment/create/with-github/branch/select/skeleton';
-import { branchColor } from '@/components/appointment/create/with-github/branch/style';
+import {
+  branchColor,
+  branchTheme,
+} from '@/components/appointment/create/with-github/branch/style';
 import Branch from '@/components/appointment/create/with-github/branch/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
 import { Collapse, Grid } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 
 const SelectBranch: FC<{
   repository: string | null;
@@ -35,7 +39,7 @@ const SelectBranch: FC<{
   }
 
   return (
-    <>
+    <ThemeProvider theme={branchTheme}>
       <Grid
         item
         xs={12}
@@ -43,7 +47,7 @@ const SelectBranch: FC<{
         in={!selected}
         sx={selected ? { padding: '0 !important' } : undefined}
       >
-        <SectionTitle title="Branches" color={branchColor} />
+        <SectionTitle title="Branches" />
         {loading ? (
           <SelectBranchSkeleton />
         ) : (
@@ -64,7 +68,7 @@ const SelectBranch: FC<{
         name={selected?.name || null}
         handleReset={handleReset}
       />
-    </>
+    </ThemeProvider>
   );
 };
 

@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import CommitCard from '@/components/appointment/create/with-github/commit/card';
 import getBranchCommits from '@/components/appointment/create/with-github/commit/controller';
 import SelectCommitSkeleton from '@/components/appointment/create/with-github/commit/select/skeleton';
-import { commitColor } from '@/components/appointment/create/with-github/commit/style';
+import { commitTheme } from '@/components/appointment/create/with-github/commit/style';
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import { Grid } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 
 const SelectCommits: Commit.Select = ({
   repository,
@@ -42,26 +43,26 @@ const SelectCommits: Commit.Select = ({
     (selected.length > 1 ? ' foram selecionados' : ' foi selecionado');
 
   return (
-    <Grid item xs={12}>
-      <SectionTitle title="Commits" color={commitColor} />
-      {loading ? (
-        <SelectCommitSkeleton />
-      ) : (
-        <Grid container spacing={2} sx={{ marginBottom: 2 }}>
-          {commits.map((item) => (
-            <CommitCard
-              key={item.node_id}
-              commit={item}
-              selected={hasSelected(item.node_id)}
-              handleSelect={handleSelect}
-            />
-          ))}
-        </Grid>
-      )}
-      {selected.length > 0 && (
-        <SectionTitle title={footerText} color={commitColor} />
-      )}
-    </Grid>
+    <ThemeProvider theme={commitTheme}>
+      <Grid item xs={12}>
+        <SectionTitle title="Commits" />
+        {loading ? (
+          <SelectCommitSkeleton />
+        ) : (
+          <Grid container spacing={2} sx={{ marginBottom: 2 }}>
+            {commits.map((item) => (
+              <CommitCard
+                key={item.node_id}
+                commit={item}
+                selected={hasSelected(item.node_id)}
+                handleSelect={handleSelect}
+              />
+            ))}
+          </Grid>
+        )}
+        {selected.length > 0 && <SectionTitle title={footerText} />}
+      </Grid>
+    </ThemeProvider>
   );
 };
 
