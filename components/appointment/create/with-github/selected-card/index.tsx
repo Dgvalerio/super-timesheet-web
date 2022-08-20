@@ -12,7 +12,12 @@ import {
   Typography,
 } from '@mui/material';
 
-const SelectedCard: Repository.Card = ({ name, handleReset, color, text }) => (
+const SelectedCard: Repository.Selected = ({
+  name,
+  handleReset,
+  color,
+  text,
+}) => (
   <Grid item xs={12} component={Collapse} in={!!name}>
     <Card
       variant="outlined"

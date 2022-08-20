@@ -36,7 +36,8 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
   const handlePaginate: PaginationProps['onChange'] = (_, value) =>
     setPage(value);
 
-  const handleReset: Repository.ICard['handleReset'] = () => handleSelect(null);
+  const handleReset: Repository.ISelected['handleReset'] = () =>
+    handleSelect(null);
 
   useEffect(() => {
     setLoading(true);
