@@ -5,12 +5,10 @@ import theme from '@/styles/theme';
 
 import { transparentize } from 'polished';
 
-export const commitColor = transparentize(0.3, red['900']);
-
 export const commitTheme = ((): Theme => {
   const aux = theme;
 
-  aux.palette.primary.main = commitColor;
+  aux.palette.primary.main = transparentize(0.3, red['900']);
 
   return aux;
 })();

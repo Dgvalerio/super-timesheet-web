@@ -6,14 +6,17 @@ import {
   CardContent,
   Grid,
   Typography,
+  useTheme,
 } from '@mui/material';
 
-import { commitColor } from '@/components/appointment/create/with-github/commit/style';
 import Commit from '@/components/appointment/create/with-github/commit/types';
 
 import { transparentize } from 'polished';
 
 const CommitCard: Commit.Card = ({ commit, selected, handleSelect }) => {
+  const theme = useTheme();
+  const color = theme.palette.primary.main;
+
   let dayText = '';
   const date = commit.commit.committer?.date;
 
@@ -42,8 +45,8 @@ const CommitCard: Commit.Card = ({ commit, selected, handleSelect }) => {
         variant="outlined"
         sx={{
           height: '100%',
-          backgroundColor: transparentize(selected ? 0.6 : 1, commitColor),
-          borderColor: commitColor,
+          backgroundColor: transparentize(selected ? 0.6 : 1, color),
+          borderColor: color,
         }}
       >
         <CardActionArea
