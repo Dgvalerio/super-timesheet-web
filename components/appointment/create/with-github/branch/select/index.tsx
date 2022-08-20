@@ -6,10 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import BranchCard from '@/components/appointment/create/with-github/branch/card';
 import getRepositoryBranches from '@/components/appointment/create/with-github/branch/controller';
 import SelectBranchSkeleton from '@/components/appointment/create/with-github/branch/select/skeleton';
-import {
-  branchColor,
-  branchTheme,
-} from '@/components/appointment/create/with-github/branch/style';
+import { branchTheme } from '@/components/appointment/create/with-github/branch/style';
 import Branch from '@/components/appointment/create/with-github/branch/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
@@ -65,7 +62,6 @@ const SelectBranch: FC<{
       </Grid>
       <SelectedCard
         text="Branch:"
-        color={branchColor}
         name={selected?.name || null}
         handleReset={handleReset}
       />

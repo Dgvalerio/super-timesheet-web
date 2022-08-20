@@ -8,15 +8,17 @@ import {
   Grid,
   IconButton,
   Typography,
+  useTheme,
 } from '@mui/material';
 
-import { branchColor } from '@/components/appointment/create/with-github/branch/style';
 import Branch from '@/components/appointment/create/with-github/branch/types';
 
 const BranchCard: FC<{
   branch: Branch.Model;
   handleClick: (data: Branch.Simple) => void;
 }> = ({ branch, handleClick }) => {
+  const theme = useTheme();
+
   return (
     <Grid item xs={12} sm={6}>
       <Card
@@ -26,7 +28,7 @@ const BranchCard: FC<{
           paddingRight: 1,
           height: '100%',
           alignItems: 'center',
-          borderColor: branchColor,
+          borderColor: theme.palette.primary.main,
         }}
       >
         <CardContent sx={{ flex: 1 }}>
