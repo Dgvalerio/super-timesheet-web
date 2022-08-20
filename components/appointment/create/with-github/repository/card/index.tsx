@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import { repositoryColor } from '@/components/appointment/create/with-github/repository/style';
 import Repository from '@/components/appointment/create/with-github/repository/types';
@@ -11,10 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 
-const RepositoryCard: FC<{
-  repository: Repository.Model;
-  handleClick: (name: string) => void;
-}> = ({ repository, handleClick }) => {
+const RepositoryCard: Repository.Card = ({ repository, handleClick }) => {
   return (
     <Grid item xs={12} sm={6}>
       <Card

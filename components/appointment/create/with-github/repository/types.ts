@@ -14,6 +14,12 @@ namespace Repository {
   }
   export type Select = FC<ISelect>;
 
+  export interface ICard {
+    repository: Model;
+    handleClick: ISelect['handleSelect'];
+  }
+  export type Card = FC<ICard>;
+
   export interface ISelected {
     text: string;
     name: ISelect['selected'];

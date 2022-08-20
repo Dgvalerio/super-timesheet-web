@@ -8,6 +8,7 @@ import Branch from '@/components/appointment/create/with-github/branch/types';
 import SelectCommits from '@/components/appointment/create/with-github/commit/select';
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SelectRepository from '@/components/appointment/create/with-github/repository/select';
+import Repository from '@/components/appointment/create/with-github/repository/types';
 import { Box, Button, Grid } from '@mui/material';
 
 const CreateAppointmentWithGithubPage: NextPage = () => {
@@ -15,13 +16,13 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
   const [branch, setBranch] = useState<Branch.Simple | null>(null);
   const [commits, setCommits] = useState<Commit.List>([]);
 
-  const handleChangeRepository = (name: string | null): void =>
+  const handleChangeRepository: Repository.ISelect['handleSelect'] = (name) =>
     setRepository(name);
 
   const handleChangeBranch = (data: Branch.Simple | null): void =>
     setBranch(data);
 
-  const handleChangeCommits: Commit.ISelect['handleSelect'] = (commit): void =>
+  const handleChangeCommits: Commit.ISelect['handleSelect'] = (commit) =>
     setCommits((prev) => {
       if (Array.isArray(commit)) return commit;
 
