@@ -3,10 +3,7 @@ import React, { useEffect, useState } from 'react';
 import RepositoryCard from '@/components/appointment/create/with-github/repository/card';
 import { getOrgRepositories } from '@/components/appointment/create/with-github/repository/controller';
 import SelectRepositorySkeleton from '@/components/appointment/create/with-github/repository/select/skeleton';
-import {
-  repositoryColor,
-  repositoryTheme,
-} from '@/components/appointment/create/with-github/repository/style';
+import { repositoryTheme } from '@/components/appointment/create/with-github/repository/style';
 import Repository from '@/components/appointment/create/with-github/repository/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
@@ -73,11 +70,8 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
                   variant="outlined"
                   value={search}
                   onChange={({ target }): void => setSearch(target.value)}
-                  sx={{
-                    '.MuiOutlinedInput-notchedOutline': {
-                      borderColor: `${repositoryColor} !important`,
-                    },
-                  }}
+                  color="primary"
+                  colored
                   InputProps={{ endAdornment: <SearchIcon /> }}
                 />
               </Grid>
@@ -113,7 +107,6 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
       </Grid>
       <SelectedCard
         text="Repositório:"
-        color={repositoryColor}
         name={selected}
         handleReset={handleReset}
       />

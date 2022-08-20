@@ -23,7 +23,6 @@ namespace Repository {
   export interface ISelected {
     text: string;
     name: ISelect['selected'];
-    color: string;
     handleReset(): void;
   }
   export type Selected = FC<ISelected>;

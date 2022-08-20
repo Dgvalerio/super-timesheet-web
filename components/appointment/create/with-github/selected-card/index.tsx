@@ -10,40 +10,40 @@ import {
   Grid,
   IconButton,
   Typography,
+  useTheme,
 } from '@mui/material';
 
-const SelectedCard: Repository.Selected = ({
-  name,
-  handleReset,
-  color,
-  text,
-}) => (
-  <Grid item xs={12} component={Collapse} in={!!name}>
-    <Card
-      variant="outlined"
-      sx={{
-        display: 'flex',
-        paddingRight: 1,
-        height: '100%',
-        alignItems: 'center',
-        borderColor: color,
-      }}
-    >
-      <CardContent sx={{ flex: 1 }}>
-        <Typography variant="h6">
-          {text}
-          <Typography variant="body1" component="span" ml={1}>
-            {name}
+const SelectedCard: Repository.Selected = ({ name, handleReset, text }) => {
+  const theme = useTheme();
+
+  return (
+    <Grid item xs={12} component={Collapse} in={!!name}>
+      <Card
+        variant="outlined"
+        sx={{
+          display: 'flex',
+          paddingRight: 1,
+          height: '100%',
+          alignItems: 'center',
+          borderColor: theme.palette.primary.main,
+        }}
+      >
+        <CardContent sx={{ flex: 1 }}>
+          <Typography variant="h6">
+            {text}
+            <Typography variant="body1" component="span" ml={1}>
+              {name}
+            </Typography>
           </Typography>
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <IconButton onClick={handleReset}>
-          <Edit />
-        </IconButton>
-      </CardActions>
-    </Card>
-  </Grid>
-);
+        </CardContent>
+        <CardActions>
+          <IconButton onClick={handleReset}>
+            <Edit />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </Grid>
+  );
+};
 
 export default SelectedCard;

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { TextField } from '@mui/material';
+import { TextField, useTheme } from '@mui/material';
 import { TextFieldProps } from '@mui/material/TextField/TextField';
 
 import styled from 'styled-components';
@@ -12,8 +12,30 @@ const Input = styled(TextField)`
   }
 `;
 
-const InputField: FC<TextFieldProps> = ({ ...props }) => (
-  <Input type="text" variant="outlined" required fullWidth {...props} />
-);
+const InputField: FC<TextFieldProps & { colored?: boolean }> = ({
+  colored,
+  ...props
+}) => {
+  const theme = useTheme();
+
+  return (
+    <Input
+      type="text"
+      variant="outlined"
+      required
+      fullWidth
+      sx={
+        colored
+          ? {
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: theme.palette.primary.main,
+              },
+            }
+          : undefined
+      }
+      {...props}
+    />
+  );
+};
 
 export default InputField;

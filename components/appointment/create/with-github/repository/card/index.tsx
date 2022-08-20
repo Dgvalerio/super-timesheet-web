@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { repositoryColor } from '@/components/appointment/create/with-github/repository/style';
 import Repository from '@/components/appointment/create/with-github/repository/types';
 import { KeyboardArrowRight } from '@mui/icons-material';
 import {
@@ -9,15 +8,17 @@ import {
   CardContent,
   Grid,
   Typography,
+  useTheme,
 } from '@mui/material';
 
 const RepositoryCard: Repository.Card = ({ repository, handleClick }) => {
+  const theme = useTheme();
+
+  const borderColor = theme.palette.primary.main;
+
   return (
     <Grid item xs={12} sm={6}>
-      <Card
-        variant="outlined"
-        sx={{ height: '100%', borderColor: repositoryColor }}
-      >
+      <Card variant="outlined" sx={{ height: '100%', borderColor }}>
         <CardActionArea onClick={(): void => handleClick(repository.name)}>
           <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="h5">{repository.name}</Typography>
