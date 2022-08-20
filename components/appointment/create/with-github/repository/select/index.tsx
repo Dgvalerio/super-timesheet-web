@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import RepositoryCard from '@/components/appointment/create/with-github/repository/card';
 import { getOrgRepositories } from '@/components/appointment/create/with-github/repository/controller';
@@ -9,27 +9,34 @@ import RepositoryStyles, {
 import Repository from '@/components/appointment/create/with-github/repository/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
-import { Collapse, Grid } from '@mui/material';
+import InputField from '@/components/input-field';
+import { Search as SearchIcon } from '@mui/icons-material';
+import { Collapse, Grid, Typography } from '@mui/material';
 import { PaginationProps } from '@mui/material/Pagination/Pagination';
 
 const { Pagination } = RepositoryStyles;
 
-const SelectRepository: FC<{
-  selected: string | null;
-  handleSelect(name: string | null): void;
-}> = ({ selected, handleSelect }) => {
+const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
   const [loading, setLoading] = useState(true);
   const [repositories, setRepositories] = useState<Repository.List>([]);
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
+
+  const filteredRepositories =
+    search.length > 0
+      ? repositories.filter(({ name }) => name.includes(search))
+      : repositories;
 
   const perPage = 10;
 
   const last = page * perPage;
   const first = last - perPage;
-  const totalPages = Math.ceil(repositories.length / perPage);
+  const totalPages = Math.ceil(filteredRepositories.length / perPage);
 
   const handlePaginate: PaginationProps['onChange'] = (_, value) =>
     setPage(value);
+
+  const handleReset = (): void => handleSelect(null);
 
   useEffect(() => {
     setLoading(true);
@@ -37,8 +44,6 @@ const SelectRepository: FC<{
       .then((response) => setRepositories(response))
       .finally(() => setLoading(false));
   }, []);
-
-  const handleReset = (): void => handleSelect(null);
 
   return (
     <>
@@ -57,26 +62,50 @@ const SelectRepository: FC<{
             <Grid
               container
               spacing={2}
-              minHeight={selected ? undefined : 416}
-              alignItems="start"
+              minHeight={
+                selected || filteredRepositories.length === 0 ? undefined : 496
+              }
+              alignContent="start"
             >
-              {repositories.slice(first, last).map((item) => (
+              <Grid item xs={12}>
+                <InputField
+                  variant="outlined"
+                  value={search}
+                  onChange={({ target }): void => setSearch(target.value)}
+                  sx={{
+                    '.MuiOutlinedInput-notchedOutline': {
+                      borderColor: `${repositoryColor} !important`,
+                    },
+                  }}
+                  InputProps={{ endAdornment: <SearchIcon /> }}
+                />
+              </Grid>
+              {filteredRepositories.slice(first, last).map((item) => (
                 <RepositoryCard
                   key={item.id}
                   repository={item}
                   handleClick={handleSelect}
                 />
               ))}
+              {filteredRepositories.length === 0 && (
+                <Grid item xs={12}>
+                  <Typography variant="overline" align="center">
+                    Não há projetos a serem exibidos.
+                  </Typography>
+                </Grid>
+              )}
             </Grid>
-            <Grid container mt={2} justifyContent="center">
-              <Grid item>
-                <Pagination
-                  count={totalPages}
-                  page={page}
-                  onChange={handlePaginate}
-                />
+            {filteredRepositories.length > 0 && (
+              <Grid container justifyContent="center">
+                <Grid item>
+                  <Pagination
+                    count={totalPages}
+                    page={page}
+                    onChange={handlePaginate}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </>
         )}
       </Grid>

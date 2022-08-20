@@ -8,7 +8,7 @@ import Branch from '@/components/appointment/create/with-github/branch/types';
 import SelectCommits from '@/components/appointment/create/with-github/commit/select';
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SelectRepository from '@/components/appointment/create/with-github/repository/select';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 
 const CreateAppointmentWithGithubPage: NextPage = () => {
   const [repository, setRepository] = useState<string | null>(null);
@@ -37,11 +37,6 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
         <title>Incluir com Github</title>
       </Head>
       <Grid container spacing={2} alignItems="stretch">
-        <Grid item xs={12}>
-          <Typography variant="h5">
-            Novo apontamento com base no Github
-          </Typography>
-        </Grid>
         <SelectRepository
           selected={repository}
           handleSelect={handleChangeRepository}
