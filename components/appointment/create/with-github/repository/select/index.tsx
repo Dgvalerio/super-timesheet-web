@@ -53,26 +53,31 @@ const SelectRepository: FC<{
         {loading ? (
           <SelectRepositorySkeleton />
         ) : (
-          <Grid container spacing={2}>
-            {repositories.slice(first, last).map((item) => (
-              <RepositoryCard
-                key={item.id}
-                repository={item}
-                handleClick={handleSelect}
-              />
-            ))}
+          <>
             <Grid
-              item
-              xs={12}
-              sx={{ display: 'flex', justifyContent: 'center' }}
+              container
+              spacing={2}
+              minHeight={selected ? undefined : 416}
+              alignItems="start"
             >
-              <Pagination
-                count={totalPages}
-                page={page}
-                onChange={handlePaginate}
-              />
+              {repositories.slice(first, last).map((item) => (
+                <RepositoryCard
+                  key={item.id}
+                  repository={item}
+                  handleClick={handleSelect}
+                />
+              ))}
             </Grid>
-          </Grid>
+            <Grid container mt={2} justifyContent="center">
+              <Grid item>
+                <Pagination
+                  count={totalPages}
+                  page={page}
+                  onChange={handlePaginate}
+                />
+              </Grid>
+            </Grid>
+          </>
         )}
       </Grid>
       <SelectedCard
