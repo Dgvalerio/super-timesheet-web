@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React from 'react';
 
+import Repository from '@/components/appointment/create/with-github/repository/types';
 import { Edit } from '@mui/icons-material';
 import {
   Card,
@@ -11,23 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 
-namespace SelectedBranchCardTypes {
-  export interface Interface {
-    text: string;
-    name: string | null;
-    color: string;
-    handleReset(): void;
-  }
-
-  export type Component = FC<Interface>;
-}
-
-const SelectedCard: SelectedBranchCardTypes.Component = ({
-  name,
-  handleReset,
-  color,
-  text,
-}) => (
+const SelectedCard: Repository.Card = ({ name, handleReset, color, text }) => (
   <Grid item xs={12} component={Collapse} in={!!name}>
     <Card
       variant="outlined"

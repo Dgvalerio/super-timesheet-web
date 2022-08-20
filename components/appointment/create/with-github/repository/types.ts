@@ -13,6 +13,14 @@ namespace Repository {
     handleSelect(name: string | null): void;
   }
   export type Select = FC<ISelect>;
+
+  export interface ICard {
+    text: string;
+    name: ISelect['selected'];
+    color: string;
+    handleReset(): void;
+  }
+  export type Card = FC<ICard>;
 }
 
 export default Repository;
