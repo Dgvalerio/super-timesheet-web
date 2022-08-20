@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import { commitColor } from '@/components/appointment/create/with-github/commit/style';
 import { Card, Grid, Skeleton } from '@mui/material';
+
+import { commitColor } from '@/components/appointment/create/with-github/commit/style';
 
 const SelectCommitSkeleton: FC = () => (
   <Grid container spacing={2}>

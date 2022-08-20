@@ -1,5 +1,6 @@
-import { UIStore } from '@/store/ui/slice';
 import { Grid } from '@mui/material';
+
+import { UIStore } from '@/store/ui/slice';
 
 import { transparentize } from 'polished';
 import styled from 'styled-components';

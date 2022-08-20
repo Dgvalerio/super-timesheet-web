@@ -1,8 +1,5 @@
 import React, { FC } from 'react';
 
-import useController from '@/components/appointment/create/form/controller';
-import FormSkeleton from '@/components/appointment/create/form/skeleton';
-import InputField from '@/components/input-field';
 import {
   Button,
   Checkbox,
@@ -10,6 +7,10 @@ import {
   Grid,
   MenuItem,
 } from '@mui/material';
+
+import useController from '@/components/appointment/create/form/controller';
+import FormSkeleton from '@/components/appointment/create/form/skeleton';
+import InputField from '@/components/input-field';
 
 const CreateAppointmentForm: FC = () => {
   const {

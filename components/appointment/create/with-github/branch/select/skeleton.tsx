@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import { branchColor } from '@/components/appointment/create/with-github/branch/style';
 import { Card, Grid, Skeleton } from '@mui/material';
+
+import { branchColor } from '@/components/appointment/create/with-github/branch/style';
 
 const SelectBranchSkeleton: FC = () => (
   <Grid container spacing={2}>

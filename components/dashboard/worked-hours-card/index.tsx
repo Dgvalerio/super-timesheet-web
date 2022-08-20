@@ -2,9 +2,6 @@ import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { toast } from 'react-toastify';
 
-import { useGetCurrentMonthWorkedTimeQuery } from '@/models/appointment/get';
-import { useAppSelector } from '@/store/hooks';
-import graphQLErrorsHandler from '@/utils/graphQLErrorsHandler';
 import {
   Card,
   CardContent,
@@ -12,6 +9,10 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+
+import { useGetCurrentMonthWorkedTimeQuery } from '@/models/appointment/get';
+import { useAppSelector } from '@/store/hooks';
+import graphQLErrorsHandler from '@/utils/graphQLErrorsHandler';
 
 import { ArcElement, Chart as ChartJS, ChartData, Tooltip } from 'chart.js';
 import { differenceInBusinessDays } from 'date-fns';

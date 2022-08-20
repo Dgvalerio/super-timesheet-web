@@ -1,8 +1,5 @@
 import React, { FC } from 'react';
 
-import InputField from '@/components/input-field';
-import useController from '@/components/user/update/form/controller';
-import FormSkeleton from '@/components/user/update/form/skeleton';
 import {
   Button,
   Collapse,
@@ -11,6 +8,10 @@ import {
   InputAdornment,
   Typography,
 } from '@mui/material';
+
+import InputField from '@/components/input-field';
+import useController from '@/components/user/update/form/controller';
+import FormSkeleton from '@/components/user/update/form/skeleton';
 
 const UpdateUserForm: FC = () => {
   const {

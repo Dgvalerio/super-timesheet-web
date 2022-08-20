@@ -2,8 +2,6 @@ import { FC, ReactElement } from 'react';
 
 import { useRouter } from 'next/router';
 
-import Styles from '@/components/sidebar/style';
-import { Routes, routes } from '@/utils/pages';
 import {
   ControlPointDuplicate as AddInSerieIcon,
   Dashboard as DashboardIcon,
@@ -19,6 +17,9 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+
+import Styles from '@/components/sidebar/style';
+import { Routes, routes } from '@/utils/pages';
 
 interface IItem {
   text: string;

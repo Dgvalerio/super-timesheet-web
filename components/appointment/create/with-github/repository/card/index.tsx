@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Repository from '@/components/appointment/create/with-github/repository/types';
 import { KeyboardArrowRight } from '@mui/icons-material';
 import {
   Card,
@@ -10,6 +9,8 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+
+import Repository from '@/components/appointment/create/with-github/repository/types';
 
 const RepositoryCard: Repository.Card = ({ repository, handleClick }) => {
   const theme = useTheme();

@@ -3,13 +3,14 @@ import React from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 
-import theme from '@/styles/theme';
 import {
   Cached as UpdateIcon,
   Description as DraftIcon,
   UploadFile as UploadIcon,
 } from '@mui/icons-material';
 import { Badge, Box, Card, CardContent, Grid, Typography } from '@mui/material';
+
+import theme from '@/styles/theme';
 
 const SystemOperationPage: NextPage = () => (
   <Box p={2}>

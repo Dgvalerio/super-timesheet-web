@@ -3,9 +3,10 @@ import React from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 
+import { Grid, Typography } from '@mui/material';
+
 import Styles from '@/components/layout/style';
 import UpdateUserForm from '@/components/user/update/form';
-import { Grid, Typography } from '@mui/material';
 
 const UserUpdatePage: NextPage = () => (
   <Styles.Unauthenticated>

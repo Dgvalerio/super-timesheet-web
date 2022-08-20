@@ -2,13 +2,14 @@ import React, { FC, ReactNode, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Backdrop, CircularProgress, Grid } from '@mui/material';
+
 import Styles from '@/components/layout/style';
 import Loading from '@/components/loading';
 import SideBar from '@/components/sidebar';
 import TopBar from '@/components/topbar';
 import { useAppSelector } from '@/store/hooks';
 import { routes, Routes } from '@/utils/pages';
-import { Backdrop, CircularProgress, Grid } from '@mui/material';
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();

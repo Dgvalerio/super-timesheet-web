@@ -5,6 +5,14 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import {
+  Backdrop,
+  Button,
+  CircularProgress,
+  Grid,
+  Typography,
+} from '@mui/material';
+
 import InputField from '@/components/input-field';
 import Styles from '@/components/layout/style';
 import WatchUpdateDataModal from '@/components/topbar/components/watch-update-data-modal';
@@ -17,13 +25,6 @@ import { useAppSelector } from '@/store/hooks';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
 import { routes } from '@/utils/pages';
 import { ApolloError } from '@apollo/client';
-import {
-  Backdrop,
-  Button,
-  CircularProgress,
-  Grid,
-  Typography,
-} from '@mui/material';
 
 const AzureInfosCreatePage: NextPage = () => {
   const router = useRouter();

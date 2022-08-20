@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 
-import { branchColor } from '@/components/appointment/create/with-github/branch/style';
-import Branch from '@/components/appointment/create/with-github/branch/types';
 import { KeyboardArrowRight } from '@mui/icons-material';
 import {
   Card,
@@ -11,6 +9,9 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
+
+import { branchColor } from '@/components/appointment/create/with-github/branch/style';
+import Branch from '@/components/appointment/create/with-github/branch/types';
 
 const BranchCard: FC<{
   branch: Branch.Model;

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { commitColor } from '@/components/appointment/create/with-github/commit/style';
-import Commit from '@/components/appointment/create/with-github/commit/types';
 import {
   Card,
   CardActionArea,
@@ -9,6 +7,9 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+
+import { commitColor } from '@/components/appointment/create/with-github/commit/style';
+import Commit from '@/components/appointment/create/with-github/commit/types';
 
 import { transparentize } from 'polished';
 

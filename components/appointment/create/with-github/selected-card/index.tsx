@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Repository from '@/components/appointment/create/with-github/repository/types';
 import { Edit } from '@mui/icons-material';
 import {
   Card,
@@ -12,6 +11,8 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+
+import Repository from '@/components/appointment/create/with-github/repository/types';
 
 const SelectedCard: Repository.Selected = ({ name, handleReset, text }) => {
   const theme = useTheme();

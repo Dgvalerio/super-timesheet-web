@@ -1,5 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 
+import { Collapse, Grid } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+
 import BranchCard from '@/components/appointment/create/with-github/branch/card';
 import getRepositoryBranches from '@/components/appointment/create/with-github/branch/controller';
 import SelectBranchSkeleton from '@/components/appointment/create/with-github/branch/select/skeleton';
@@ -10,8 +13,6 @@ import {
 import Branch from '@/components/appointment/create/with-github/branch/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
-import { Collapse, Grid } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
 
 const SelectBranch: FC<{
   repository: string | null;

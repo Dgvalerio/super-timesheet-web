@@ -5,13 +5,14 @@ import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 import { apolloClient } from '@/api/apollo';
 import Layout from '@/components/layout';
 import StyleWrapper from '@/components/style-wrapper';
 import { store, toPersist } from '@/store';
 import { ApolloProvider } from '@apollo/client';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { ptBR } from 'date-fns/locale';
 import { PersistGate } from 'redux-persist/integration/react';

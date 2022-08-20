@@ -5,13 +5,6 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import InputField from '@/components/input-field';
-import { Login, useLoginMutation } from '@/models/auth/login';
-import { useAppDispatch } from '@/store/hooks';
-import { saveUser } from '@/store/user/actions';
-import { errorMessages, successMessages } from '@/utils/errorMessages';
-import { routes } from '@/utils/pages';
-import { ApolloError } from '@apollo/client';
 import {
   Backdrop,
   Button,
@@ -19,6 +12,14 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+
+import InputField from '@/components/input-field';
+import { Login, useLoginMutation } from '@/models/auth/login';
+import { useAppDispatch } from '@/store/hooks';
+import { saveUser } from '@/store/user/actions';
+import { errorMessages, successMessages } from '@/utils/errorMessages';
+import { routes } from '@/utils/pages';
+import { ApolloError } from '@apollo/client';
 
 const AuthLoginPage: NextPage = () => {
   const router = useRouter();

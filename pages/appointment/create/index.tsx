@@ -3,9 +3,10 @@ import React from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 
+import { Box, Divider, Grid, Typography } from '@mui/material';
+
 import CreateAppointmentForm from '@/components/appointment/create/form';
 import AppointmentsList from '@/components/appointment/create/list';
-import { Box, Divider, Grid, Typography } from '@mui/material';
 
 const CreateAppointmentPage: NextPage = () => (
   <Box p={2}>

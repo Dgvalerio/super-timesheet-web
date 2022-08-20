@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import { UpdateData } from '@/models/scrapper/update';
 import { Done, ErrorOutline, Pending, SaveAlt } from '@mui/icons-material';
 import {
   CircularProgress,
@@ -9,6 +8,8 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+
+import { UpdateData } from '@/models/scrapper/update';
 
 const GetIcon: FC<{ state: UpdateData.SeedStatus }> = ({ state }) => {
   const fontSize = 24;

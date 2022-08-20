@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 
+import { Box, Button, Grid } from '@mui/material';
+
 import SelectBranch from '@/components/appointment/create/with-github/branch/select';
 import Branch from '@/components/appointment/create/with-github/branch/types';
 import SelectCommits from '@/components/appointment/create/with-github/commit/select';
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SelectRepository from '@/components/appointment/create/with-github/repository/select';
 import Repository from '@/components/appointment/create/with-github/repository/types';
-import { Box, Button, Grid } from '@mui/material';
 
 const CreateAppointmentWithGithubPage: NextPage = () => {
   const [repository, setRepository] = useState<string | null>(null);

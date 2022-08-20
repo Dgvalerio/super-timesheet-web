@@ -1,8 +1,5 @@
 import React, { FC } from 'react';
 
-import TopBarStyled from '@/components/topbar/style';
-import { AppointmentModel, AppointmentStatusEnum } from '@/models/appointment';
-import theme from '@/styles/theme';
 import {
   Description as DraftIcon,
   PendingActions as ReviewIcon,
@@ -17,6 +14,10 @@ import {
   Typography,
 } from '@mui/material';
 import { OverridableComponent } from '@mui/types';
+
+import TopBarStyled from '@/components/topbar/style';
+import { AppointmentModel, AppointmentStatusEnum } from '@/models/appointment';
+import theme from '@/styles/theme';
 
 import { transparentize } from 'polished';
 

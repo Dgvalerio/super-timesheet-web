@@ -1,9 +1,5 @@
 import React, { FC } from 'react';
 
-import WatchUpdateDataModal from '@/components/topbar/components/watch-update-data-modal';
-import useTopBarController from '@/components/topbar/controller';
-import Styles from '@/components/topbar/style';
-import { UIStore } from '@/store/ui/slice';
 import {
   Cached as UpdateIcon,
   DarkMode as DarkModeIcon,
@@ -22,6 +18,11 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+
+import WatchUpdateDataModal from '@/components/topbar/components/watch-update-data-modal';
+import useTopBarController from '@/components/topbar/controller';
+import Styles from '@/components/topbar/style';
+import { UIStore } from '@/store/ui/slice';
 
 const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
   const {

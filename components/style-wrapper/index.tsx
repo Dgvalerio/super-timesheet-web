@@ -1,9 +1,10 @@
 import { FC, ReactNode } from 'react';
 
-import useStyleWrapperController from '@/components/style-wrapper/controller';
-import GlobalStyle from '@/styles/global';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider as MuiProvider } from '@mui/material/styles';
+
+import useStyleWrapperController from '@/components/style-wrapper/controller';
+import GlobalStyle from '@/styles/global';
 
 import { ThemeProvider as StyledProvider } from 'styled-components';
 

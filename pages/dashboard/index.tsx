@@ -5,12 +5,13 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import { Box, Grid } from '@mui/material';
+
 import WorkedHoursCard from '@/components/dashboard/worked-hours-card';
 import { useGetUserAzureInfosQuery } from '@/models/user/get';
 import { useAppSelector } from '@/store/hooks';
 import graphQLErrorsHandler from '@/utils/graphQLErrorsHandler';
 import { routes } from '@/utils/pages';
-import { Box, Grid } from '@mui/material';
 
 const DashboardPage: NextPage = () => {
   const router = useRouter();

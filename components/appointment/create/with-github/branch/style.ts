@@ -1,6 +1,7 @@
+import { orange } from '@mui/material/colors';
+
 import { Theme } from '@/components/style-wrapper/theme';
 import theme from '@/styles/theme';
-import { orange } from '@mui/material/colors';
 
 import { transparentize } from 'polished';
 

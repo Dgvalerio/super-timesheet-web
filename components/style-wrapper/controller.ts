@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import { createTheme } from '@mui/material';
+
 import { useAppSelector } from '@/store/hooks';
 import globalTheme from '@/styles/theme';
-import { createTheme } from '@mui/material';
 
 interface ControllerReturn {
   theme: typeof globalTheme;
