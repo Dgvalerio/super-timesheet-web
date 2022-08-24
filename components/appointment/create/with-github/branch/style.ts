@@ -5,13 +5,16 @@ import theme from '@/styles/theme';
 
 import { transparentize } from 'polished';
 
-export const branchTheme = ((): Theme => {
-  const aux = theme;
-
-  aux.palette.primary.main = transparentize(0.3, orange['900']);
-
-  return aux;
-})();
+export const branchTheme: Theme = {
+  ...theme,
+  palette: {
+    ...theme.palette,
+    primary: {
+      ...theme.palette.primary,
+      main: transparentize(0.3, orange['900']),
+    },
+  },
+};
 
 const BranchStyles = {};
 

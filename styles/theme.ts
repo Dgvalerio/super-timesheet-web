@@ -1,5 +1,6 @@
-import { UIStore } from '@/store/ui/slice';
 import { createTheme } from '@mui/material';
+
+import { UIStore } from '@/store/ui/slice';
 
 const theme = createTheme({
   palette: {
