@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import { Collapse, Grid } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
+import { Collapse, Grid, Pagination, Typography } from '@mui/material';
+import { PaginationProps } from '@mui/material/Pagination/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 
 import BranchCard from '@/components/appointment/create/with-github/branch/card';
@@ -10,6 +12,7 @@ import { branchTheme } from '@/components/appointment/create/with-github/branch/
 import Branch from '@/components/appointment/create/with-github/branch/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
+import InputField from '@/components/input-field';
 
 const SelectBranch: Branch.Select = ({
   repository,
@@ -18,6 +21,24 @@ const SelectBranch: Branch.Select = ({
 }) => {
   const [loading, setLoading] = useState(true);
   const [branches, setBranches] = useState<Branch.List>([]);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
+
+  const filteredBranches =
+    search.length > 0
+      ? branches.filter(({ name }) => name.includes(search))
+      : branches;
+
+  const perPage = 10;
+
+  const last = page * perPage;
+  const first = last - perPage;
+  const totalPages = Math.ceil(filteredBranches.length / perPage);
+
+  const handlePaginate: PaginationProps['onChange'] = (_, value) =>
+    setPage(value);
+
+  const handleReset = (): void => handleSelect(null);
 
   useEffect(() => {
     if (!repository) return setLoading(false);
@@ -27,8 +48,6 @@ const SelectBranch: Branch.Select = ({
       .then((response) => setBranches(response))
       .finally(() => setLoading(false));
   }, [repository]);
-
-  const handleReset = (): void => handleSelect(null);
 
   if (!repository) {
     if (selected) handleReset();
@@ -49,15 +68,53 @@ const SelectBranch: Branch.Select = ({
         {loading ? (
           <SelectBranchSkeleton />
         ) : (
-          <Grid container spacing={2}>
-            {branches.map((item) => (
-              <BranchCard
-                key={item.name}
-                branch={item}
-                handleClick={handleSelect}
-              />
-            ))}
-          </Grid>
+          <>
+            <Grid
+              container
+              spacing={2}
+              minHeight={
+                selected || filteredBranches.length === 0 ? undefined : 496
+              }
+              alignContent="start"
+            >
+              <Grid item xs={12}>
+                <InputField
+                  variant="outlined"
+                  value={search}
+                  onChange={({ target }): void => setSearch(target.value)}
+                  color="primary"
+                  colored
+                  InputProps={{ endAdornment: <SearchIcon /> }}
+                />
+              </Grid>
+              {filteredBranches.slice(first, last).map((item) => (
+                <BranchCard
+                  key={item.name}
+                  branch={item}
+                  handleClick={handleSelect}
+                />
+              ))}
+              {filteredBranches.length === 0 && (
+                <Grid item xs={12}>
+                  <Typography variant="overline" align="center">
+                    Não há branches a serem exibidas.
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+            {filteredBranches.length > 0 && (
+              <Grid container justifyContent="center">
+                <Grid item>
+                  <Pagination
+                    color="primary"
+                    count={totalPages}
+                    page={page}
+                    onChange={handlePaginate}
+                  />
+                </Grid>
+              </Grid>
+            )}
+          </>
         )}
       </Grid>
       <SelectedCard
