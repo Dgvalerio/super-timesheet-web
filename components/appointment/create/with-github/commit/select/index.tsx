@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Search as SearchIcon } from '@mui/icons-material';
+import { Timeline } from '@mui/lab';
 import { Grid, Pagination, Typography } from '@mui/material';
 import { PaginationProps } from '@mui/material/Pagination/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
@@ -12,6 +13,21 @@ import { commitTheme } from '@/components/appointment/create/with-github/commit/
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import InputField from '@/components/input-field';
+
+const itsFirstOfDay = (actual: Commit.Model, prev: Commit.Model): boolean => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const actualDate = new Date(`${actual.commit.committer?.date}`);
+  const prevDate = new Date(`${prev?.commit.committer?.date}`);
+
+  return (
+    actualDate.toLocaleString('pt-BR', options) !==
+    prevDate.toLocaleString('pt-BR', options)
+  );
+};
 
 const SelectCommits: Commit.Select = ({
   repository,
@@ -89,14 +105,21 @@ const SelectCommits: Commit.Select = ({
                   InputProps={{ endAdornment: <SearchIcon /> }}
                 />
               </Grid>
-              {filteredCommits.slice(first, last).map((item) => (
-                <CommitCard
-                  key={item.node_id}
-                  commit={item}
-                  selected={hasSelected(item.node_id)}
-                  handleSelect={handleSelect}
-                />
-              ))}
+              <Grid item xs={12}>
+                <Timeline>
+                  {filteredCommits
+                    .slice(first, last)
+                    .map((item, index, array) => (
+                      <CommitCard
+                        key={item.node_id}
+                        commit={item}
+                        selected={hasSelected(item.node_id)}
+                        handleSelect={handleSelect}
+                        firstOfDay={itsFirstOfDay(item, array[index - 1])}
+                      />
+                    ))}
+                </Timeline>
+              </Grid>
               {filteredCommits.length === 0 && (
                 <Grid item xs={12}>
                   <Typography variant="overline" align="center">

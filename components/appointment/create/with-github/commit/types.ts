@@ -20,6 +20,7 @@ namespace Commit {
     commit: Commit.Model;
     selected: boolean;
     handleSelect: ISelect['handleSelect'];
+    firstOfDay: boolean;
   }
   export type Card = FC<ICard>;
 }

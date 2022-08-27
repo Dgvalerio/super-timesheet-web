@@ -1,67 +1,86 @@
 import React from 'react';
 
+import { Check } from '@mui/icons-material';
 import {
-  Card,
-  CardActionArea,
-  CardContent,
-  Grid,
-  Typography,
-  useTheme,
-} from '@mui/material';
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineOppositeContent,
+  TimelineSeparator,
+} from '@mui/lab';
+import { Typography, useTheme } from '@mui/material';
 
 import Commit from '@/components/appointment/create/with-github/commit/types';
 
 import { transparentize } from 'polished';
 
-const CommitCard: Commit.Card = ({ commit, selected, handleSelect }) => {
+const CommitCard: Commit.Card = ({
+  commit,
+  selected,
+  handleSelect,
+  firstOfDay,
+}) => {
   const theme = useTheme();
   const color = theme.palette.primary.main;
 
-  let dayText = '';
+  let day = '';
+  let time = '';
   const date = commit.commit.committer?.date;
 
   if (date) {
     const aux = new Date(date);
 
-    const day = aux.toLocaleString('pt-BR', {
+    day = aux.toLocaleString('pt-BR', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
 
-    const time = aux.toLocaleString('pt-BR', {
+    time = aux.toLocaleString('pt-BR', {
       hour12: true,
       hour: 'numeric',
       minute: 'numeric',
     });
-
-    dayText = `${day} às ${time}`;
   }
 
   return (
-    <Grid item xs={12} sm={6}>
-      <Card
-        variant="outlined"
-        sx={{
-          height: '100%',
-          backgroundColor: transparentize(selected ? 0.6 : 1, color),
-          borderColor: color,
-        }}
-      >
-        <CardActionArea
-          sx={{ height: '100%' }}
-          onClick={handleSelect.bind(null, commit)}
-        >
-          <CardContent>
-            <Typography variant="overline">Descrição:</Typography>
-            <Typography variant="body1">{commit.commit.message}</Typography>
-            <Typography variant="overline">Data:</Typography>
-            <Typography variant="body1">{dayText}</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Grid>
+    <>
+      {firstOfDay && (
+        <Typography variant="overline" color="text.secondary" align="center">
+          {day}
+        </Typography>
+      )}
+      <TimelineItem>
+        <TimelineOppositeContent sx={{ margin: 'auto' }}>
+          <Typography variant="overline" color="text.secondary">
+            {time}
+          </Typography>
+        </TimelineOppositeContent>
+        <TimelineSeparator>
+          <TimelineConnector sx={{ bgcolor: 'primary.main' }} />
+          <TimelineDot
+            variant="outlined"
+            color="primary"
+            onClick={handleSelect.bind(null, commit)}
+            sx={{
+              cursor: 'pointer',
+              bgcolor: selected ? 'primary.main' : 'transparent',
+              ':hover': { bgcolor: transparentize(0.3, color) },
+            }}
+          >
+            <Check
+              sx={{ color: selected ? 'black' : transparentize(0.4, color) }}
+            />
+          </TimelineDot>
+          <TimelineConnector sx={{ bgcolor: 'primary.main' }} />
+        </TimelineSeparator>
+        <TimelineContent sx={{ margin: 'auto' }}>
+          <Typography variant="subtitle1">{commit.commit.message}</Typography>
+        </TimelineContent>
+      </TimelineItem>
+    </>
   );
 };
 
