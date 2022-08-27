@@ -74,10 +74,6 @@ const SelectCommits: Commit.Select = ({
     return <></>;
   }
 
-  const footerText =
-    selected.length +
-    (selected.length > 1 ? ' foram selecionados' : ' foi selecionado');
-
   return (
     <ThemeProvider theme={commitTheme}>
       <Grid item xs={12}>
@@ -90,9 +86,6 @@ const SelectCommits: Commit.Select = ({
               container
               spacing={2}
               sx={{ marginBottom: 2 }}
-              minHeight={
-                selected || filteredCommits.length === 0 ? undefined : 496
-              }
               alignContent="start"
             >
               <Grid item xs={12}>
@@ -128,7 +121,7 @@ const SelectCommits: Commit.Select = ({
                 </Grid>
               )}
             </Grid>
-            {filteredCommits.length > 0 && (
+            {filteredCommits.length > 0 && totalPages > 1 && (
               <Grid container justifyContent="center">
                 <Grid item>
                   <Pagination
@@ -142,7 +135,6 @@ const SelectCommits: Commit.Select = ({
             )}
           </>
         )}
-        {selected.length > 0 && <SectionTitle title={footerText} />}
       </Grid>
     </ThemeProvider>
   );

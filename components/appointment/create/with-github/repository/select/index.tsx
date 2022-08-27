@@ -61,7 +61,11 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
               container
               spacing={2}
               minHeight={
-                selected || filteredRepositories.length === 0 ? undefined : 416
+                selected ||
+                filteredRepositories.length === 0 ||
+                totalPages === 1
+                  ? undefined
+                  : 416
               }
               alignContent="start"
             >
@@ -90,7 +94,7 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
                 </Grid>
               )}
             </Grid>
-            {filteredRepositories.length > 0 && (
+            {filteredRepositories.length > 0 && totalPages > 1 && (
               <Grid container justifyContent="center">
                 <Grid item>
                   <Pagination

@@ -73,7 +73,9 @@ const SelectBranch: Branch.Select = ({
               container
               spacing={2}
               minHeight={
-                selected || filteredBranches.length === 0 ? undefined : 416
+                selected || filteredBranches.length === 0 || totalPages === 1
+                  ? undefined
+                  : 416
               }
               alignContent="start"
             >
@@ -102,7 +104,7 @@ const SelectBranch: Branch.Select = ({
                 </Grid>
               )}
             </Grid>
-            {filteredBranches.length > 0 && (
+            {filteredBranches.length > 0 && totalPages > 1 && (
               <Grid container justifyContent="center">
                 <Grid item>
                   <Pagination
