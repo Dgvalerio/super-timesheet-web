@@ -61,7 +61,7 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
               container
               spacing={2}
               minHeight={
-                selected || filteredRepositories.length === 0 ? undefined : 496
+                selected || filteredRepositories.length === 0 ? undefined : 416
               }
               alignContent="start"
             >

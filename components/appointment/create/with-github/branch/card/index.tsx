@@ -3,10 +3,9 @@ import React from 'react';
 import { KeyboardArrowRight } from '@mui/icons-material';
 import {
   Card,
-  CardActions,
+  CardActionArea,
   CardContent,
   Grid,
-  IconButton,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -16,31 +15,21 @@ import Branch from '@/components/appointment/create/with-github/branch/types';
 const BranchCard: Branch.Card = ({ branch, handleClick }) => {
   const theme = useTheme();
 
+  const handler = (): void =>
+    handleClick({ name: branch.name, sha: branch.commit.sha });
+
   return (
     <Grid item xs={12} sm={6}>
       <Card
         variant="outlined"
-        sx={{
-          display: 'flex',
-          paddingRight: 1,
-          height: '100%',
-          alignItems: 'center',
-          borderColor: theme.palette.primary.main,
-        }}
+        sx={{ height: '100%', borderColor: theme.palette.primary.main }}
       >
-        <CardContent sx={{ flex: 1 }}>
-          <Typography variant="h5">{branch.name}</Typography>
-        </CardContent>
-        <CardActions>
-          <IconButton
-            onClick={handleClick.bind(null, {
-              name: branch.name,
-              sha: branch.commit.sha,
-            })}
-          >
-            <KeyboardArrowRight />
-          </IconButton>
-        </CardActions>
+        <CardActionArea onClick={handler}>
+          <CardContent sx={{ display: 'flex', alignItems: 'center', py: 1 }}>
+            <Typography variant="h5">{branch.name}</Typography>
+            <KeyboardArrowRight sx={{ marginLeft: 'auto' }} />
+          </CardContent>
+        </CardActionArea>
       </Card>
     </Grid>
   );

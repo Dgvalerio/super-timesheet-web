@@ -15,13 +15,16 @@ import Repository from '@/components/appointment/create/with-github/repository/t
 const RepositoryCard: Repository.Card = ({ repository, handleClick }) => {
   const theme = useTheme();
 
-  const borderColor = theme.palette.primary.main;
+  const handler = (): void => handleClick(repository.name);
 
   return (
     <Grid item xs={12} sm={6}>
-      <Card variant="outlined" sx={{ height: '100%', borderColor }}>
-        <CardActionArea onClick={(): void => handleClick(repository.name)}>
-          <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+      <Card
+        variant="outlined"
+        sx={{ height: '100%', borderColor: theme.palette.primary.main }}
+      >
+        <CardActionArea onClick={handler}>
+          <CardContent sx={{ display: 'flex', alignItems: 'center', py: 1 }}>
             <Typography variant="h5">{repository.name}</Typography>
             <KeyboardArrowRight sx={{ marginLeft: 'auto' }} />
           </CardContent>

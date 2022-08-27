@@ -73,7 +73,7 @@ const SelectBranch: Branch.Select = ({
               container
               spacing={2}
               minHeight={
-                selected || filteredBranches.length === 0 ? undefined : 496
+                selected || filteredBranches.length === 0 ? undefined : 416
               }
               alignContent="start"
             >

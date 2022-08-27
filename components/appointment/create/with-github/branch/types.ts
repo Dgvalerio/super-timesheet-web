@@ -16,7 +16,7 @@ namespace Branch {
   export interface ISelect {
     repository: string | null;
     selected: Simple | null;
-    handleSelect(name: Simple | null): void;
+    handleSelect(branch: Simple | null): void;
   }
   export type Select = FC<ISelect>;
 
