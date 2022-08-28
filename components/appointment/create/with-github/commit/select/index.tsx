@@ -57,7 +57,7 @@ const SelectCommits: Commit.Select = ({
   const handleReset = (): void => handleSelect([]);
 
   const hasSelected = (id: string): boolean =>
-    !!selected.find((item) => item.node_id === id);
+    !!selected.find((item) => item.id === id);
 
   useEffect(() => {
     if (!repository || !branchSha) return setLoading(false);

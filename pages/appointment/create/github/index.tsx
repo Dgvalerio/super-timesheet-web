@@ -15,7 +15,7 @@ import Repository from '@/components/appointment/create/with-github/repository/t
 const CreateAppointmentWithGithubPage: NextPage = () => {
   const [repository, setRepository] = useState<string | null>(null);
   const [branch, setBranch] = useState<Branch.Simple | null>(null);
-  const [commits, setCommits] = useState<Commit.List>([]);
+  const [commits, setCommits] = useState<Commit.Simple[]>([]);
 
   const handleChangeRepository: Repository.ISelect['handleSelect'] = (name) =>
     setRepository(name);
@@ -27,7 +27,7 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
     setCommits((prev) => {
       if (Array.isArray(commit)) return commit;
 
-      const newData = prev.filter((item) => item.node_id !== commit.node_id);
+      const newData = prev.filter((item) => item.id !== commit.id);
 
       if (newData.length !== prev.length) return newData;
       else return prev.concat(commit);
