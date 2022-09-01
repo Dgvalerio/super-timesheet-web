@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { NextPage } from 'next';
@@ -21,14 +21,17 @@ import {
   useCreateAzureInfosMutation,
 } from '@/models/azure-infos/create';
 import { useUpdateDataSubscription } from '@/models/scrapper/update';
+import { useGetUserAzureInfosQuery } from '@/models/user/get';
 import { useAppSelector } from '@/store/hooks';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
+import graphQLErrorsHandler from '@/utils/graphQLErrorsHandler';
 import { routes } from '@/utils/pages';
 import { ApolloError } from '@apollo/client';
 
 const AzureInfosCreatePage: NextPage = () => {
   const router = useRouter();
-  const { id } = useAppSelector(({ user }) => user);
+  const { id, email } = useAppSelector(({ user }) => user);
+  const { data, error } = useGetUserAzureInfosQuery(email);
   const [createAzureInfos, { loading: createAzureInfosLoading }] =
     useCreateAzureInfosMutation();
   const { data: watchUpdateData } = useUpdateDataSubscription();
@@ -71,6 +74,22 @@ const AzureInfosCreatePage: NextPage = () => {
       setLoading(false);
     }
   };
+
+  const goHome = useCallback(
+    () => void router.push(routes.dashboard()),
+    [router]
+  );
+
+  useEffect(() => {
+    if (!data) return;
+
+    if (data.getUser.azureInfos) {
+      goHome();
+      toast.error('Você já tem uma conta da azure configurada!');
+    }
+  }, [data, goHome]);
+
+  useEffect(() => graphQLErrorsHandler(error), [error]);
 
   return (
     <Styles.Unauthenticated>
