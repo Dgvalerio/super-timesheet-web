@@ -1,6 +1,13 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { toast } from 'react-toastify';
 
+import Commit from '@/components/appointment/create/with-github/commit/types';
 import {
   CreateAppointment,
   CreateAppointmentForm,
@@ -15,7 +22,11 @@ import { successMessages } from '@/utils/errorMessages';
 import { validateDateTime } from '@/utils/time';
 import { ApolloError } from '@apollo/client';
 
-import { format } from 'date-fns';
+import { format, subMinutes } from 'date-fns';
+
+interface ControllerParams {
+  commits: Commit.Simple[];
+}
 
 interface ControllerReturn {
   clients: GetUserClients.Client[];
@@ -56,9 +67,9 @@ export enum InputName {
   Commit = 'commitInput',
 }
 
-export type Controller = () => ControllerReturn;
+export type Controller = (params: ControllerParams) => ControllerReturn;
 
-const useCreateAppointmentFormController: Controller = () => {
+const useCreateAppointmentFormController: Controller = ({ commits }) => {
   const [loading, setLoading] = useState(true);
   const [createAppointment] = useCreateAppointmentMutation();
   const { data: getUserClientsData, loading: getUserClientsLoading } =
@@ -301,6 +312,45 @@ const useCreateAppointmentFormController: Controller = () => {
     }
   };
 
+  const commitFactory = useCallback((): void => {
+    if (commits.length <= 0) return;
+
+    const date = new Date();
+    let stipulatedMinutes = 0;
+    let endTime = '';
+    let description = '';
+    let link = '';
+
+    commits.forEach((commit) => {
+      stipulatedMinutes += commit.stipulatedMinutes;
+
+      if (commit.date && (!endTime || commit.date > endTime)) {
+        endTime = commit.date;
+      }
+
+      description += description ? `\n${commit.message}` : commit.message;
+      link += link ? ` ${commit.url}` : commit.url;
+    });
+
+    const startTime = subMinutes(new Date(endTime), stipulatedMinutes);
+
+    const appointment: CreateAppointment.Mutation['input'] = {
+      projectCode: '',
+      categoryCode: '',
+      date: date.toISOString(),
+      startTime: startTime.toISOString(),
+      endTime,
+      description,
+      commit: link,
+    };
+
+    setDate(appointment.date.split('T')[0]);
+    setStartTime(appointment.startTime.split('T')[1].slice(0, 5));
+    setEndTime(appointment.endTime.split('T')[1].slice(0, 5));
+    setDescription(appointment.description);
+    if (appointment.commit) setCommit(appointment.commit);
+  }, [commits]);
+
   useEffect(() => {
     setLoading(getUserClientsLoading);
   }, [getUserClientsLoading, setLoading]);
@@ -311,7 +361,9 @@ const useCreateAppointmentFormController: Controller = () => {
 
     if (getUserClientsData && getUserClientsData.getUserClients)
       setClients(getUserClientsData.getUserClients);
-  }, [getUserClientsData, getUserClientsLoading]);
+
+    commitFactory();
+  }, [commitFactory, getUserClientsData, getUserClientsLoading]);
 
   // Load projects of selected client
   useEffect(() => {

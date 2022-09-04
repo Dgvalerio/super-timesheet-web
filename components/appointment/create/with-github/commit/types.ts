@@ -10,7 +10,9 @@ namespace Commit {
 
   export interface Simple {
     id: Model['node_id'];
+    last: NonNullable<Model['commit']['committer']>['date'];
     date: NonNullable<Model['commit']['committer']>['date'];
+    stipulatedMinutes: number;
     message: Model['commit']['message'];
     url: Model['html_url'];
   }
@@ -20,13 +22,14 @@ namespace Commit {
     branchSha: string | null;
     selected: Simple[];
     handleSelect(commit: Simple | []): void;
+    completed: boolean;
   }
   export type Select = FC<ISelect>;
 
   export interface ICard {
     commit: Commit.Model;
     selected: boolean;
-    handleSelect: ISelect['handleSelect'];
+    handleSelect(): void;
     firstOfDay: boolean;
   }
   export type Card = FC<ICard>;

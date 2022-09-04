@@ -63,12 +63,7 @@ const CommitCard: Commit.Card = ({
           <TimelineDot
             variant="outlined"
             color="primary"
-            onClick={handleSelect.bind(null, {
-              id: commit.node_id,
-              date: commit.commit.committer?.date,
-              message: commit.commit.message,
-              url: commit.html_url,
-            })}
+            onClick={handleSelect}
             sx={{
               cursor: 'pointer',
               bgcolor: selected ? 'primary.main' : 'transparent',

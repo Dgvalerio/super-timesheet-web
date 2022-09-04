@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import { Search as SearchIcon } from '@mui/icons-material';
 import { Timeline } from '@mui/lab';
-import { Grid, Pagination, Typography } from '@mui/material';
+import { Collapse, Grid, Pagination, Typography } from '@mui/material';
 import { PaginationProps } from '@mui/material/Pagination/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 
+import AppointmentSelectedCard from '@/components/appointment/create/with-github/appointment/selected-card';
 import CommitCard from '@/components/appointment/create/with-github/commit/card';
 import getBranchCommits from '@/components/appointment/create/with-github/commit/controller';
 import SelectCommitSkeleton from '@/components/appointment/create/with-github/commit/select/skeleton';
@@ -13,6 +14,8 @@ import { commitTheme } from '@/components/appointment/create/with-github/commit/
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import InputField from '@/components/input-field';
+
+import { differenceInMinutes } from 'date-fns';
 
 const itsFirstOfDay = (actual: Commit.Model, prev: Commit.Model): boolean => {
   const options: Intl.DateTimeFormatOptions = {
@@ -29,11 +32,35 @@ const itsFirstOfDay = (actual: Commit.Model, prev: Commit.Model): boolean => {
   );
 };
 
+const commitFactory = (
+  actual: Commit.Model,
+  prev: Commit.Model
+): Commit.Simple => {
+  const commitSimple: Commit.Simple = {
+    id: actual.node_id,
+    last: prev?.commit.committer?.date,
+    date: actual.commit.committer?.date,
+    stipulatedMinutes: 0,
+    message: actual.commit.message,
+    url: actual.html_url,
+  };
+
+  if (commitSimple.last && commitSimple.date) {
+    commitSimple.stipulatedMinutes = differenceInMinutes(
+      new Date(commitSimple.last),
+      new Date(commitSimple.date)
+    );
+  }
+
+  return commitSimple;
+};
+
 const SelectCommits: Commit.Select = ({
   repository,
   branchSha,
   selected,
   handleSelect,
+  completed,
 }) => {
   const [loading, setLoading] = useState(true);
   const [commits, setCommits] = useState<Commit.List>([]);
@@ -76,7 +103,13 @@ const SelectCommits: Commit.Select = ({
 
   return (
     <ThemeProvider theme={commitTheme}>
-      <Grid item xs={12}>
+      <Grid
+        item
+        xs={12}
+        component={Collapse}
+        in={!completed}
+        sx={completed ? { padding: '0 !important' } : undefined}
+      >
         <SectionTitle title="Commits" />
         {loading ? (
           <SelectCommitSkeleton />
@@ -107,7 +140,10 @@ const SelectCommits: Commit.Select = ({
                         key={item.node_id}
                         commit={item}
                         selected={hasSelected(item.node_id)}
-                        handleSelect={handleSelect}
+                        handleSelect={handleSelect.bind(
+                          null,
+                          commitFactory(item, array[index - 1])
+                        )}
                         firstOfDay={itsFirstOfDay(item, array[index - 1])}
                       />
                     ))}
@@ -136,6 +172,7 @@ const SelectCommits: Commit.Select = ({
           </>
         )}
       </Grid>
+      <AppointmentSelectedCard commits={selected} handleReset={handleReset} />
     </ThemeProvider>
   );
 };

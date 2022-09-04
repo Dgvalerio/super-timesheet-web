@@ -5,6 +5,7 @@ import Head from 'next/head';
 
 import { Box, Button, Grid } from '@mui/material';
 
+import CreateAppointmentForm from '@/components/appointment/create/with-github/appointment';
 import SelectBranch from '@/components/appointment/create/with-github/branch/select';
 import Branch from '@/components/appointment/create/with-github/branch/types';
 import SelectCommits from '@/components/appointment/create/with-github/commit/select';
@@ -16,6 +17,8 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
   const [repository, setRepository] = useState<string | null>(null);
   const [branch, setBranch] = useState<Branch.Simple | null>(null);
   const [commits, setCommits] = useState<Commit.Simple[]>([]);
+  const [commitsSelected, setCommitsSelected] =
+    useState<Commit.ISelect['completed']>(false);
 
   const handleChangeRepository: Repository.ISelect['handleSelect'] = (name) =>
     setRepository(name);
@@ -53,14 +56,20 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
           branchSha={branch?.sha || null}
           selected={commits}
           handleSelect={handleChangeCommits}
+          completed={commitsSelected}
         />
-        {commits.length > 0 && (
-          <Grid item sx={{ marginLeft: 'auto', marginTop: -2 }}>
-            <Button variant="outlined" color="success">
+        {commits.length > 0 && !commitsSelected && (
+          <Grid item ml="auto">
+            <Button
+              variant="outlined"
+              color="success"
+              onClick={setCommitsSelected.bind(null, true)}
+            >
               Gerar apontamento
             </Button>
           </Grid>
         )}
+        {commitsSelected && <CreateAppointmentForm commits={commits} />}
       </Grid>
     </Box>
   );
