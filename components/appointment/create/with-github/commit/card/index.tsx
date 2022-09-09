@@ -15,47 +15,21 @@ import Commit from '@/components/appointment/create/with-github/commit/types';
 
 import { transparentize } from 'polished';
 
-const CommitCard: Commit.Card = ({
-  commit,
-  selected,
-  handleSelect,
-  firstOfDay,
-}) => {
+const CommitCard: Commit.Card = ({ commit, selected, handleSelect }) => {
   const theme = useTheme();
   const color = theme.palette.primary.main;
 
-  let day = '';
-  let time = '';
-  const date = commit.commit.committer?.date;
-
-  if (date) {
-    const aux = new Date(date);
-
-    day = aux.toLocaleString('pt-BR', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-
-    time = aux.toLocaleString('pt-BR', {
-      hour12: true,
-      hour: 'numeric',
-      minute: 'numeric',
-    });
-  }
-
   return (
     <>
-      {firstOfDay && (
+      {commit.isFirstOfDay && (
         <Typography variant="overline" color="text.secondary" align="center">
-          {day}
+          {commit.formattedDay}
         </Typography>
       )}
       <TimelineItem>
         <TimelineOppositeContent sx={{ margin: 'auto' }}>
           <Typography variant="overline" color="text.secondary">
-            {time}
+            {commit.formattedTime}
           </Typography>
         </TimelineOppositeContent>
         <TimelineSeparator>
@@ -77,7 +51,7 @@ const CommitCard: Commit.Card = ({
           <TimelineConnector sx={{ bgcolor: 'primary.main' }} />
         </TimelineSeparator>
         <TimelineContent sx={{ margin: 'auto' }}>
-          <Typography variant="subtitle1">{commit.commit.message}</Typography>
+          <Typography variant="subtitle1">{commit.message}</Typography>
         </TimelineContent>
       </TimelineItem>
     </>

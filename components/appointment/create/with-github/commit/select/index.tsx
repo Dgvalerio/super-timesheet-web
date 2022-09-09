@@ -17,38 +17,58 @@ import InputField from '@/components/input-field';
 
 import { differenceInMinutes } from 'date-fns';
 
-const itsFirstOfDay = (actual: Commit.Model, prev: Commit.Model): boolean => {
+const itsFirstOfDay = (next: Commit.Model, actual: Commit.Model): boolean => {
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   };
-  const actualDate = new Date(`${actual.commit.committer?.date}`);
-  const prevDate = new Date(`${prev?.commit.committer?.date}`);
 
-  return (
-    actualDate.toLocaleString('pt-BR', options) !==
-    prevDate.toLocaleString('pt-BR', options)
-  );
+  const nDate = new Date(`${next?.commit.committer?.date}`);
+  const aDate = new Date(`${actual.commit.committer?.date}`);
+
+  const nxt = nDate.toLocaleString('pt-BR', options);
+  const act = aDate.toLocaleString('pt-BR', options);
+
+  return nxt !== act;
 };
 
 const commitFactory = (
+  next: Commit.Model,
   actual: Commit.Model,
   prev: Commit.Model
 ): Commit.Simple => {
   const commitSimple: Commit.Simple = {
     id: actual.node_id,
+    isFirstOfDay: false,
     last: prev?.commit.committer?.date,
     date: actual.commit.committer?.date,
+    formattedDay: '',
+    formattedTime: '',
     stipulatedMinutes: 0,
     message: actual.commit.message,
     url: actual.html_url,
   };
 
+  const aux = new Date(`${commitSimple.date}`);
+
+  commitSimple.isFirstOfDay = itsFirstOfDay(next, actual);
+  commitSimple.formattedDay = aux.toLocaleString('pt-BR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  commitSimple.formattedTime = aux.toLocaleString('pt-BR', {
+    hour12: true,
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+
   if (commitSimple.last && commitSimple.date) {
     commitSimple.stipulatedMinutes = differenceInMinutes(
-      new Date(commitSimple.last),
-      new Date(commitSimple.date)
+      new Date(commitSimple.date),
+      new Date(commitSimple.last)
     );
   }
 
@@ -63,13 +83,13 @@ const SelectCommits: Commit.Select = ({
   completed,
 }) => {
   const [loading, setLoading] = useState(true);
-  const [commits, setCommits] = useState<Commit.List>([]);
+  const [commits, setCommits] = useState<Commit.Simple[]>([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
   const filteredCommits =
     search.length > 0
-      ? commits.filter(({ commit: { message } }) => message.includes(search))
+      ? commits.filter(({ message }) => message.includes(search))
       : commits;
 
   const perPage = 10;
@@ -91,7 +111,13 @@ const SelectCommits: Commit.Select = ({
 
     setLoading(true);
     getBranchCommits(repository, branchSha)
-      .then((response) => setCommits(response))
+      .then((response) =>
+        setCommits(
+          response.map((item, index, array) =>
+            commitFactory(array[index - 1], item, array[index + 1])
+          )
+        )
+      )
       .finally(() => setLoading(false));
   }, [branchSha, repository]);
 
@@ -133,20 +159,14 @@ const SelectCommits: Commit.Select = ({
               </Grid>
               <Grid item xs={12}>
                 <Timeline>
-                  {filteredCommits
-                    .slice(first, last)
-                    .map((item, index, array) => (
-                      <CommitCard
-                        key={item.node_id}
-                        commit={item}
-                        selected={hasSelected(item.node_id)}
-                        handleSelect={handleSelect.bind(
-                          null,
-                          commitFactory(item, array[index - 1])
-                        )}
-                        firstOfDay={itsFirstOfDay(item, array[index - 1])}
-                      />
-                    ))}
+                  {filteredCommits.slice(first, last).map((item) => (
+                    <CommitCard
+                      key={item.id}
+                      commit={item}
+                      selected={hasSelected(item.id)}
+                      handleSelect={handleSelect.bind(null, item)}
+                    />
+                  ))}
                 </Timeline>
               </Grid>
               {filteredCommits.length === 0 && (
