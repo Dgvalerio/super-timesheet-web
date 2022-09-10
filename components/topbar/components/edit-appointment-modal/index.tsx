@@ -47,7 +47,7 @@ const EditAppointmentModal: FC<{
     loading,
     handleSubmit,
     updateField,
-  } = useController({ appointmentId });
+  } = useController({ appointmentId, closeEditModal });
 
   return (
     <Modal open={open} onClose={closeEditModal} sx={{ display: 'flex' }}>

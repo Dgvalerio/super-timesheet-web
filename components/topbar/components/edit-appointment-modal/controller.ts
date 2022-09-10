@@ -11,9 +11,15 @@ import {
 import { useUpdateAppointmentMutation } from '@/models/appointment/update';
 import { GetUserClients, useGetUserClientsQuery } from '@/models/user/get';
 import { successMessages } from '@/utils/errorMessages';
+import { validateDateTime } from '@/utils/time';
 import { ApolloError } from '@apollo/client';
 
-import { compareAsc, format } from 'date-fns';
+import { format } from 'date-fns';
+
+interface ControllerParams {
+  appointmentId: AppointmentModel['id'];
+  closeEditModal: () => void;
+}
 
 interface ControllerReturn {
   clients: GetUserClients.Client[];
@@ -54,57 +60,12 @@ export enum InputName {
   Commit = 'commitInput',
 }
 
-export type Controller = ({
+export type Controller = (params: ControllerParams) => ControllerReturn;
+
+const useEditAppointmentFormController: Controller = ({
   appointmentId,
-}: {
-  appointmentId: AppointmentModel['id'];
-}) => ControllerReturn;
-
-interface ValidateDateTimeProps {
-  date: string;
-  startTime: string;
-  endTime: string;
-}
-
-interface ValidateDateTimeReturn {
-  dateError?: string;
-  startTimeError?: string;
-  endTimeError?: string;
-}
-
-const validateDateTime = ({
-  date,
-  startTime,
-  endTime,
-}: ValidateDateTimeProps): ValidateDateTimeReturn => {
-  const errors: ValidateDateTimeReturn = {};
-
-  const today = new Date();
-  const todayZeroDate = new Date(`${format(today, 'yyyy-MM-dd')}T00:00`);
-  const appointmentStartTime = new Date(`${date}T${startTime}`);
-  const appointmentEndTime = new Date(`${date}T${endTime}`);
-
-  if (compareAsc(new Date(`${date}T00:00`), todayZeroDate) > 0) {
-    errors.dateError = 'O dia escolhido não pode ser maior que o atual!';
-  }
-
-  if (compareAsc(appointmentStartTime, today) > 0) {
-    errors.startTimeError = 'O horário inicial não pode ser maior que o atual!';
-  }
-
-  if (compareAsc(appointmentEndTime, today) > 0) {
-    errors.endTimeError = 'O horário final não pode ser maior que o atual!';
-  }
-
-  if (compareAsc(appointmentStartTime, appointmentEndTime) > 0) {
-    errors.startTimeError = 'O horário final deve ser maior que o inicial!';
-    errors.endTimeError = 'O horário final deve ser maior que o inicial!';
-  }
-
-  return errors;
-};
-
-const useEditAppointmentFormController: Controller = ({ appointmentId }) => {
+  closeEditModal,
+}) => {
   const [loading, setLoading] = useState(true);
   const [updateAppointment] = useUpdateAppointmentMutation();
   const { data: getUserClientsData, loading: getUserClientsLoading } =
@@ -335,6 +296,7 @@ const useEditAppointmentFormController: Controller = ({ appointmentId }) => {
       });
 
       toast.success(successMessages.appointmentCreated);
+      closeEditModal();
     } catch (e) {
       (e as ApolloError).graphQLErrors.forEach(({ message }) =>
         toast.error(message)
@@ -412,7 +374,7 @@ const useEditAppointmentFormController: Controller = ({ appointmentId }) => {
       setProject(getAppointment.project.code || '');
       setCategory(getAppointment.category.code || '');
 
-      setDate(format(new Date(getAppointment.date), 'yyyy-MM-dd'));
+      setDate(getAppointment.date.split('T')[0]);
       setStartTime(getAppointment.startTime);
       setEndTime(getAppointment.endTime);
 
