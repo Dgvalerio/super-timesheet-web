@@ -22,7 +22,9 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
 
   const filteredRepositories =
     search.length > 0
-      ? repositories.filter(({ name }) => name.includes(search))
+      ? repositories.filter(({ name }) =>
+          name.toLowerCase().includes(search.toLowerCase())
+        )
       : repositories;
 
   const perPage = 10;

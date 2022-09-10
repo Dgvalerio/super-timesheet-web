@@ -26,7 +26,9 @@ const SelectBranch: Branch.Select = ({
 
   const filteredBranches =
     search.length > 0
-      ? branches.filter(({ name }) => name.includes(search))
+      ? branches.filter(({ name }) =>
+          name.toLowerCase().includes(search.toLowerCase())
+        )
       : branches;
 
   const perPage = 10;

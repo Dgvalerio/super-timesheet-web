@@ -89,7 +89,9 @@ const SelectCommits: Commit.Select = ({
 
   const filteredCommits =
     search.length > 0
-      ? commits.filter(({ message }) => message.includes(search))
+      ? commits.filter(({ message }) =>
+          message.toLowerCase().includes(search.toLowerCase())
+        )
       : commits;
 
   const perPage = 10;
