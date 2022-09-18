@@ -33,12 +33,18 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
       return <Loading />;
     }
 
+    const simpleView = router.pathname === Routes.CreateAzureInfos;
+
     return (
       <Styles.Authenticated>
-        <TopBar name={name} />
-        <Grid container className="main">
-          <SideBar />
-          <Grid item xs={9}>
+        {!simpleView && <TopBar name={name} />}
+        <Grid
+          container
+          className="main"
+          alignItems={simpleView ? 'center' : 'start'}
+        >
+          {!simpleView && <SideBar />}
+          <Grid item xs={simpleView ? 12 : 9}>
             {children}
           </Grid>
         </Grid>
