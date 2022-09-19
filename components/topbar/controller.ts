@@ -5,7 +5,11 @@ import { useRouter } from 'next/router';
 
 import { AppointmentStatusEnum } from '@/models/appointment';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
-import { useSendAppointmentsMutation } from '@/models/appointment/send';
+import {
+  SendAppointments,
+  useSendAppointmentsMutation,
+  useSendAppointmentsSubscription,
+} from '@/models/appointment/send';
 import {
   UpdateData,
   useUpdateDataMutation,
@@ -31,6 +35,7 @@ interface ControllerReturn {
   loadingUpdateData: boolean;
   handleUpdateData: () => Promise<void>;
   watchUpdateData?: UpdateData.Subscription;
+  watchSaveAppointments?: SendAppointments.Subscription;
   goHome: () => void;
   goUserUpdate: () => void;
 }
@@ -58,9 +63,9 @@ const useTopBarController = (): ControllerReturn => {
 
   const [sendAppointments, { loading: loadingSendAppointments }] =
     useSendAppointmentsMutation();
+  const { data: watchSaveAppointments } = useSendAppointmentsSubscription();
 
   const [updateData, { loading: loadingUpdateData }] = useUpdateDataMutation();
-
   const { data: watchUpdateData } = useUpdateDataSubscription();
 
   const handleSwitchThemeMode = (): void => {
@@ -141,6 +146,7 @@ const useTopBarController = (): ControllerReturn => {
     loadingUpdateData,
     handleUpdateData,
     watchUpdateData,
+    watchSaveAppointments,
     goHome,
     goUserUpdate,
   };

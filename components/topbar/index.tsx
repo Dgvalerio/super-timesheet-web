@@ -19,6 +19,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import WatchSendAppointmentsModal from '@/components/topbar/components/watch-send-appointments-modal';
 import WatchUpdateDataModal from '@/components/topbar/components/watch-update-data-modal';
 import useTopBarController from '@/components/topbar/controller';
 import Styles from '@/components/topbar/style';
@@ -38,6 +39,7 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
     handleUpdateData,
     loadingUpdateData,
     watchUpdateData,
+    watchSaveAppointments,
     goHome,
     goUserUpdate,
   } = useTopBarController();
@@ -147,6 +149,12 @@ const TopBar: FC<{ name: string; image?: string }> = ({ name, image }) => {
         <WatchUpdateDataModal
           open={loadingUpdateData}
           watchUpdateData={watchUpdateData}
+        />
+      )}
+      {watchSaveAppointments?.watchSaveAppointments && (
+        <WatchSendAppointmentsModal
+          open={loadingSendAppointments}
+          watchSendAppointments={watchSaveAppointments}
         />
       )}
     </>
