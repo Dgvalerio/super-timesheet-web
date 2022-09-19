@@ -41,7 +41,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
         <Grid
           container
           className="main"
-          alignItems={simpleView ? 'center' : 'start'}
+          alignItems={simpleView ? 'center' : 'stretch'}
         >
           {!simpleView && <SideBar />}
           <Grid item xs={simpleView ? 12 : 9}>
