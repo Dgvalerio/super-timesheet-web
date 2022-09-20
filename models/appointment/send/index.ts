@@ -33,16 +33,24 @@ export namespace SendAppointments {
   export interface AppointmentProgress {
     page: SaveAppointmentsStatus;
     adapteToAzure: SaveAppointmentsStatus;
-    id: AppointmentModel[`id`];
     client: SaveAppointmentsStatus;
+    _client: AppointmentModel[`project`][`client`][`name`];
     project: SaveAppointmentsStatus;
+    _project: AppointmentModel[`project`][`name`];
     category: SaveAppointmentsStatus;
+    _category: AppointmentModel[`category`][`name`];
     description: SaveAppointmentsStatus;
+    _description: AppointmentModel[`description`];
     date: SaveAppointmentsStatus;
+    _date: AppointmentModel[`date`];
     commit: SaveAppointmentsStatus;
+    _commit: AppointmentModel[`commit`];
     notMonetize: SaveAppointmentsStatus;
+    _notMonetize: AppointmentModel[`notMonetize`];
     startTime: SaveAppointmentsStatus;
+    _startTime: AppointmentModel[`startTime`];
     endTime: SaveAppointmentsStatus;
+    _endTime: AppointmentModel[`endTime`];
     failMessage?: string;
     saveInAzure: SaveAppointmentsStatus;
     search: SaveAppointmentsStatus;
@@ -56,7 +64,7 @@ export namespace SendAppointments {
       page: SaveAppointmentsStatus;
       loadAppointments: SaveAppointmentsStatus;
       auth: SaveAppointmentsStatus;
-      saving: SaveAppointmentsStatus;
+      saving: number;
       saved: number;
       updated: number;
       appointment: AppointmentProgress;
