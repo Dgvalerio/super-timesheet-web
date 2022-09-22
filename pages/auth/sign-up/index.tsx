@@ -72,9 +72,17 @@ const UserCreatePage: NextPage = () => {
         goLogin();
       }
     } catch (e) {
-      const { message } = (e as ApolloError).graphQLErrors[0];
+      const { message, extensions } = (e as ApolloError).graphQLErrors[0];
 
-      toast.error(message);
+      if (extensions) {
+        (extensions.response as { message: string[] }).message.forEach((msg) =>
+          toast.error(msg)
+        );
+      } else {
+        toast.error(message);
+      }
+
+      setLoading(false);
     }
   };
 
