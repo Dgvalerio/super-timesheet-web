@@ -121,12 +121,7 @@ const AzureInfosCreatePage: NextPage = () => {
             <InputField name="loginInput" label="Login" type="email" />
           </Grid>
           <Grid item xs={12}>
-            <InputField
-              name="passwordInput"
-              label="Senha"
-              type="password"
-              inputProps={{ minLength: '8' }}
-            />
+            <InputField name="passwordInput" label="Senha" type="password" />
           </Grid>
           <Grid item style={{ marginLeft: 'auto' }}>
             <Button variant="outlined" type="submit">
