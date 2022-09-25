@@ -6,9 +6,9 @@ import { Collapse, Grid, Pagination, Typography } from '@mui/material';
 import { PaginationProps } from '@mui/material/Pagination/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 
+import { useGithubManager } from '@/api/github';
 import AppointmentSelectedCard from '@/components/appointment/create/with-github/appointment/selected-card';
 import CommitCard from '@/components/appointment/create/with-github/commit/card';
-import getBranchCommits from '@/components/appointment/create/with-github/commit/controller';
 import SelectCommitSkeleton from '@/components/appointment/create/with-github/commit/select/skeleton';
 import { commitTheme } from '@/components/appointment/create/with-github/commit/style';
 import Commit from '@/components/appointment/create/with-github/commit/types';
@@ -82,6 +82,8 @@ const SelectCommits: Commit.Select = ({
   handleSelect,
   completed,
 }) => {
+  const { logged, getBranchCommits } = useGithubManager();
+
   const [loading, setLoading] = useState(true);
   const [commits, setCommits] = useState<Commit.Simple[]>([]);
   const [page, setPage] = useState(1);
@@ -109,7 +111,7 @@ const SelectCommits: Commit.Select = ({
     !!selected.find((item) => item.id === id);
 
   useEffect(() => {
-    if (!repository || !branchSha) return setLoading(false);
+    if (!repository || !branchSha || !logged) return setLoading(false);
 
     setLoading(true);
     getBranchCommits(repository, branchSha)
@@ -121,7 +123,7 @@ const SelectCommits: Commit.Select = ({
         )
       )
       .finally(() => setLoading(false));
-  }, [branchSha, repository]);
+  }, [branchSha, getBranchCommits, logged, repository]);
 
   if (!repository || !branchSha) {
     if (selected.length > 0) handleReset();

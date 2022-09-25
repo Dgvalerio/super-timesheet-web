@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 import CreateAppointmentForm from '@/components/appointment/create/with-github/appointment';
 import SelectBranch from '@/components/appointment/create/with-github/branch/select';
@@ -12,6 +12,7 @@ import SelectCommits from '@/components/appointment/create/with-github/commit/se
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SelectRepository from '@/components/appointment/create/with-github/repository/select';
 import Repository from '@/components/appointment/create/with-github/repository/types';
+import { useAppSelector } from '@/store/hooks';
 
 const CreateAppointmentWithGithubPage: NextPage = () => {
   const [repository, setRepository] = useState<string | null>(null);
@@ -19,6 +20,7 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
   const [commits, setCommits] = useState<Commit.Simple[]>([]);
   const [commitsSelected, setCommitsSelected] =
     useState<Commit.ISelect['completed']>(false);
+  const { githubToken } = useAppSelector((state) => state.user);
 
   const handleChangeRepository: Repository.ISelect['handleSelect'] = (name) =>
     setRepository(name);
@@ -35,6 +37,33 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
       if (newData.length !== prev.length) return newData;
       else return prev.concat(commit);
     });
+
+  if (!githubToken) {
+    return (
+      <Box p={2}>
+        <Head>
+          <title>Incluir com Github</title>
+        </Head>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item>
+            <Typography variant="h4">
+              Para esse ação você precisa conectar ao Github.
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              type="button"
+              component="a"
+              href={`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
+            >
+              Conectar com o GitHub
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  }
 
   return (
     <Box p={2}>
