@@ -5,7 +5,7 @@ import { Collapse, Grid, Pagination, Typography } from '@mui/material';
 import { PaginationProps } from '@mui/material/Pagination/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 
-import { useGithubManager } from '@/api/github';
+import { githubManager } from '@/api/github';
 import RepositoryCard from '@/components/appointment/create/with-github/repository/card';
 import SelectRepositorySkeleton from '@/components/appointment/create/with-github/repository/select/skeleton';
 import { repositoryTheme } from '@/components/appointment/create/with-github/repository/style';
@@ -15,8 +15,6 @@ import SelectedCard from '@/components/appointment/create/with-github/selected-c
 import InputField from '@/components/input-field';
 
 const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
-  const { logged, getOrganizationRepositories } = useGithubManager();
-
   const [loading, setLoading] = useState(true);
   const [repositories, setRepositories] = useState<Repository.List>([]);
   const [page, setPage] = useState(1);
@@ -41,12 +39,12 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
   const handleReset = (): void => handleSelect(null);
 
   useEffect(() => {
-    if (!logged) return;
     setLoading(true);
-    getOrganizationRepositories()
+    githubManager()
+      .getOrganizationRepositories()
       .then((response) => setRepositories(response))
       .finally(() => setLoading(false));
-  }, [logged, getOrganizationRepositories]);
+  }, []);
 
   return (
     <ThemeProvider theme={repositoryTheme}>

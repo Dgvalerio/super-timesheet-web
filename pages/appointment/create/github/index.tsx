@@ -5,6 +5,7 @@ import Head from 'next/head';
 
 import { Box, Button, Grid, Typography } from '@mui/material';
 
+import { githubManager } from '@/api/github';
 import CreateAppointmentForm from '@/components/appointment/create/with-github/appointment';
 import SelectBranch from '@/components/appointment/create/with-github/branch/select';
 import Branch from '@/components/appointment/create/with-github/branch/types';
@@ -12,7 +13,6 @@ import SelectCommits from '@/components/appointment/create/with-github/commit/se
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import SelectRepository from '@/components/appointment/create/with-github/repository/select';
 import Repository from '@/components/appointment/create/with-github/repository/types';
-import { useAppSelector } from '@/store/hooks';
 
 const CreateAppointmentWithGithubPage: NextPage = () => {
   const [repository, setRepository] = useState<string | null>(null);
@@ -20,7 +20,6 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
   const [commits, setCommits] = useState<Commit.Simple[]>([]);
   const [commitsSelected, setCommitsSelected] =
     useState<Commit.ISelect['completed']>(false);
-  const { githubToken } = useAppSelector((state) => state.user);
 
   const handleChangeRepository: Repository.ISelect['handleSelect'] = (name) =>
     setRepository(name);
@@ -38,7 +37,7 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
       else return prev.concat(commit);
     });
 
-  if (!githubToken) {
+  if (!githubManager().logged) {
     return (
       <Box p={2}>
         <Head>

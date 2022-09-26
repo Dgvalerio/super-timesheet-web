@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
-
 import Branch from '@/components/appointment/create/with-github/branch/types';
 import Commit from '@/components/appointment/create/with-github/commit/types';
 import Repository from '@/components/appointment/create/with-github/repository/types';
-import { useAppSelector } from '@/store/hooks';
+import { GITHUB_TOKEN_KEY } from '@/pages/auth/process-token';
 import { Octokit } from '@octokit/core';
 import { Endpoints } from '@octokit/types';
 
@@ -16,7 +14,7 @@ export namespace GithubManagerTypes {
     totalRepositories: number;
   }
 
-  export interface HookReturn {
+  export interface Return {
     logged: boolean;
     countOrganizationRepositories(): Promise<ICountOrganizationRepositories>;
     getOrganizationRepositories(): Promise<Repository.List>;
@@ -26,14 +24,15 @@ export namespace GithubManagerTypes {
     getCurrentUser(): Promise<GithubUser>;
   }
 
-  export type Hook = () => HookReturn;
+  export type Manager = () => Return;
 }
 
 const org = 'lubysoftware';
 
-export const useGithubManager: GithubManagerTypes.Hook = () => {
-  const { githubToken } = useAppSelector((state) => state.user);
-  const [manager, setManager] = useState<Octokit>(new Octokit());
+export const githubManager: GithubManagerTypes.Manager = () => {
+  const manager = new Octokit({
+    auth: window.localStorage.getItem(GITHUB_TOKEN_KEY),
+  });
 
   const countOrganizationRepositories =
     async (): Promise<GithubManagerTypes.ICountOrganizationRepositories> => {
@@ -137,12 +136,8 @@ export const useGithubManager: GithubManagerTypes.Hook = () => {
     return response.data;
   };
 
-  useEffect(() => {
-    if (githubToken) setManager(new Octokit({ auth: githubToken }));
-  }, [githubToken]);
-
   return {
-    logged: !!githubToken,
+    logged: !!window.localStorage.getItem(GITHUB_TOKEN_KEY),
     countOrganizationRepositories,
     getOrganizationRepositories,
     getRepositoryBranches,
