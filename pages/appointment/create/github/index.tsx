@@ -5,7 +5,7 @@ import Head from 'next/head';
 
 import { Box, Button, Grid, Typography } from '@mui/material';
 
-import { githubManager } from '@/api/github';
+import { authorizeLink, githubManager } from '@/api/github';
 import CreateAppointmentForm from '@/components/appointment/create/with-github/appointment';
 import SelectBranch from '@/components/appointment/create/with-github/branch/select';
 import Branch from '@/components/appointment/create/with-github/branch/types';
@@ -54,7 +54,7 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
               variant="outlined"
               type="button"
               component="a"
-              href={`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
+              href={authorizeLink}
             >
               Conectar com o GitHub
             </Button>

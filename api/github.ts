@@ -8,7 +8,7 @@ import { Endpoints } from '@octokit/types';
 export type GithubUser = Endpoints['GET /user']['response']['data'];
 
 export namespace GithubManagerTypes {
-  export interface ICountOrganizationRepositories {
+  export interface ICountRepositories {
     publicRepositories: number;
     privateRepositories: number;
     totalRepositories: number;
@@ -16,11 +16,12 @@ export namespace GithubManagerTypes {
 
   export interface Return {
     logged: boolean;
-    countOrganizationRepositories(): Promise<ICountOrganizationRepositories>;
+    countOrganizationRepositories(): Promise<ICountRepositories>;
     getOrganizationRepositories(): Promise<Repository.List>;
     getRepositoryBranches(repo: string): Promise<Branch.List>;
     getBranchCommits(repo: string, sha: string): Promise<Commit.List>;
-    getUserRepositories(username: string): Promise<Repository.List>;
+    countUserRepositories(): Promise<ICountRepositories>;
+    getUserRepositories(): Promise<Repository.List>;
     getCurrentUser(): Promise<GithubUser>;
   }
 
@@ -29,13 +30,23 @@ export namespace GithubManagerTypes {
 
 const org = 'lubysoftware';
 
+const scopes = ['repo', 'user'];
+const params = [
+  `client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`,
+  `scope=${scopes.join(',')}`,
+];
+
+export const authorizeLink = `https://github.com/login/oauth/authorize?${params.join(
+  `&`
+)}`;
+
 export const githubManager: GithubManagerTypes.Manager = () => {
   const manager = new Octokit({
     auth: window.localStorage.getItem(GITHUB_TOKEN_KEY),
   });
 
   const countOrganizationRepositories =
-    async (): Promise<GithubManagerTypes.ICountOrganizationRepositories> => {
+    async (): Promise<GithubManagerTypes.ICountRepositories> => {
       const { data } = await manager.request('GET /orgs/{org}', { org });
 
       const aux = {
@@ -118,19 +129,28 @@ export const githubManager: GithubManagerTypes.Manager = () => {
     return list;
   };
 
-  const getUserRepositories = async (
-    username: string
-  ): Promise<Repository.List> => {
-    const {
-      data: {
-        public_repos: publicRepos,
-        total_private_repos: totalPrivateRepos,
-      },
-    } = await manager.request('GET /user');
+  const countUserRepositories =
+    async (): Promise<GithubManagerTypes.ICountRepositories> => {
+      const { data } = await manager.request('GET /user');
+
+      const aux = {
+        publicRepositories: data.public_repos,
+        privateRepositories: data.total_private_repos || 0,
+      };
+
+      return {
+        ...aux,
+        totalRepositories: aux.publicRepositories + aux.privateRepositories,
+      };
+    };
+
+  const getUserRepositories = async (): Promise<Repository.List> => {
+    const current = await getCurrentUser();
+    const count = await countUserRepositories();
 
     const response = await manager.request('GET /users/{username}/repos', {
-      username,
-      per_page: publicRepos + (totalPrivateRepos || 0),
+      username: current.login,
+      per_page: count.totalRepositories,
     });
 
     return response.data;
@@ -142,6 +162,7 @@ export const githubManager: GithubManagerTypes.Manager = () => {
     getOrganizationRepositories,
     getRepositoryBranches,
     getBranchCommits,
+    countUserRepositories,
     getUserRepositories,
     getCurrentUser,
   };
