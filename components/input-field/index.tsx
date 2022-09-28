@@ -12,10 +12,9 @@ const Input = styled(TextField)`
   }
 `;
 
-const InputField: FC<TextFieldProps & { colored?: boolean }> = ({
-  colored,
-  ...props
-}) => {
+export type InputFieldProps = TextFieldProps & { colored?: boolean };
+
+const InputField: FC<InputFieldProps> = ({ colored, ...props }) => {
   const theme = useTheme();
 
   return (
