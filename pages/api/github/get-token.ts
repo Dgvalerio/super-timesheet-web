@@ -5,7 +5,7 @@ import axios from 'axios';
 export interface GetTokenRouteResponse {
   access_token: string;
   token_type: 'bearer';
-  scope: 'read:user,user:email';
+  scope: string;
 }
 
 const GetTokenRoute = async (
