@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
 
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-} from '@mui/material';
+import { Checkbox, FormControlLabel, Grid, MenuItem } from '@mui/material';
 
 import useController from '@/components/appointment/create/form/controller';
 import FormSkeleton from '@/components/appointment/create/form/skeleton';
-import InputField from '@/components/input-field';
+import ButtonWithCombo from '@/components/button-with-combo';
+import InputField, { InputFieldProps } from '@/components/input-field';
+
+const InputGrid: FC<InputFieldProps & { xs: number }> = ({ xs, ...props }) => (
+  <Grid item xs={xs}>
+    <InputField {...props} />
+  </Grid>
+);
 
 const CreateAppointmentForm: FC = () => {
   const {
@@ -52,119 +53,111 @@ const CreateAppointmentForm: FC = () => {
       onSubmit={handleSubmit}
       justifyContent="space-between"
     >
-      <Grid item xs={4}>
-        <InputField
-          select
-          label="Cliente"
-          name="clientInput"
-          value={client}
-          onChange={updateField}
-          disabled={clients.length <= 0}
-          error={!!clientError}
-          helperText={clientError}
-        >
-          {clients.map(({ code, name }) => (
-            <MenuItem key={code} value={code}>
-              {name}
-            </MenuItem>
-          ))}
-        </InputField>
-      </Grid>
-      <Grid item xs={4}>
-        <InputField
-          select
-          label="Projeto"
-          name="projectInput"
-          value={project}
-          onChange={updateField}
-          disabled={projects.length <= 0}
-          error={!!projectError}
-          helperText={projectError}
-        >
-          {projects.map(({ code, name }) => (
-            <MenuItem key={code} value={code}>
-              {name}
-            </MenuItem>
-          ))}
-        </InputField>
-      </Grid>
-      <Grid item xs={4}>
-        <InputField
-          select
-          label="Categoria"
-          name="categoryInput"
-          value={category}
-          onChange={updateField}
-          disabled={categories.length <= 0}
-          error={!!categoryError}
-          helperText={categoryError}
-        >
-          {categories.map(({ code, name }) => (
-            <MenuItem key={code} value={code}>
-              {name}
-            </MenuItem>
-          ))}
-        </InputField>
-      </Grid>
-      <Grid item xs={4}>
-        <InputField
-          label="Data"
-          type="date"
-          onChange={updateField}
-          name="dateInput"
-          value={date}
-          error={!!dateError}
-          helperText={dateError}
-        />
-      </Grid>
-      <Grid item xs={4}>
-        <InputField
-          label="Hora Inicial"
-          type="time"
-          onChange={updateField}
-          name="startTimeInput"
-          value={startTime}
-          error={!!startTimeError}
-          helperText={startTimeError}
-        />
-      </Grid>
-      <Grid item xs={4}>
-        <InputField
-          label="Hora Final"
-          type="time"
-          onChange={updateField}
-          name="endTimeInput"
-          value={endTime}
-          error={!!endTimeError}
-          helperText={endTimeError}
-        />
-      </Grid>
+      <InputGrid
+        xs={4}
+        select
+        label="Cliente"
+        name="clientInput"
+        value={client}
+        onChange={updateField}
+        disabled={clients.length <= 0}
+        error={!!clientError}
+        helperText={clientError}
+      >
+        {clients.map(({ code, name }) => (
+          <MenuItem key={code} value={code}>
+            {name}
+          </MenuItem>
+        ))}
+      </InputGrid>
+      <InputGrid
+        xs={4}
+        select
+        label="Projeto"
+        name="projectInput"
+        value={project}
+        onChange={updateField}
+        disabled={projects.length <= 0}
+        error={!!projectError}
+        helperText={projectError}
+      >
+        {projects.map(({ code, name }) => (
+          <MenuItem key={code} value={code}>
+            {name}
+          </MenuItem>
+        ))}
+      </InputGrid>
+      <InputGrid
+        xs={4}
+        select
+        label="Categoria"
+        name="categoryInput"
+        value={category}
+        onChange={updateField}
+        disabled={categories.length <= 0}
+        error={!!categoryError}
+        helperText={categoryError}
+      >
+        {categories.map(({ code, name }) => (
+          <MenuItem key={code} value={code}>
+            {name}
+          </MenuItem>
+        ))}
+      </InputGrid>
+      <InputGrid
+        xs={4}
+        label="Data"
+        type="date"
+        onChange={updateField}
+        name="dateInput"
+        value={date}
+        error={!!dateError}
+        helperText={dateError}
+      />
+      <InputGrid
+        xs={4}
+        label="Hora Inicial"
+        type="time"
+        onChange={updateField}
+        name="startTimeInput"
+        value={startTime}
+        error={!!startTimeError}
+        helperText={startTimeError}
+      />
+      <InputGrid
+        xs={4}
+        label="Hora Final"
+        type="time"
+        onChange={updateField}
+        name="endTimeInput"
+        value={endTime}
+        error={!!endTimeError}
+        helperText={endTimeError}
+      />
 
       {commitVisible && (
-        <Grid item xs={12}>
-          <InputField
-            name="commitInput"
-            label="Link do commit"
-            onChange={updateField}
-            value={commit}
-            error={!!commitError}
-            helperText={commitError}
-          />
-        </Grid>
+        <InputGrid
+          xs={12}
+          name="commitInput"
+          label="Link do commit"
+          onChange={updateField}
+          value={commit}
+          error={!!commitError}
+          helperText={commitError}
+        />
       )}
 
-      <Grid item xs={12}>
-        <InputField
-          label="Informe a Descrição"
-          multiline
-          onChange={updateField}
-          name="descriptionInput"
-          value={description}
-          error={!!descriptionError}
-          helperText={descriptionError}
-          rows={4}
-        />
-      </Grid>
+      <InputGrid
+        xs={12}
+        label="Informe a Descrição"
+        multiline
+        onChange={updateField}
+        name="descriptionInput"
+        value={description}
+        error={!!descriptionError}
+        helperText={descriptionError}
+        rows={4}
+      />
 
       <Grid item>
         <FormControlLabel
@@ -179,9 +172,10 @@ const CreateAppointmentForm: FC = () => {
         />
       </Grid>
       <Grid item>
-        <Button variant="outlined" type="submit" disabled={loading}>
-          Adicionar
-        </Button>
+        <ButtonWithCombo
+          disabled={loading}
+          actions={[{ text: 'Adicionar' }, { text: 'Adicionar em série' }]}
+        />
       </Grid>
     </Grid>
   );
