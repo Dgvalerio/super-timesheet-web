@@ -50,6 +50,8 @@ const useAppointmentsListController: Controller = () => {
   useEffect(() => {
     if (!error) return;
 
+    console.log('useAppointmentsListController', { error });
+
     error.graphQLErrors.forEach(({ message }) => toast.error(message));
   }, [error]);
 
