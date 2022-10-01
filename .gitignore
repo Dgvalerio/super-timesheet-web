@@ -39,6 +39,3 @@ yarn-error.log*
 
 # project
 /api/*.graphql
-
-# Sentry
-.sentryclirc
