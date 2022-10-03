@@ -65,7 +65,7 @@ const useAppointmentCardController: Controller = ({
         ],
       });
 
-      toast.success(successMessages.appointmentCreated);
+      toast.success(successMessages.appointmentDeleted);
     } catch (e) {
       (e as ApolloError).graphQLErrors.forEach(({ message }) =>
         toast.error(message)
