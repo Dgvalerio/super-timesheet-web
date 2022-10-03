@@ -51,11 +51,11 @@ const EditAppointmentModal: FC<{
 
   return (
     <Modal open={open} onClose={closeEditModal} sx={{ display: 'flex' }}>
-      {loading ? (
-        <FormSkeleton />
-      ) : (
-        <Grid container justifyContent="center" alignItems="center">
-          <Grid item component={Paper} sx={{ padding: 3 }} xs={8}>
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item component={Paper} sx={{ padding: 3 }} xs={8}>
+          {loading ? (
+            <FormSkeleton />
+          ) : (
             <Grid
               item
               xs={12}
@@ -213,9 +213,9 @@ const EditAppointmentModal: FC<{
                 </Button>
               </Grid>
             </Grid>
-          </Grid>
+          )}
         </Grid>
-      )}
+      </Grid>
     </Modal>
   );
 };
