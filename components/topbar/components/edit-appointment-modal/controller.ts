@@ -295,7 +295,7 @@ const useEditAppointmentFormController: Controller = ({
         ],
       });
 
-      toast.success(successMessages.appointmentCreated);
+      toast.success(successMessages.appointmentUpdated);
       closeEditModal();
     } catch (e) {
       (e as ApolloError).graphQLErrors.forEach(({ message }) =>
