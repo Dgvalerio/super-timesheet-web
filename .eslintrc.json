@@ -116,6 +116,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "new-cap": "off",
-    "import/prefer-default-export": "error"
+    "import/prefer-default-export": "error",
+    "arrow-body-style": ["error", "as-needed"]
   }
 }
