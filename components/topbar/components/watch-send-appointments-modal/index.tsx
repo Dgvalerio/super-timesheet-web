@@ -10,7 +10,10 @@ import {
   Typography,
 } from '@mui/material';
 
-import { SendAppointments } from '@/models/appointment/send';
+import {
+  SendAppointments,
+  useSendAppointmentsSubscription,
+} from '@/models/appointment/send';
 
 import SaveAppointmentsStatus = SendAppointments.SaveAppointmentsStatus;
 
@@ -91,8 +94,13 @@ const Line: FC<{
 
 const WatchSendAppointmentsModal: FC<{
   open: boolean;
-  watchSendAppointments: SendAppointments.Subscription;
-}> = ({ open, watchSendAppointments: { watchSaveAppointments: watch } }) => {
+}> = ({ open }) => {
+  const { data } = useSendAppointmentsSubscription();
+
+  if (!data?.watchSaveAppointments) return <></>;
+
+  const watch = data.watchSaveAppointments;
+
   if (watch.page !== SaveAppointmentsStatus.Ok) {
     return (
       <Wrapper open={open}>

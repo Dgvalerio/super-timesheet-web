@@ -9,7 +9,10 @@ import {
   Typography,
 } from '@mui/material';
 
-import { UpdateData } from '@/models/scrapper/update';
+import {
+  UpdateData,
+  useUpdateDataSubscription,
+} from '@/models/scrapper/update';
 
 const GetIcon: FC<{ state: UpdateData.SeedStatus }> = ({ state }) => {
   const fontSize = 24;
@@ -32,56 +35,63 @@ const GetIcon: FC<{ state: UpdateData.SeedStatus }> = ({ state }) => {
 
 const WatchUpdateDataModal: FC<{
   open: boolean;
-  watchUpdateData: UpdateData.Subscription;
-}> = ({ open, watchUpdateData: { watchImportData } }) => (
-  <Modal open={open} sx={{ display: 'flex' }}>
-    <Grid container justifyContent="center" alignItems="center">
-      <Grid
-        item
-        xs={4}
-        container
-        component={Paper}
-        sx={{ padding: 2 }}
-        spacing={1}
-        justifyContent="space-between"
-      >
-        <Grid item>
-          <Typography variant="h5">Login</Typography>
-        </Grid>
-        <Grid item>
-          <GetIcon state={watchImportData.login} />
-        </Grid>
-        <Grid item xs={12} />
-        <Grid item>
-          <Typography variant="h5">Clients</Typography>
-        </Grid>
-        <Grid item>
-          <GetIcon state={watchImportData.clients} />
-        </Grid>
-        <Grid item xs={12} />
-        <Grid item>
-          <Typography variant="h5">Projetos</Typography>
-        </Grid>
-        <Grid item>
-          <GetIcon state={watchImportData.projects} />
-        </Grid>
-        <Grid item xs={12} />
-        <Grid item>
-          <Typography variant="h5">Categorias</Typography>
-        </Grid>
-        <Grid item>
-          <GetIcon state={watchImportData.categories} />
-        </Grid>
-        <Grid item xs={12} />
-        <Grid item>
-          <Typography variant="h5">Apontamentos</Typography>
-        </Grid>
-        <Grid item>
-          <GetIcon state={watchImportData.appointments} />
+}> = ({ open }) => {
+  const { data } = useUpdateDataSubscription();
+
+  if (!data?.watchImportData) return <></>;
+
+  const watch = data.watchImportData;
+
+  return (
+    <Modal open={open} sx={{ display: 'flex' }}>
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid
+          item
+          xs={4}
+          container
+          component={Paper}
+          sx={{ padding: 2 }}
+          spacing={1}
+          justifyContent="space-between"
+        >
+          <Grid item>
+            <Typography variant="h5">Login</Typography>
+          </Grid>
+          <Grid item>
+            <GetIcon state={watch.login} />
+          </Grid>
+          <Grid item xs={12} />
+          <Grid item>
+            <Typography variant="h5">Clients</Typography>
+          </Grid>
+          <Grid item>
+            <GetIcon state={watch.clients} />
+          </Grid>
+          <Grid item xs={12} />
+          <Grid item>
+            <Typography variant="h5">Projetos</Typography>
+          </Grid>
+          <Grid item>
+            <GetIcon state={watch.projects} />
+          </Grid>
+          <Grid item xs={12} />
+          <Grid item>
+            <Typography variant="h5">Categorias</Typography>
+          </Grid>
+          <Grid item>
+            <GetIcon state={watch.categories} />
+          </Grid>
+          <Grid item xs={12} />
+          <Grid item>
+            <Typography variant="h5">Apontamentos</Typography>
+          </Grid>
+          <Grid item>
+            <GetIcon state={watch.appointments} />
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  </Modal>
-);
+    </Modal>
+  );
+};
 
 export default WatchUpdateDataModal;

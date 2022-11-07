@@ -15,15 +15,19 @@ const Container = styled(Grid)`
         : transparentize(0.8, '#c8cbd9')};
 
   > .logo {
+    display: flex;
     background-color: ${({ theme }): string =>
       theme.palette.mode === UIStore.ThemeMode.Light
         ? '#f1f2f7'
         : transparentize(0.98, '#f1f2f7')};
-    padding: 0.4rem 1.5rem;
 
-    h6 {
+    a {
+      padding: 0.775rem 2rem;
+      display: flex;
+      align-items: center;
+      flex: 1;
       color: ${({ theme }): string => theme.palette.text.secondary};
-      text-transform: none;
+      text-decoration: none;
     }
   }
 `;
