@@ -5,6 +5,7 @@ export const errorMessages = {
 export const successMessages = {
   userCreated: 'Usuário cadastrado com sucesso!',
   azureInfosCreated: 'Informações salvas com sucesso!',
+  githubInfosCreated: 'Token salvo com sucesso!',
   appointmentCreated: 'Apontamento realizado com sucesso!',
   appointmentUpdated: 'Apontamento atualizado com sucesso!',
   appointmentDeleted: 'Apontamento apagado com sucesso!',

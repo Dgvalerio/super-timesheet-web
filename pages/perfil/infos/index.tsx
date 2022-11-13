@@ -134,10 +134,7 @@ const AzureInfosCreatePage: NextPage = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       {watchUpdateData?.watchImportData && (
-        <WatchUpdateDataModal
-          open={createAzureInfosLoading}
-          watchUpdateData={watchUpdateData}
-        />
+        <WatchUpdateDataModal open={createAzureInfosLoading} />
       )}
     </Styles.Unauthenticated>
   );
