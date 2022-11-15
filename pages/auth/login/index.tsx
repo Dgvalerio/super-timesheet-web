@@ -15,6 +15,7 @@ import {
 
 import InputField from '@/components/input-field';
 import { Login, useLoginMutation } from '@/models/auth/login';
+import useGithubStore from '@/store/github';
 import { useAppDispatch } from '@/store/hooks';
 import { saveUser } from '@/store/user/actions';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
@@ -24,6 +25,7 @@ import { ApolloError } from '@apollo/client';
 const AuthLoginPage: NextPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { saveGithubToken } = useGithubStore();
 
   const [login] = useLoginMutation();
 
@@ -62,6 +64,10 @@ const AuthLoginPage: NextPage = () => {
 
       if (data && data.login.token) {
         dispatch(saveUser(data.login));
+
+        if (data.login.user.githubInfos?.access_token) {
+          saveGithubToken(data.login.user.githubInfos.access_token);
+        }
 
         toast.success(successMessages.userSigned);
 

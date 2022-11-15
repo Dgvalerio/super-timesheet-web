@@ -5,7 +5,6 @@ import { Collapse, Grid, Pagination, Typography } from '@mui/material';
 import { PaginationProps } from '@mui/material/Pagination/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 
-import { githubManager } from '@/api/github';
 import BranchCard from '@/components/appointment/create/with-github/branch/card';
 import SelectBranchSkeleton from '@/components/appointment/create/with-github/branch/select/skeleton';
 import { branchTheme } from '@/components/appointment/create/with-github/branch/style';
@@ -13,12 +12,15 @@ import Branch from '@/components/appointment/create/with-github/branch/types';
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
 import InputField from '@/components/input-field';
+import useGithubStore from '@/store/github';
 
 const SelectBranch: Branch.Select = ({
   repository,
   selected,
   handleSelect,
 }) => {
+  const { getRepositoryBranches } = useGithubStore();
+
   const [loading, setLoading] = useState(true);
   const [branches, setBranches] = useState<Branch.List>([]);
   const [page, setPage] = useState(1);
@@ -46,11 +48,10 @@ const SelectBranch: Branch.Select = ({
     if (!repository) return setLoading(false);
 
     setLoading(true);
-    githubManager()
-      .getRepositoryBranches(repository)
+    getRepositoryBranches(repository)
       .then((response) => setBranches(response))
       .finally(() => setLoading(false));
-  }, [repository]);
+  }, [getRepositoryBranches, repository]);
 
   if (!repository) {
     if (selected) handleReset();

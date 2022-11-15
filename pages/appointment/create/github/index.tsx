@@ -6,7 +6,7 @@ import Head from 'next/head';
 
 import { Box, Button, Grid, Modal, Paper, Typography } from '@mui/material';
 
-import { authorizeLink, githubManager } from '@/api/github';
+import { authorizeLink } from '@/api/github';
 import CreateAppointmentForm from '@/components/appointment/create/with-github/appointment';
 import SelectBranch from '@/components/appointment/create/with-github/branch/select';
 import Branch from '@/components/appointment/create/with-github/branch/types';
@@ -19,10 +19,13 @@ import {
   CreateGithubInfosForm,
   useCreateGithubInfosMutation,
 } from '@/models/github-infos/create';
+import useGithubStore from '@/store/github';
 import { errorMessages, successMessages } from '@/utils/errorMessages';
+import graphQLErrorsHandler from '@/utils/graphQLErrorsHandler';
 import { ApolloError } from '@apollo/client';
 
 const Unauthorized: FC = () => {
+  const { saveGithubToken } = useGithubStore();
   const [saveInfos] = useCreateGithubInfosMutation();
   const [modalOn, setModalOn] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -49,14 +52,13 @@ const Unauthorized: FC = () => {
 
     try {
       await saveInfos({ variables: { input: { access_token: accessToken } } });
+      saveGithubToken(accessToken);
 
       toast.success(successMessages.githubInfosCreated);
 
       closeModal();
     } catch (e) {
-      (e as ApolloError).graphQLErrors.forEach(({ message }) =>
-        toast.error(message)
-      );
+      graphQLErrorsHandler(e as ApolloError);
     } finally {
       setLoading(false);
     }
@@ -137,6 +139,7 @@ const Unauthorized: FC = () => {
 };
 
 const CreateAppointmentWithGithubPage: NextPage = () => {
+  const { token } = useGithubStore();
   const [repository, setRepository] = useState<string | null>(null);
   const [branch, setBranch] = useState<Branch.Simple | null>(null);
   const [commits, setCommits] = useState<Commit.Simple[]>([]);
@@ -159,7 +162,7 @@ const CreateAppointmentWithGithubPage: NextPage = () => {
       else return prev.concat(commit);
     });
 
-  if (!githubManager().logged) return <Unauthorized />;
+  if (!token) return <Unauthorized />;
 
   return (
     <Box p={2}>

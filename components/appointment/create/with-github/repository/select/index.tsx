@@ -5,7 +5,6 @@ import { Collapse, Grid, Pagination, Typography } from '@mui/material';
 import { PaginationProps } from '@mui/material/Pagination/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 
-import { githubManager } from '@/api/github';
 import RepositoryCard from '@/components/appointment/create/with-github/repository/card';
 import SelectRepositorySkeleton from '@/components/appointment/create/with-github/repository/select/skeleton';
 import { repositoryTheme } from '@/components/appointment/create/with-github/repository/style';
@@ -13,8 +12,12 @@ import Repository from '@/components/appointment/create/with-github/repository/t
 import SectionTitle from '@/components/appointment/create/with-github/section-title';
 import SelectedCard from '@/components/appointment/create/with-github/selected-card';
 import InputField from '@/components/input-field';
+import useGithubStore from '@/store/github';
+
+const perPage = 10;
 
 const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
+  const { getOrganizationRepositories } = useGithubStore();
   const [loading, setLoading] = useState(true);
   const [repositories, setRepositories] = useState<Repository.List>([]);
   const [page, setPage] = useState(1);
@@ -27,8 +30,6 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
         )
       : repositories;
 
-  const perPage = 10;
-
   const last = page * perPage;
   const first = last - perPage;
   const totalPages = Math.ceil(filteredRepositories.length / perPage);
@@ -40,11 +41,10 @@ const SelectRepository: Repository.Select = ({ selected, handleSelect }) => {
 
   useEffect(() => {
     setLoading(true);
-    githubManager()
-      .getOrganizationRepositories()
+    getOrganizationRepositories()
       .then((response) => setRepositories(response))
       .finally(() => setLoading(false));
-  }, []);
+  }, [getOrganizationRepositories]);
 
   return (
     <ThemeProvider theme={repositoryTheme}>

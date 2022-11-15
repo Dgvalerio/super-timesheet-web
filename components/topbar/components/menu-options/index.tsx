@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 
 import { ITopBar } from '@/components/topbar';
+import useGithubStore from '@/store/github';
 import { useAppDispatch } from '@/store/hooks';
 import { wipeUser } from '@/store/user/actions';
 import { routes } from '@/utils/pages';
@@ -19,9 +20,11 @@ import { routes } from '@/utils/pages';
 const MenuOptions: FC<ITopBar> = ({ name, image }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { removeGithubToken } = useGithubStore();
 
   const handleSignOut = async (): Promise<void> => {
     dispatch(wipeUser());
+    removeGithubToken();
 
     await router.push(routes.auth.login());
   };

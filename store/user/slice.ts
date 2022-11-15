@@ -1,6 +1,6 @@
 import { Login } from '@/models/auth/login';
+import { GithubInfosModel } from '@/models/github-infos';
 import { UserModel } from '@/models/user';
-import { GITHUB_TOKEN_KEY } from '@/pages/auth/process-token';
 import {
   createSlice,
   PayloadAction,
@@ -15,6 +15,7 @@ export namespace UserStore {
     email?: UserModel['email'];
     dailyHours?: UserModel['dailyHours'];
     token?: Login.Response['login']['token'];
+    githubToken?: GithubInfosModel['access_token'];
   }
 
   export interface Reducers extends SliceCaseReducers<State> {
@@ -35,6 +36,7 @@ const userSlice = createSlice<UserStore.State, UserStore.Reducers>({
       state.email = action.payload.user.email;
       state.dailyHours = action.payload.user.dailyHours;
       state.token = action.payload.token;
+      state.githubToken = action.payload.user.githubInfos?.access_token;
     },
     wipeUser(state) {
       state.id = undefined;
@@ -42,7 +44,7 @@ const userSlice = createSlice<UserStore.State, UserStore.Reducers>({
       state.email = undefined;
       state.dailyHours = undefined;
       state.token = undefined;
-      window.localStorage.removeItem(GITHUB_TOKEN_KEY);
+      state.githubToken = undefined;
     },
   },
 });

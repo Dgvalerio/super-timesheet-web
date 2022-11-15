@@ -1,4 +1,5 @@
 import { AzureInfosModel } from '@/models/azure-infos';
+import { GithubInfosModel } from '@/models/github-infos';
 import { ProjectModel } from '@/models/project';
 
 export interface UserModel {
@@ -9,4 +10,5 @@ export interface UserModel {
   dailyHours: number;
   projects: ProjectModel[];
   azureInfos?: AzureInfosModel;
+  githubInfos?: GithubInfosModel;
 }

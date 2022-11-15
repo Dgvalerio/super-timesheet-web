@@ -5,26 +5,22 @@ import { useRouter } from 'next/router';
 
 import Loading from '@/components/loading';
 import { GetTokenRouteResponse } from '@/pages/api/github/get-token';
-import { useAppDispatch } from '@/store/hooks';
+import useGithubStore from '@/store/github';
 import { routes } from '@/utils/pages';
 
 import axios from 'axios';
 
-export const GITHUB_TOKEN_KEY = 'super-timesheet-web:github-token-key';
-
-const loadGithubToken = async (code: string): Promise<void> => {
+const loadGithubToken = async (code: string): Promise<string | undefined> => {
   const res = await axios.get<GetTokenRouteResponse>(
     `/api/github/get-token?code=${code}`
   );
 
-  if (!res.data.access_token) return;
-
-  window.localStorage.setItem(GITHUB_TOKEN_KEY, res.data.access_token);
+  return res.data.access_token;
 };
 
 const ProcessTokenPage: NextPage = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  const { saveGithubToken } = useGithubStore();
 
   useEffect(() => {
     if (!router.query.code) {
@@ -33,10 +29,11 @@ const ProcessTokenPage: NextPage = () => {
       return;
     }
 
-    loadGithubToken(router.query.code as string).then(() =>
-      router.push(routes.appointment.createWithGithub())
-    );
-  }, [dispatch, router]);
+    loadGithubToken(router.query.code as string).then((token) => {
+      if (token) saveGithubToken(token);
+      void router.push(routes.appointment.createWithGithub());
+    });
+  }, [router, saveGithubToken]);
 
   return <Loading />;
 };

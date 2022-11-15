@@ -16,6 +16,7 @@ import WatchSendAppointmentsModal from '@/components/topbar/components/watch-sen
 import { AppointmentStatusEnum } from '@/models/appointment';
 import { useGetAllAppointmentsQuery } from '@/models/appointment/get';
 import { useSendAppointmentsMutation } from '@/models/appointment/send';
+import useGithubStore from '@/store/github';
 import { useAppDispatch } from '@/store/hooks';
 import { wipeUser } from '@/store/user/actions';
 import { routes } from '@/utils/pages';
@@ -24,6 +25,7 @@ import { ApolloError } from '@apollo/client';
 const SendAppointmentsAction: FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { removeGithubToken } = useGithubStore();
 
   const { data: dataGetAllAppointments, error: errorGetAllAppointments } =
     useGetAllAppointmentsQuery({
@@ -48,9 +50,10 @@ const SendAppointmentsAction: FC = () => {
 
   const handleSignOut = useCallback(async () => {
     dispatch(wipeUser());
+    removeGithubToken();
 
     await router.push(routes.auth.login());
-  }, [dispatch, router]);
+  }, [dispatch, removeGithubToken, router]);
 
   useEffect(() => {
     if (!errorGetAllAppointments) return;

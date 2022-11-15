@@ -32,6 +32,9 @@ export const loginMutation = gql`
         name
         email
         dailyHours
+        githubInfos {
+          access_token
+        }
       }
       token
     }
